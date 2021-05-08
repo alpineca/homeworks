@@ -10,9 +10,16 @@ public final class Console {
 	}
 	
 	public static void log(String message) {
-		System.out.println(message);
+		System.out.print(message);
 	}
 	public static void log(int message) {
+		System.out.print(message);
+	}
+	
+	public static void logLn(String message) {
+		System.out.println(message);
+	}
+	public static void logLn(int message) {
 		System.out.println(message);
 	}
 

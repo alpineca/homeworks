@@ -6,6 +6,7 @@ import com.netitjava.enums.GameColorEnum;
 import com.netitjava.enums.PlayerColorEnum;
 import com.netitjava.exceptions.PlacementNotCorrectException;
 import com.netitjava.exceptions.PlacementNotPosibleException;
+import com.netitjava.gameboard.GameBoard;
 import com.netitjava.gameboard.GameBoardObject;
 import com.netitjava.gameboard.pieces.Barricade;
 import com.netitjava.gameboard.pieces.Dworf;
@@ -18,7 +19,7 @@ import com.netitjava.util.Console;
 
 public class GameManager {
 
-	private GameBoardObject[][] gameBoard;
+	//private GameBoardObject[][] gameBoard;
 	public final int ROW_COUNT 			= 7;
 	public final int COL_COUNT 			= 9;
 	private final int OBSTACLE_COUNT_BOUND 	= 5;
@@ -30,10 +31,6 @@ public class GameManager {
 	private int activePlayerIndex = 0;
 		
 	public GameManager() {
-		
-		this.gameBoard = new GameBoardObject[this.ROW_COUNT][this.COL_COUNT];
-
-		// input
 		this.playerManagerCollection = new ArrayList<PlayerManager>(); 
 		this.playerManagerCollection.add(new PlayerManager(GameColorEnum.BLACK));
 		this.playerManagerCollection.add(new PlayerManager(GameColorEnum.RED));
@@ -46,7 +43,7 @@ public class GameManager {
 			this.bootstrap();
 			gameStarted++;
 		}
-		this.render();
+		GameBoard.getInstance().render();
 		
 		if(mainGameStarted == 0) {
 			while(gamePhasePiecePlacementRun(this.getActivePlayer())) {
@@ -56,7 +53,7 @@ public class GameManager {
 					Console.log(this.getActivePlayer().getName() + " turn:");		
 					this.gamePhasePiecePlacement(this.getActivePlayer());
 					this.endTurn();
-					this.render();
+					GameBoard.getInstance().render();
 				
 				}
 				catch (Exception e) {
@@ -92,9 +89,10 @@ public class GameManager {
 				int pieceCol 	= Console.promtInt("Col: ? ");
 				
 				// get gameBord tile 
-				GameBoardTile activeTile = (GameBoardTile) this.gameBoard[pieceRow][pieceCol];
+//				GameBoardTile activeTile = (GameBoardTile) this.gameBoard[pieceRow][pieceCol];
+				GameBoardTile activeTile = (GameBoardTile) GameBoard.getInstance().getElement(pieceRow, pieceCol);
 						
-				activePlayer.place(pieceId, activeTile, this.gameBoard);
+				activePlayer.place(pieceId, activeTile);
 			} 
 			catch (PlacementNotCorrectException e) {
 				Console.log(">> Placement is not correct. Yopu must select the right color");
@@ -111,7 +109,7 @@ public class GameManager {
 		Console.clear(20);
 		Console.log("\n MAIN GAME IS STARTED \n");
 		generateObstacle();
-		render();
+		GameBoard.getInstance().render();
 		Console.log("ITS BATTLE TIME!\n");
 		
 		Console.log(activePlayer.getName() + ", you have folowing alive pieces");
@@ -123,8 +121,8 @@ public class GameManager {
 		
 		int pieceId 	= Console.promtInt("Which unit you wish to move");
 		
-		activePlayer.moveSelectedPiece(pieceId, this.gameBoard);
-		render();
+		activePlayer.moveSelectedPiece(pieceId);
+		GameBoard.getInstance().render();
 		
 		
 		
@@ -135,7 +133,7 @@ public class GameManager {
 	}
 	
 	private GameBoardTile getActiveTile(int row, int col) {
-		return (GameBoardTile) this.gameBoard[row][col];
+		return (GameBoardTile) GameBoard.getInstance().getElement(row, col);
 	}
 	
 	private void endTurn() {
@@ -148,20 +146,6 @@ public class GameManager {
 	}	
 	
 	
-	private void render() {
-		drawColNumbers();
-		
-		for(int row = 0; row < this.ROW_COUNT; row++) {
-			
-			System.out.print(row + " ");
-			for(int col = 0; col < this.COL_COUNT; col++) {
-				System.out.print(" " + this.gameBoard[row][col].render() + " ");
-			}
-			System.out.println("");
-		}
-		
-		drawColNumbers();
-	}
 
 	
 	private void bootstrap() {
@@ -170,7 +154,8 @@ public class GameManager {
 			for(int col = 0; col < this.COL_COUNT; col++) {
 				
 				GameColorEnum gameTileColor = getGameBordTileColor(row, col); 
-				this.gameBoard[row][col] = new GameBoardTile(row, col, gameTileColor);
+//				this.gameBoard[row][col] = new GameBoardTile(row, col, gameTileColor);
+				GameBoard.getInstance().setElement(row, col, new GameBoardTile(row, col, gameTileColor));
 			}
 		}
 	}
@@ -190,7 +175,7 @@ public class GameManager {
 			int randomRow = Console.randomNumber(2, 5);
 			int randomCol = Console.randomNumber(0, COL_COUNT);
 			
-			this.gameBoard[randomRow][randomCol] = new Wall(randomRow, randomCol);
+			GameBoard.getInstance().setElement(randomRow, randomCol, new Wall(randomRow, randomCol));
 		}
 		else {
 			for(int row = 2; row < 5; row++) {
@@ -199,10 +184,10 @@ public class GameManager {
 					for(int i = 0; i < randomPosition.length; i++) {
 						if(randomPositionIndex == randomPosition[i]) {
 							if(randomObstacle == 0) {
-								this.gameBoard[row][col] = new Wall(row, col);
+								GameBoard.getInstance().setElement(row, col, new Wall(row, col));
 							}
 							else if(randomObstacle == 1) {
-								this.gameBoard[row][col] = new Barricade(row, col);
+								GameBoard.getInstance().setElement(row, col, new Barricade(row, col));
 							}
 						}
 					}
@@ -212,6 +197,17 @@ public class GameManager {
 			}
 		}
 	}
+	
+	private int[] randomPositions(int randObstacleCount) {
+		int[] randomPositions = new int[randObstacleCount];
+		
+		for(int i = 0; i < randObstacleCount; i++) {
+			randomPositions[i] = Console.randomNumber(0, 27);
+		}
+		
+		return randomPositions;
+	}
+	
 	private GameColorEnum getGameBordTileColor(int row, int col) {
 		
 		if(row == 0 || row == 1) {
@@ -224,21 +220,5 @@ public class GameManager {
 		
 		return GameColorEnum.NEUTRAL;
 	}
-	
-	private int[] randomPositions(int randObstacleCount) {
-		int[] randomPositions = new int[randObstacleCount];
-		
-		for(int i = 0; i < randObstacleCount; i++) {
-			randomPositions[i] = Console.randomNumber(0, 27);
-		}
-		
-		return randomPositions;
-	}
-	private void drawColNumbers() {
-		System.out.print("  ");
-		for(int col = 0; col < this.COL_COUNT; col++) {
-			System.out.print(" " + col + " ");
-		}
-		System.out.println("");
-	}
+
 }

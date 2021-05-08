@@ -2,12 +2,13 @@ package com.netitjava.managers;
 
 import java.util.Scanner;
 
+import com.netitjava.gameboard.GameBoard;
 import com.netitjava.gameboard.GameBoardObject;
 import com.netitjava.gameboard.pieces.Piece;
 
 public class MoveManager {
 	
-	public static boolean moveThisPiece(Piece selectedPiece, String pieceMoveDirection, GameBoardObject[][] gameBoard) {
+	public static boolean moveThisPiece(Piece selectedPiece, String pieceMoveDirection) {
 		int currentRow 				= selectedPiece.getRow();
 		int currentCol 				= selectedPiece.getCol();
 		
@@ -26,11 +27,13 @@ public class MoveManager {
 		
 		
 		try {
-			gameBoard[currentRow][currentCol] = selectedPiece;
+			
+			GameBoard.getInstance().setElement(currentRow, currentCol, selectedPiece);
 			
 			selectedPiece.setRow(currentRow);
 			selectedPiece.setCol(currentCol);
 			return true;
+			
 		}
 		catch(Exception e){
 			return false;

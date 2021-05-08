@@ -7,6 +7,7 @@ import com.netitjava.enums.PlayerColorEnum;
 import com.netitjava.enums.TileColorEnum;
 import com.netitjava.exceptions.PlacementNotCorrectException;
 import com.netitjava.exceptions.PlacementNotPosibleException;
+import com.netitjava.gameboard.GameBoard;
 import com.netitjava.gameboard.GameBoardObject;
 import com.netitjava.gameboard.pieces.*;
 import com.netitjava.gameboard.tiles.GameBoardTile;
@@ -47,9 +48,8 @@ public class PlayerManager {
 	public ArrayList<Piece> getAlivePieceCollection() {
 		return this.pieceCollection;
 	}
-	
-	// TODO 
-	public void place(int pieceIndex, GameBoardTile tile, GameBoardObject[][] gameBoard) 
+	 
+	public void place(int pieceIndex, GameBoardTile tile) 
 			throws PlacementNotCorrectException, PlacementNotPosibleException {
 		
 		if(tile == null) {
@@ -71,7 +71,7 @@ public class PlayerManager {
 
 			//unplacedPiece.move(row, col);
 			unplacedPiece.move(row, col);
-			gameBoard[row][col] = unplacedPiece;
+			GameBoard.getInstance().setElement(row, col, unplacedPiece);
 			this.pieceCollection.add(unplacedPiece);
 			this.unplacedPieceCollection.remove(pieceIndex);
 		}
@@ -79,7 +79,7 @@ public class PlayerManager {
 		// throw new Exception("The placemеnt is not permited");
 	}
 	
-	public void moveSelectedPiece(int pieceIndex, GameBoardObject[][] gameBoard) {
+	public void moveSelectedPiece(int pieceIndex) {
 		Piece selectedPiece = this.pieceCollection.get(pieceIndex);
 		
 		//Вземаме текущите координати
@@ -89,7 +89,7 @@ public class PlayerManager {
 		
 		//Можем ли да отидем там
 		
-		MoveManager.moveThisPiece(selectedPiece, pieceMoveDirection, gameBoard);
+		MoveManager.moveThisPiece(selectedPiece, pieceMoveDirection);
 		
 		
 		

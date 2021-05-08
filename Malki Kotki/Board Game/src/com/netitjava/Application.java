@@ -1,3 +1,6 @@
+//TODO: Генериране на obsticle не работи
+//TODO: Нов ред при рендера не работи
+
 package com.netitjava;
 
 import com.netitjava.gameboard.pieces.Piece;

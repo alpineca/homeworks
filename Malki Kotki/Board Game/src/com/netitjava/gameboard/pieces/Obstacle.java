@@ -33,7 +33,6 @@ public abstract class Obstacle extends GameBoardObject{
 
 	public Obstacle(int row, int col) {
 		super(row, col);
-		// TODO Auto-generated constructor stub
 	}
 
 	//@Override

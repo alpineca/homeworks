@@ -14,13 +14,13 @@ public class Elf extends Piece {
 
 	@Override
 	public void isAttackPossible() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void isHealPossible() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -37,7 +37,7 @@ public class Elf extends Piece {
 
 	@Override
 	public String movementRules() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}	
 }

@@ -1,13 +1,9 @@
 package com.netitjava.gameboard.pieces;
 
-public class Knight extends Piece {
+public class Dworf extends Piece {
 
-	public Knight() {
-		super(-1, -1, 8, 3, 15, 1, 1);
-	}	
-	
-	public Knight(int row, int col) {
-		super(row, col, 8, 3, 15, 1, 1);
+	public Dworf(int row, int col) {
+		super(row, col, 6, 2, 12, 2, 2);
 	}
 
 	@Override
@@ -18,30 +14,29 @@ public class Knight extends Piece {
 
 	@Override
 	public void isAttackPossible() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void isHealPossible() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public String render() {
-		return "%";
+		return "@";
 	}
-	
 
 	@Override
 	public String getPieceName() {
-		return "Knight";
+		return "Dworf";
 	}
 
 	@Override
 	public String movementRules() {
-		// TODO Auto-generated method stub
+		
 		return null;
-	}	
+	}
 }
