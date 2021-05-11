@@ -2,10 +2,8 @@ package com.netitjava.managers;
 
 import java.util.Scanner;
 
-import com.netitjava.enums.GameColorEnum;
-import com.netitjava.gameboard.GameBoard;
-import com.netitjava.gameboard.GameBoardObject;
-import com.netitjava.gameboard.pieces.Piece;
+import com.netitjava.gameboard.*;
+import com.netitjava.gameboard.pieces.*;
 import com.netitjava.gameboard.tiles.GameBoardTile;
 
 public class MoveManager {
@@ -79,11 +77,9 @@ public class MoveManager {
 	}
 	
 	private static void clearTile(int row, int col) {
-//		GameColorEnum tileColor;
-//		if(row == 0 || row == 1) tileColor.BLACK;
-		
-		
+
 		GameBoard.getInstance().setElement(row, col, new GameBoardTile(row, col, null));
+		
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.netitjava.gameboard;
 
-import com.netitjava.enums.PlayerColorEnum;
 import com.netitjava.gameboard.tiles.GameBoardTile;
 import com.netitjava.managers.PlayerManager;
 import com.netitjava.util.Console;

@@ -1,32 +1,22 @@
 package com.netitjava.managers;
 
 import java.util.ArrayList;
-
-import com.netitjava.enums.GameColorEnum;
-import com.netitjava.enums.PlayerColorEnum;
-import com.netitjava.exceptions.PlacementNotCorrectException;
-import com.netitjava.exceptions.PlacementNotPosibleException;
-import com.netitjava.gameboard.GameBoard;
-import com.netitjava.gameboard.GameBoardObject;
-import com.netitjava.gameboard.pieces.Barricade;
-import com.netitjava.gameboard.pieces.Dworf;
-import com.netitjava.gameboard.pieces.Elf;
-import com.netitjava.gameboard.pieces.Knight;
-import com.netitjava.gameboard.pieces.Piece;
-import com.netitjava.gameboard.pieces.Wall;
+import com.netitjava.enums.*;
+import com.netitjava.exceptions.*;
+import com.netitjava.gameboard.*;
+import com.netitjava.gameboard.pieces.*;
 import com.netitjava.gameboard.tiles.GameBoardTile;
-import com.netitjava.util.Console;
+import com.netitjava.util.*;
 
 public class GameManager {
 
-	//private GameBoardObject[][] gameBoard;
-	public final int ROW_COUNT 			= 7;
-	public final int COL_COUNT 			= 9;
-	private final int OBSTACLE_COUNT_BOUND 	= 5;
+	public final int ROW_COUNT 					= 7;
+	public final int COL_COUNT 					= 9;
+	private final int OBSTACLE_COUNT_BOUND 		= 5;
 	
-	private int gameStarted 				= 0;
-	private int mainGameStarted 			= 0;
-	private int announced 					= 0;
+	private int gameStarted 					= 0;
+	private int mainGameStarted 				= 0;
+	private int announced 						= 0;
 	
 	private ArrayList<PlayerManager> playerManagerCollection;
 	private int activePlayerIndex = 0;
@@ -39,13 +29,11 @@ public class GameManager {
 	
 	public void startGame() {
 		
-		// 0. Bootstrap main game board
 		if(gameStarted == 0) {
 			this.bootstrap();
 			gameStarted++;
 			GameBoard.getInstance().renderForPlacement(this.getActivePlayer());
 		}
-//		GameBoard.getInstance().renderForPlayer(this.getActivePlayer());
 		
 		if(mainGameStarted == 0) {
 			while(gamePhasePiecePlacementRun(this.getActivePlayer())) {
@@ -143,11 +131,7 @@ public class GameManager {
 	private PlayerManager getActivePlayer() {
 		return this.playerManagerCollection.get(activePlayerIndex);
 	}
-	
-	private GameBoardTile getActiveTile(int row, int col) {
-		return (GameBoardTile) GameBoard.getInstance().getElement(row, col);
-	}
-	
+
 	private void endTurn() {
 		
 		activePlayerIndex++;
@@ -156,9 +140,6 @@ public class GameManager {
 			activePlayerIndex = 0;	
 		}
 	}	
-	
-	
-
 	
 	private void bootstrap() {
 		
@@ -170,8 +151,6 @@ public class GameManager {
 			}
 		}
 	}
-	
-	
 	
 	private void generateObstacle() {
 		int randObstacleCount = Console.randomNumber(0, OBSTACLE_COUNT_BOUND);
@@ -210,8 +189,6 @@ public class GameManager {
 									GameBoard.getInstance().setElement(row, col, new Wall(row, col));
 									GameBoard.getInstance().setElement(row, col++, new Wall(row, col));
 								}
-//								GameBoard.getInstance().setElement(row, col, new Wall(row, col));
-//								GameBoard.getInstance().setElement(row, col, new Wall(row, col));
 							}
 							else if(randomObstacle == 1) {
 								if(col == COL_COUNT-1) {
@@ -221,7 +198,6 @@ public class GameManager {
 									GameBoard.getInstance().setElement(row, col, new Barricade(row, col));
 									GameBoard.getInstance().setElement(row, col++, new Barricade(row, col));
 								}
-//								GameBoard.getInstance().setElement(row, col, new Barricade(row, col));
 							}
 						}
 					}

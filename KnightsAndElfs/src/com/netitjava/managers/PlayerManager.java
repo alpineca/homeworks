@@ -2,13 +2,9 @@ package com.netitjava.managers;
 
 import java.util.ArrayList;
 
-import com.netitjava.enums.GameColorEnum;
-import com.netitjava.enums.PlayerColorEnum;
-import com.netitjava.enums.TileColorEnum;
-import com.netitjava.exceptions.PlacementNotCorrectException;
-import com.netitjava.exceptions.PlacementNotPosibleException;
-import com.netitjava.gameboard.GameBoard;
-import com.netitjava.gameboard.GameBoardObject;
+import com.netitjava.enums.*;
+import com.netitjava.exceptions.*;
+import com.netitjava.gameboard.*;
 import com.netitjava.gameboard.pieces.*;
 import com.netitjava.gameboard.tiles.GameBoardTile;
 import com.netitjava.util.Console;
@@ -68,9 +64,8 @@ public class PlayerManager {
 			throw new PlacementNotCorrectException();
 		}
 				
-		// Select from unplaced piece collection
 		Piece unplacedPiece = this.unplacedPieceCollection.get(pieceIndex);
-		// 
+		
 		if(isPlacementPosible(row, col)) {
 
 			//unplacedPiece.move(row, col);
@@ -103,8 +98,8 @@ public class PlayerManager {
 		boolean redPossibleRows 		= (row == 0 || row == 1);
 		boolean possibleColumns 		= (col >= 0 || col <= 8);
 		
-		if((this.color == color.BLACK) 	&& (blackPossibleRows && possibleColumns)) 	return true;
-		if((this.color == color.RED) 	&& (redPossibleRows && possibleColumns)) 	return true;
+		if((this.color == GameColorEnum.BLACK) 	&& (blackPossibleRows 	&& possibleColumns)) 	return true;
+		if((this.color == GameColorEnum.RED) 	&& (redPossibleRows 	&& possibleColumns)) 	return true;
 		
 		return false;
 	}

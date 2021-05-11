@@ -1,7 +1,6 @@
 package com.netitjava.gameboard.tiles;
 
-import com.netitjava.enums.GameColorEnum;
-import com.netitjava.enums.TileColorEnum;
+import com.netitjava.enums.*;
 import com.netitjava.gameboard.GameBoardObject;
 
 public class GameBoardTile extends GameBoardObject {
