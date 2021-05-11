@@ -26,11 +26,11 @@ public class PlayerManager {
 		
 		this.pieceCollection 			= new ArrayList<>();
 		this.unplacedPieceCollection 	= new ArrayList<>();
-//		this.unplacedPieceCollection.add(new Knight(-1, -1));
-//		this.unplacedPieceCollection.add(new Knight(-1, -1));
-//		this.unplacedPieceCollection.add(new Dworf(-1, -1));
-//		this.unplacedPieceCollection.add(new Dworf(-1, -1));
-//		this.unplacedPieceCollection.add(new Elf(-1, -1));
+		this.unplacedPieceCollection.add(new Knight(-1, -1));
+		this.unplacedPieceCollection.add(new Knight(-1, -1));
+		this.unplacedPieceCollection.add(new Dworf(-1, -1));
+		this.unplacedPieceCollection.add(new Dworf(-1, -1));
+		this.unplacedPieceCollection.add(new Elf(-1, -1));
 		this.unplacedPieceCollection.add(new Elf(-1, -1));				
 	}
 	
@@ -38,7 +38,7 @@ public class PlayerManager {
 
 		if(this.color == GameColorEnum.BLACK	) return "@Black";
 		if(this.color == GameColorEnum.RED		) return "@Red";
-		return "Безцветните";
+		return "Colourless";
 	}
 
 	public GameColorEnum getColor() {
@@ -80,24 +80,15 @@ public class PlayerManager {
 			this.unplacedPieceCollection.remove(pieceIndex);
 		}
 		
-		// throw new Exception("The placemеnt is not permited");
 	}
 	
 	public void moveSelectedPiece(int pieceIndex) {
 		Piece selectedPiece = this.pieceCollection.get(pieceIndex);
 		
-		//Вземаме текущите координати
-		
-		//На къде искаме да отидем
 		String pieceMoveDirection 	= Console.promtString("Select direction (W,S,A,D) to move:");
-		
-		//Можем ли да отидем там
-		
+				
 		MoveManager.moveThisPiece(selectedPiece, pieceMoveDirection);
 		
-		
-		
-		//Запазваме новите координати
 	}
 	
 	
