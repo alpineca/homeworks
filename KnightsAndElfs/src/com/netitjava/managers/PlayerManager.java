@@ -13,23 +13,48 @@ public class PlayerManager {
 
 	private GameColorEnum color;
 	private int score;
+	private int distance;
+	private int movesLeft;
 	private ArrayList<Piece> unplacedPieceCollection;
 	private ArrayList<Piece> pieceCollection;
 	
 	public PlayerManager(GameColorEnum color) {
 
-		this.color = color;
+		this.color		= color;
+		this.distance 	= 0;
+		this.movesLeft 	= 0;
 		
 		this.pieceCollection 			= new ArrayList<>();
 		this.unplacedPieceCollection 	= new ArrayList<>();
-		this.unplacedPieceCollection.add(new Knight(-1, -1));
-		// this.unplacedPieceCollection.add(new Knight(-1, -1));
-		// this.unplacedPieceCollection.add(new Dworf(-1, -1));
-		// this.unplacedPieceCollection.add(new Dworf(-1, -1));
-		// this.unplacedPieceCollection.add(new Elf(-1, -1));
-		// this.unplacedPieceCollection.add(new Elf(-1, -1));				
+//		this.unplacedPieceCollection.add(new Knight(-1, -1));
+//      this.unplacedPieceCollection.add(new Knight(-1, -1));
+//		this.unplacedPieceCollection.add(new Dworf(-1, -1));
+//		this.unplacedPieceCollection.add(new Dworf(-1, -1));
+//		this.unplacedPieceCollection.add(new Elf(-1, -1));
+		this.unplacedPieceCollection.add(new Elf(-1, -1));				
 	}
 	
+	
+	public int getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+
+	public int getMovesLeft() {
+		return movesLeft;
+	}
+
+
+	public void setMovesLeft(int movesLeft) {
+		this.movesLeft = movesLeft;
+	}
+
+
 	public String getName() {
 
 		if(this.color == GameColorEnum.BLACK	) return "@Black";
@@ -68,7 +93,6 @@ public class PlayerManager {
 		
 		if(isPlacementPosible(row, col)) {
 
-			//unplacedPiece.move(row, col);
 			unplacedPiece.move(row, col);
 			GameBoard.getInstance().setElement(row, col, unplacedPiece);
 			this.pieceCollection.add(unplacedPiece);
@@ -78,11 +102,29 @@ public class PlayerManager {
 	}
 	
 	public void moveSelectedPiece(int pieceIndex) {
-		Piece selectedPiece = this.pieceCollection.get(pieceIndex);
+		Piece selectedPiece 	= this.pieceCollection.get(pieceIndex);
+		this.distance 			= selectedPiece.getDistance();
+		this.movesLeft 			= selectedPiece.getSpeed();
 		
-		String pieceMoveDirection 	= Console.promtString("Select direction (W,S,A,D) to move:");
+		
+		while(this.movesLeft > 0) {
+			
+			String pieceMoveDirection 	= Console.promtString("Select direction (W,S,A,D) to move:");
+			MoveManager.moveThisPiece(selectedPiece, pieceMoveDirection);
+			this.movesLeft--;
+			
+			if(this.movesLeft == 0) break;
+			
+			GameBoard.getInstance().render();
+			Console.logLn("You have " + this.movesLeft + " moves left");
+			
+			Console.logLn("Please Choose:");
+			Console.logLn("[1] Move again");
+			Console.logLn("[2] End turn");
+			int menuChoice 	= Console.promtInt();
+			if(menuChoice == 2) break;
+		}
 				
-		MoveManager.moveThisPiece(selectedPiece, pieceMoveDirection);
 		
 	}
 	
