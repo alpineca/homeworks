@@ -25,8 +25,14 @@ public class MoveManager {
 			destinationRow 		 	= newCoordinatesRow(currentRow, pieceMoveDirection);
 		} 
 		else if(leftOrRight) {
-			destinationCol 			= newCoordinatesCol(currentRow, pieceMoveDirection);
+			destinationCol 			= newCoordinatesCol(currentCol, pieceMoveDirection);
 		}
+		
+		if(destinationRow > GameManager.ROW_COUNT - 1 || destinationRow < 0) 						return;
+		if(destinationCol > GameManager.COL_COUNT - 1 || destinationCol < 0) 						return;
+		
+		if(GameBoard.getInstance().getElement(destinationRow, destinationCol) instanceof Piece) 	return;
+		if(GameBoard.getInstance().getElement(destinationRow, destinationCol) instanceof Obstacle) 	return;
 		
 		
 		try {
@@ -40,9 +46,6 @@ public class MoveManager {
 			
 		}
 		
-		
-		
-		//return false;
 	}
 
 	public static String moveDirectionChar(String string) {

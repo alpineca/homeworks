@@ -23,11 +23,11 @@ public class PlayerManager {
 		this.pieceCollection 			= new ArrayList<>();
 		this.unplacedPieceCollection 	= new ArrayList<>();
 		this.unplacedPieceCollection.add(new Knight(-1, -1));
-		this.unplacedPieceCollection.add(new Knight(-1, -1));
-		this.unplacedPieceCollection.add(new Dworf(-1, -1));
-		this.unplacedPieceCollection.add(new Dworf(-1, -1));
-		this.unplacedPieceCollection.add(new Elf(-1, -1));
-		this.unplacedPieceCollection.add(new Elf(-1, -1));				
+		// this.unplacedPieceCollection.add(new Knight(-1, -1));
+		// this.unplacedPieceCollection.add(new Dworf(-1, -1));
+		// this.unplacedPieceCollection.add(new Dworf(-1, -1));
+		// this.unplacedPieceCollection.add(new Elf(-1, -1));
+		// this.unplacedPieceCollection.add(new Elf(-1, -1));				
 	}
 	
 	public String getName() {

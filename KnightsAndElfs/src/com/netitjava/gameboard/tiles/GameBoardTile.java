@@ -16,10 +16,6 @@ public class GameBoardTile extends GameBoardObject {
 
 	@Override
 	public String render() {
-		
-		//if(this.getColor() == color.BLACK) return "B";
-//		if(this.getColor() == color.RED) return "R";
-//		if(this.getColor() == color.NEUTRAL) return "N";
 		return " ";
 	}
 	

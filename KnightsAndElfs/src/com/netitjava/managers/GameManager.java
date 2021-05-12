@@ -10,9 +10,9 @@ import com.netitjava.util.*;
 
 public class GameManager {
 
-	public final int ROW_COUNT 					= 7;
-	public final int COL_COUNT 					= 9;
-	private final int OBSTACLE_COUNT_BOUND 		= 5;
+	public static final int ROW_COUNT 					= 7;
+	public static final int COL_COUNT 					= 9;
+	private static final int OBSTACLE_COUNT_BOUND 		= 5;
 	
 	private int gameStarted 					= 0;
 	private int mainGameStarted 				= 0;
@@ -68,7 +68,6 @@ public class GameManager {
 
 				Console.logLn("You have the folowing pieces\n");
 				
-				// 1. Select player piece
 				ArrayList<Piece> collection = activePlayer.getUnplacedPieceCollection();
 				for(int i = 0; i < collection.size(); i++) {
 					Console.logLn("(" + i + ") " + collection.get(i).getPieceName() );
@@ -113,7 +112,7 @@ public class GameManager {
 		
 		GameBoard.getInstance().render();
 		this.endTurn();
-		gamePhaseMainGame(activePlayer);
+		gamePhaseMainGame(this.getActivePlayer());
 		
 		
 		
@@ -183,20 +182,20 @@ public class GameManager {
 
 							if(randomObstacle == 0) {
 								if(col == COL_COUNT-1) {
-									GameBoard.getInstance().setElement(row, col, new Wall(row, col));
-									GameBoard.getInstance().setElement(row, col--, new Wall(row, col));
+									GameBoard.getInstance().setElement(row, col, 	new Wall(row, col));
+									GameBoard.getInstance().setElement(row, col--, 	new Wall(row, col));
 								} else {
-									GameBoard.getInstance().setElement(row, col, new Wall(row, col));
-									GameBoard.getInstance().setElement(row, col++, new Wall(row, col));
+									GameBoard.getInstance().setElement(row, col, 	new Wall(row, col));
+									GameBoard.getInstance().setElement(row, col++, 	new Wall(row, col));
 								}
 							}
 							else if(randomObstacle == 1) {
 								if(col == COL_COUNT-1) {
-									GameBoard.getInstance().setElement(row, col, new Barricade(row, col));
-									GameBoard.getInstance().setElement(row, col--, new Barricade(row, col));
+									GameBoard.getInstance().setElement(row, col, 	new Barricade(row, col));
+									GameBoard.getInstance().setElement(row, col--, 	new Barricade(row, col));
 								} else {
-									GameBoard.getInstance().setElement(row, col, new Barricade(row, col));
-									GameBoard.getInstance().setElement(row, col++, new Barricade(row, col));
+									GameBoard.getInstance().setElement(row, col, 	new Barricade(row, col));
+									GameBoard.getInstance().setElement(row, col++, 	new Barricade(row, col));
 								}
 							}
 						}
