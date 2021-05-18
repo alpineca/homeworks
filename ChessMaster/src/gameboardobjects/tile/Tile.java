@@ -20,5 +20,6 @@ public class Tile extends GameBoardObject {
 		
 		g.setColor(this.computeGameObjectColor());
 		g.fillRect(tileX, tileY, this.size, this.size);
+		
 	}
 }

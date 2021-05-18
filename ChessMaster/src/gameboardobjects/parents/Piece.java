@@ -41,10 +41,13 @@ public abstract class Piece extends GameBoardObject {
 		int tileX = this.col * this.size; 
 		int tileY = this.row * this.size;
 		
+		g.setColor(getTileColor(this.row, this.col));
+		g.fillRect(tileX, tileY, this.size, this.size);
 		g.setFont(new Font("", Font.PLAIN, 18));
 		g.setColor(this.computeGameObjectColor());
+
 		g.fillOval(tileX, tileY, this.size, this.size);
-		
+//		g.setColor(this.color);
 		g.setColor(Color.BLACK);
 		g.drawString(this.getSign(), tileX + this.size / 2, tileY   + this.size / 2);		
 	}	
@@ -64,7 +67,19 @@ public abstract class Piece extends GameBoardObject {
 	
 	public void setCol(int col) {
 		this.col = col;
-	}		
+	}
+	
+	public Color getTileColor(int row, int col) {
+		
+		boolean isRowColEven = (row % 2 == 0) && (col % 2 == 0);
+		boolean isRowColOdd  = (row % 2 != 0) && (col % 2 != 0);
+		
+		if(isRowColEven || isRowColOdd) {
+			return Color.BLACK;
+		}
+		
+		return Color.WHITE;
+	}
 	
 	public abstract boolean isMovePosible(int toRow, int toCol);
 	
