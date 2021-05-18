@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import gameboardobjects.contracts.GameBoardObjectDimention;
 import gameboardobjects.contracts.GameObjectColorEnum;
 
 public abstract class Piece extends GameBoardObject {
@@ -40,16 +41,19 @@ public abstract class Piece extends GameBoardObject {
 		
 		int tileX = this.col * this.size; 
 		int tileY = this.row * this.size;
+		int placementCoefficientX = (this.size / 2) - 8;
+		int placementCoefficientY = (this.size / 2) + 8;
 		
 		g.setColor(getTileColor(this.row, this.col));
 		g.fillRect(tileX, tileY, this.size, this.size);
-		g.setFont(new Font("", Font.PLAIN, 18));
+		g.setFont(new Font("", Font.BOLD, 25));
 		g.setColor(this.computeGameObjectColor());
 
-		g.fillOval(tileX, tileY, this.size, this.size);
-//		g.setColor(this.color);
+		g.fillOval(tileX + 8, tileY + 8, GameBoardObjectDimention.PIECE_SIZE, GameBoardObjectDimention.PIECE_SIZE);
+
 		g.setColor(Color.BLACK);
-		g.drawString(this.getSign(), tileX + this.size / 2, tileY   + this.size / 2);		
+		g.drawOval(tileX + 8, tileY + 8, GameBoardObjectDimention.PIECE_SIZE, GameBoardObjectDimention.PIECE_SIZE);
+		g.drawString(this.getSign(), tileX + placementCoefficientX, tileY  + placementCoefficientY);		
 	}	
 	
 	
