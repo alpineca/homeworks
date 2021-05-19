@@ -3,12 +3,13 @@ package gameboardobjects.piece;
 import java.awt.Graphics;
 
 import gameboardobjects.contracts.GameObjectColorEnum;
+import gameboardobjects.contracts.PieceScore;
 import gameboardobjects.parents.Piece;
 
 public class Bishop extends Piece {
 
 	public Bishop(int row, int col, GameObjectColorEnum color) {
-		super(row, col, color, 10, "B");
+		super(row, col, color, PieceScore.BISHOP, "B");
 	}
 
 	@Override

@@ -3,12 +3,13 @@ package gameboardobjects.piece;
 import java.awt.Graphics;
 
 import gameboardobjects.contracts.GameObjectColorEnum;
+import gameboardobjects.contracts.PieceScore;
 import gameboardobjects.parents.Piece;
 
 public class Rook extends Piece {
 
 	public Rook(int row, int col, GameObjectColorEnum color) {
-		super(row, col, color, 10, "R");
+		super(row, col, color, PieceScore.ROOK, "R");
 	}
 
 	@Override

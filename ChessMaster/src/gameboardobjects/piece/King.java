@@ -3,12 +3,13 @@ package gameboardobjects.piece;
 import java.awt.Graphics;
 
 import gameboardobjects.contracts.GameObjectColorEnum;
+import gameboardobjects.contracts.PieceScore;
 import gameboardobjects.parents.Piece;
 
 public class King extends Piece {
 
 	public King(int row, int col, GameObjectColorEnum color) {
-		super(row, col, color, 10, "K");
+		super(row, col, color, PieceScore.KING, "K");
 	}
 
 	@Override
