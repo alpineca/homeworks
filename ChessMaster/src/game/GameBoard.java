@@ -29,7 +29,9 @@ public class GameBoard extends JPanel implements MouseListener {
 	
 	private GameBoardObject[][] 	gameBoard;
 	private Piece 					selectedPiece;
-	private GameObjectColorEnum 	currentPlayer = GameObjectColorEnum.BLACK;
+	private GameObjectColorEnum 	currentPlayer 		= GameObjectColorEnum.BLACK;
+	private int 					blackPlayerScore 	= 0;
+	private int 					whitePlayerScore 	= 0;
 	
 	public GameBoard() {
 		this.bootstrap();
@@ -126,7 +128,11 @@ public class GameBoard extends JPanel implements MouseListener {
 			}
 			
 			if(this.isAttackPosible(selectedElement, row, col)) {
-
+				Piece victimPiece = (Piece) this.getGameBoardObject(row, col);
+				int victimPieceScore = victimPiece.getScore();
+				
+				updateScore(victimPieceScore);
+				
 				this.moveSelectedPiece(row, col);
 				this.repaint(); // re render the whole component
 				this.setSelectedPiece(null);
@@ -221,8 +227,13 @@ public class GameBoard extends JPanel implements MouseListener {
 	
 	private boolean isAttackPosible(GameBoardObject selectedElement, int row, int col) {
 		
-		return this.isPiece(selectedElement) &&
-				this.isPieceAlreadySelected() && 
+		GameBoardObject victimPiece = this.getGameBoardObject(row, col);
+		
+		boolean isFriendlyAttack = this.currentPlayer.equals(victimPiece.getColor());
+		
+		return this.isPiece(selectedElement) 	&&
+				this.isPieceAlreadySelected() 	&&
+				!isFriendlyAttack 				&&
 				this.getSelectedPiece().isAttackPosible(row, col);
 	}	
 	
@@ -240,5 +251,13 @@ public class GameBoard extends JPanel implements MouseListener {
 		}
 		currentPlayer = GameObjectColorEnum.BLACK;
 		
+	}
+	
+	private void updateScore(int victimPieceScore) {
+		if(this.currentPlayer == GameObjectColorEnum.BLACK) {
+			blackPlayerScore = blackPlayerScore + victimPieceScore;
+			return;
+		}
+		whitePlayerScore = whitePlayerScore + victimPieceScore;
 	}
 }
