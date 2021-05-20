@@ -27,8 +27,9 @@ public class GameBoard extends JPanel implements MouseListener {
 	private final int GAME_GOARD_ROW_COUNT = 8;
 	private final int GAME_GOARD_COL_COUNT = 8;
 	
-	private GameBoardObject[][] gameBoard;
-	private Piece selectedPiece;
+	private GameBoardObject[][] 	gameBoard;
+	private Piece 					selectedPiece;
+	private GameObjectColorEnum 	currentPlayer = GameObjectColorEnum.BLACK;
 	
 	public GameBoard() {
 		this.bootstrap();
@@ -115,20 +116,33 @@ public class GameBoard extends JPanel implements MouseListener {
 		
 		GameBoardObject selectedElement = this.getGameBoardObject(row, col);
 		
-		if(this.isSelectionPosible(selectedElement)) {
-			this.setSelectedPiece((Piece) selectedElement);
-		}
-		
-		if(this.isAttackPosible(selectedElement, row, col)) {
+		try {
+			if(this.isPiece(selectedElement) && (this.currentPlayer == selectedElement.getColor())){
+				selectedElement = this.getGameBoardObject(row, col);
+			}
+			
+			if(this.isSelectionPosible(selectedElement)) {
+				this.setSelectedPiece((Piece) selectedElement);
+			}
+			
+			if(this.isAttackPosible(selectedElement, row, col)) {
 
-			this.moveSelectedPiece(row, col);
-			this.repaint(); // re render the whole component
-		}
-		
-		if(this.isMovePosible(selectedElement, row, col)) {
+				this.moveSelectedPiece(row, col);
+				this.repaint(); // re render the whole component
+				this.setSelectedPiece(null);
+				endTurn();
+			}
+			
+			if(this.isMovePosible(selectedElement, row, col)) {
 
-			this.moveSelectedPiece(row, col);
-			this.repaint(); // re render the whole component
+				this.moveSelectedPiece(row, col);
+				this.repaint(); // re render the whole component
+				this.setSelectedPiece(null);
+				endTurn();
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			
 		}
 	}
 
@@ -214,7 +228,17 @@ public class GameBoard extends JPanel implements MouseListener {
 	
 	private boolean isSelectionPosible(GameBoardObject selectedElement) {
 		
-		return 	this.isPiece(selectedElement) &&
+		return 	this.isPiece(selectedElement) 						&&
+				this.currentPlayer == selectedElement.getColor() 	&&
 				!this.isPieceAlreadySelected();
+	}
+	
+	private void endTurn() {
+		if(currentPlayer == GameObjectColorEnum.BLACK) {
+			currentPlayer = GameObjectColorEnum.WHITE;
+			return;
+		}
+		currentPlayer = GameObjectColorEnum.BLACK;
+		
 	}
 }

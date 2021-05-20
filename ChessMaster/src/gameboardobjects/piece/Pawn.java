@@ -29,6 +29,7 @@ public class Pawn extends Piece {
 						colCoefficient == 0;
 			}
 		}
+		
 		if((this.color == GameObjectColorEnum.WHITE) && this.row == 1) {
 			switch(rowCoefficient) {
 			case 1:
@@ -39,10 +40,12 @@ public class Pawn extends Piece {
 						colCoefficient == 0;
 			}
 		}
+		
 		if((this.color == GameObjectColorEnum.BLACK) && (toRow < this.row)) {
 			return  rowCoefficient == 1 &&
 					colCoefficient == 0;
 		}
+		
 		if((this.color == GameObjectColorEnum.WHITE) && (toRow > this.row)) {
 			return  rowCoefficient == 1 &&
 					colCoefficient == 0;

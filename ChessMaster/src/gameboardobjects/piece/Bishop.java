@@ -14,13 +14,18 @@ public class Bishop extends Piece {
 
 	@Override
 	public boolean isMovePosible(int toRow, int toCol) {
-		// TODO Auto-generated method stub
+		int rowCoefficient = Math.abs(toRow - this.row);
+		int colCoefficient = Math.abs(toCol - this.col);
+		
+		if(rowCoefficient == colCoefficient) {
+			return true;
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean isAttackPosible(int toRow, int toCol) {
-		// TODO Auto-generated method stub
-		return false;
+		return isMovePosible(toRow, toCol);
 	}
 }

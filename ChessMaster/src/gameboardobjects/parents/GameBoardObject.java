@@ -21,6 +21,10 @@ public abstract class GameBoardObject {
 		this.size 	= GameBoardObjectDimention.SIZE; 
 	}
 	
+	public GameObjectColorEnum getColor() {
+		return this.color;
+	}
+	
 	public abstract void render(Graphics g);
 	
 	
