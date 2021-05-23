@@ -4,24 +4,31 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.security.Key;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
-import GameBoardObjects.GameBoardObject;
-import GameBoardObjects.ArmyUnits.Drunker;
-import GameBoardObjects.ArmyUnits.Fisherman;
-import GameBoardObjects.ArmyUnits.RockTrower;
-import GameBoardObjects.ArmyUnits.Tracktorist;
 import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
+import GameBoardObjects.GameBoardObject;
+import GameBoardObjects.armyUnits.Drunker;
+import GameBoardObjects.armyUnits.Fisherman;
+import GameBoardObjects.armyUnits.RockTrower;
+import GameBoardObjects.armyUnits.Tracktorist;
 import interfaces.GameConfig;
+import processors.BuildProcessor;
+import processors.UnitsProcessor;
 
-public class GameBoard extends JPanel implements KeyListener{
+public class GameBoard extends JPanel implements MouseListener{
 	
 	GameBoardObject[][] gameBoard;
 
 	public GameBoard() {
 		this.bootstrap();
+		this.addMouseListener(this);
 	}
 	
 	private void bootstrap() {
@@ -34,14 +41,8 @@ public class GameBoard extends JPanel implements KeyListener{
 			}
 		}
 		
-		this.gameBoard[14][11] = new Tracktorist(14, 11);
-		this.gameBoard[14][12] = new RockTrower(14, 12);
-		this.gameBoard[14][13] = new Drunker(14, 13);
-		this.gameBoard[14][14] = new Fisherman(14, 14);
-		
-		this.createSmallBuilding(2, 2);
-		this.createMiddleBuilding(4, 7);
-		this.createLargeBuilding(8, 1);
+		UnitsProcessor.spawnArmyUnits(gameBoard);
+		BuildProcessor.spawnBuildings(gameBoard);
 		
 	}
 	
@@ -57,52 +58,36 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void mouseClicked(MouseEvent e) {
+		this.bootstrap();
+		this.repaint();
 		
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	private void createSmallBuilding(int row, int col) {
-		Color color = Color.GREEN;
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		this.gameBoard[row][col] 			= new Building(row, col, color);
-		this.gameBoard[row][col + 1] 		= new Building(row, col + 1, color);
-		this.gameBoard[row + 1][col] 		= new Building(row + 1, col, color);
-		this.gameBoard[row + 1][col + 1] 	= new Building(row + 1, col + 1, color);
 	}
-	private void createMiddleBuilding(int row, int col) {
-		Color color = Color.BLUE;
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		this.gameBoard[row][col] 			= new Building(row, col, color);
-		this.gameBoard[row][col + 1] 		= new Building(row, col + 1, color);
-		this.gameBoard[row][col + 2] 		= new Building(row, col + 2, color);
-		this.gameBoard[row + 1][col] 		= new Building(row + 1, col, color);
-		this.gameBoard[row + 1][col + 1] 	= new Building(row + 1, col + 1, color);
-		this.gameBoard[row + 1][col + 2] 	= new Building(row + 1, col + 2, color);
 	}
-	private void createLargeBuilding(int row, int col) {
-		Color color = Color.LIGHT_GRAY;
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		this.gameBoard[row][col] 			= new Building(row, col, color);
-		this.gameBoard[row][col + 1] 		= new Building(row, col + 1, color);
-		this.gameBoard[row][col + 2] 		= new Building(row, col + 2, color);
-		this.gameBoard[row + 1][col] 		= new Building(row + 1, col, color);
-		this.gameBoard[row + 1][col + 1] 	= new Building(row + 1, col + 1, color);
-		this.gameBoard[row + 1][col + 2] 	= new Building(row + 1, col + 2, color);
-		this.gameBoard[row + 2][col] 		= new Building(row + 2, col, color);
-		this.gameBoard[row + 2][col + 1] 	= new Building(row + 2, col + 1, color);
-		this.gameBoard[row + 2][col + 2] 	= new Building(row + 2, col + 2, color);
 	}
+
+
 
 }

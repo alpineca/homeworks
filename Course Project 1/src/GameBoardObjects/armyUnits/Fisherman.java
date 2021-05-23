@@ -1,4 +1,4 @@
-package GameBoardObjects.ArmyUnits;
+package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
 import java.awt.Graphics;
