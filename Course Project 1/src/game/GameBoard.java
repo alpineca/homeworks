@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
@@ -20,15 +21,16 @@ import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
 import interfaces.GameConfig;
 import processors.BuildProcessor;
+import processors.MoveProcessor;
 import processors.UnitsProcessor;
 
-public class GameBoard extends JPanel implements MouseListener{
+public class GameBoard extends JPanel implements MouseListener, KeyListener {
 	
 	GameBoardObject[][] gameBoard;
+	ArrayList<GameBoardObject> armyUnits = new ArrayList<>();
 
 	public GameBoard() {
 		this.bootstrap();
-		this.addMouseListener(this);
 	}
 	
 	private void bootstrap() {
@@ -41,7 +43,7 @@ public class GameBoard extends JPanel implements MouseListener{
 			}
 		}
 		
-		UnitsProcessor.spawnArmyUnits(gameBoard);
+		UnitsProcessor.spawnArmyUnits(gameBoard, armyUnits);
 		BuildProcessor.spawnBuildings(gameBoard);
 		
 	}
@@ -84,6 +86,38 @@ public class GameBoard extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+//		this.repaint();
+		char moveInput = e.getKeyChar();
+		if(moveInput == 'a' || moveInput == 'A') {
+			UnitsProcessor.moveLeft(armyUnits, gameBoard);
+		}
+		if(moveInput == 'd' || moveInput == 'D') {
+			UnitsProcessor.moveRight(armyUnits, gameBoard);
+		}
+		if(moveInput == 'w' || moveInput == 'W') {
+			UnitsProcessor.moveUp(armyUnits, gameBoard);
+		}
+		if(moveInput == 's' || moveInput == 'S') {
+			UnitsProcessor.moveDown(armyUnits, gameBoard);
+		}
+		this.repaint();
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
