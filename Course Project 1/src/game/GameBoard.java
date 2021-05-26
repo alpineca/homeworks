@@ -24,14 +24,13 @@ import processors.BuildProcessor;
 import processors.MoveProcessor;
 import processors.UnitsProcessor;
 
-public class GameBoard extends JPanel implements KeyListener, MouseListener {
+public class GameBoard extends JPanel implements KeyListener{
 	
 	GameBoardObject[][] gameBoard;
 	ArrayList<GameBoardObject> armyUnits = new ArrayList<>();
 
 	public GameBoard() {
 		this.bootstrap();
-//		this.addMouseListener(null);
 	}
 	
 	private void bootstrap() {
@@ -62,7 +61,6 @@ public class GameBoard extends JPanel implements KeyListener, MouseListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-//		this.repaint();
 		char moveInput = e.getKeyChar();
 		if(moveInput == 'a' || moveInput == 'A') {
 			UnitsProcessor.moveLeft(armyUnits, gameBoard);
@@ -91,37 +89,6 @@ public class GameBoard extends JPanel implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		System.out.println(this.getClass().getSimpleName());
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 
 }
