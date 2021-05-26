@@ -14,9 +14,19 @@ public class Fisherman extends ArmyUnit {
 	private static Color borderColor 		= Color.DARK_GRAY;
 	private static String identificator 	= "4";
 	
-	public Fisherman(int row, int col) {
-		super(row, col, color, identificator);
-		// TODO Auto-generated constructor stub
+	public Fisherman(int row, int col, int index) {
+		super(row, col, color, identificator, index);
+	}
+
+	@Override
+	public void setIndex(int index) {
+		this.index = index;
+		
+	}
+
+	@Override
+	public int getIndex() {
+		return this.index;
 	}
 
 }

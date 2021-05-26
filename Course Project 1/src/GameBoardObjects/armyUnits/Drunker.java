@@ -11,9 +11,23 @@ import interfaces.GameConfig;
 public class Drunker extends ArmyUnit {
 	private static Color color 				= Color.YELLOW;
 	private static String identificator 	= "3";
+	private int index;
+
 	
-	public Drunker(int row, int col) {
-		super(row, col, color, identificator);
+	public Drunker(int row, int col, int index) {
+		super(row, col, color, identificator, index);
+	}
+	
+
+	@Override
+	public void setIndex(int index) {
+		this.index = index;
+		
+	}
+
+	@Override
+	public int getIndex() {
+		return this.index;
 	}
 
 }

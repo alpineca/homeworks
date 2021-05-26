@@ -8,13 +8,15 @@ import interfaces.GameConfig;
 
 public abstract class ArmyUnit extends GameBoardObject{
 	protected String identificator;
+	protected int index;
 //	protected Color color;
 //	protected Color borderColor;
 	
-	public ArmyUnit(int row, int col, Color color, String identificator) {
+	public ArmyUnit(int row, int col, Color color, String identificator, int index) {
 		super(row, col, color);
 		this.identificator = identificator;
 		this.color = color;
+		this.index = index;
 	}
 	
 	public int getRow() {
@@ -39,8 +41,10 @@ public abstract class ArmyUnit extends GameBoardObject{
 		int tileX = this.col * GameConfig.tileSize; 
 		int tileY = this.row * GameConfig.tileSize;
 		
-		int placementCoefficientX = (GameConfig.tileSize / 2) - 5;
-		int placementCoefficientY = (GameConfig.tileSize / 2) + 5;
+		int placementCoefficientX = (GameConfig.tileSize / 2) - 10;
+		int placementCoefficientY = (GameConfig.tileSize / 2) + 7;
+
+		String unitInfo = this.index + this.identificator;
 		
 		g.setColor(this.color);
 		g.fillRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
@@ -49,8 +53,11 @@ public abstract class ArmyUnit extends GameBoardObject{
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("", Font.ITALIC, 20));
-		g.drawString(this.identificator, tileX + placementCoefficientX, tileY  + placementCoefficientY);
+		g.drawString(unitInfo, tileX + placementCoefficientX, tileY  + placementCoefficientY);
 		
 	}
+
+	public abstract void setIndex(int index);
+	public abstract int getIndex();
 
 }
