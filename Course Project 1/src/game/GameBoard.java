@@ -24,13 +24,14 @@ import processors.BuildProcessor;
 import processors.MoveProcessor;
 import processors.UnitsProcessor;
 
-public class GameBoard extends JPanel implements MouseListener, KeyListener {
+public class GameBoard extends JPanel implements KeyListener, MouseListener {
 	
 	GameBoardObject[][] gameBoard;
 	ArrayList<GameBoardObject> armyUnits = new ArrayList<>();
 
 	public GameBoard() {
 		this.bootstrap();
+//		this.addMouseListener(null);
 	}
 	
 	private void bootstrap() {
@@ -57,37 +58,6 @@ public class GameBoard extends JPanel implements MouseListener, KeyListener {
 				this.gameBoard[row][col].render(g);;
 			}
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		this.bootstrap();
-		this.repaint();
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -118,6 +88,36 @@ public class GameBoard extends JPanel implements MouseListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println(this.getClass().getSimpleName());
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

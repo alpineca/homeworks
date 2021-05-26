@@ -34,6 +34,22 @@ public class UnitsProcessor {
 		armyUnits.add(gameBoard[14][14]);
 	}
 	
+	public static void focus(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
+		for(int i = 0; i < armyUnits.size(); i++) {
+			GameBoardObject unit = armyUnits.get(i);
+			if(!(unit.getColor().equals(Color.RED))) {
+				unit.setColor(Color.RED);
+				gameBoard[unit.getRow()][unit.getCol()].setColor(Color.RED);
+				armyUnits.set(i, unit);
+			}
+			else if(unit.getColor().equals(Color.RED)){
+				unit.setColor(Color.GREEN);
+				gameBoard[unit.getRow()][unit.getCol()].setColor(Color.GREEN);
+				armyUnits.set(i, unit);
+			}
+		}
+	}
+	
 	public static void moveLeft(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
 		
 		
@@ -217,12 +233,7 @@ public class UnitsProcessor {
 		armyUnits.set(3, armyForth);
 		
 		
-	}
 	
-	private GameBoardObject teramorf(int row, int col, GameBoardObject[][] gameBoard, GameBoardObject oldInstance, GameBoardObject newInstance) {
-		if(gameBoard[row][col] instanceof Building) {
-			
-		}
 	}
 
 }

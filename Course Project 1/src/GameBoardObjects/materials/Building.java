@@ -2,6 +2,7 @@ package GameBoardObjects.materials;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import GameBoardObjects.Material;
 import interfaces.GameConfig;

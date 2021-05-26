@@ -2,12 +2,12 @@ package GameBoardObjects.materials;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import GameBoardObjects.Material;
 import interfaces.GameConfig;
 
 public class Ground extends Material{
-//	private static Color color;
 	private static Color color = Color.BLACK;
 	
 	public Ground(int row, int col) {
@@ -21,9 +21,10 @@ public class Ground extends Material{
 		
 		g.setColor(this.color);
 		g.fillRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(this.borderColor);
 		g.drawRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
 		
 	}
+
 
 }
