@@ -21,7 +21,6 @@ import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
 import interfaces.GameConfig;
 import processors.BuildProcessor;
-import processors.MoveProcessor;
 import processors.UnitsProcessor;
 
 public class GameBoard extends JPanel implements KeyListener{

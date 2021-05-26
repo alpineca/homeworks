@@ -1,10 +1,12 @@
 package processors;
 
 import java.awt.Color;
+import java.io.Console;
 import java.util.Random;
 
 import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.materials.Building;
+import game.GameBoard;
 import interfaces.GameConfig;
 
 public class BuildProcessor {
@@ -77,35 +79,46 @@ public class BuildProcessor {
 	}
 
 	private static void createSmallBuilding(int row, int col, GameBoardObject[][] gameBoard) {
-		Color color = Color.GREEN;
-		
-		gameBoard[row][col] 			= new Building(row, col, color);
-		gameBoard[row][col + 1] 		= new Building(row, col + 1, color);
-		gameBoard[row + 1][col] 		= new Building(row + 1, col, color);
-		gameBoard[row + 1][col + 1] 	= new Building(row + 1, col + 1, color);
+		Color color = GameConfig.smallBuildingColor;
+
+		for(int i = 0; i < GameConfig.smallBuildingRows; i++){
+			for(int j = 0; j < GameConfig.smallBuildingCols; j++){
+				gameBoard[row + i][col + j] = new Building(row + i, col + j, true, color);
+			}
+		}
 	}
 	private static void createMiddleBuilding(int row, int col, GameBoardObject[][] gameBoard) {
-		Color color = Color.BLUE;
+		Color color = Color.ORANGE;
 		
-		gameBoard[row][col] 			= new Building(row, col, color);
-		gameBoard[row][col + 1] 		= new Building(row, col + 1, color);
-		gameBoard[row][col + 2] 		= new Building(row, col + 2, color);
-		gameBoard[row + 1][col] 		= new Building(row + 1, col, color);
-		gameBoard[row + 1][col + 1] 	= new Building(row + 1, col + 1, color);
-		gameBoard[row + 1][col + 2] 	= new Building(row + 1, col + 2, color);
+		for(int i = 0; i < GameConfig.middleBuildingRows; i++){
+			for(int j = 0; j < GameConfig.middleBuildingCols; j++){
+				gameBoard[row + i][col + j] = new Building(row + i, col + j, color);
+
+				if((i == 0 && j == 1) || (i == 1 && j == 1)){
+					gameBoard[row + i][col + j] = new Building(row + i, col + j, color, false);
+				} else{
+					gameBoard[row + i][col + j] = new Building(row + i, col + j, true, color);
+				}
+
+			}
+		}
 	}
 	private static void createLargeBuilding(int row, int col, GameBoardObject[][] gameBoard) {
-		Color color = Color.MAGENTA;
+		Color color = GameConfig.largeBuildingColor;
 		
-		gameBoard[row][col] 			= new Building(row, col, color);
-		gameBoard[row][col + 1] 		= new Building(row, col + 1, color);
-		gameBoard[row][col + 2] 		= new Building(row, col + 2, color);
-		gameBoard[row + 1][col] 		= new Building(row + 1, col, color);
-		gameBoard[row + 1][col + 1] 	= new Building(row + 1, col + 1, color);
-		gameBoard[row + 1][col + 2] 	= new Building(row + 1, col + 2, color);
-		gameBoard[row + 2][col] 		= new Building(row + 2, col, color);
-		gameBoard[row + 2][col + 1] 	= new Building(row + 2, col + 1, color);
-		gameBoard[row + 2][col + 2] 	= new Building(row + 2, col + 2, color);
+		for(int i = 0; i < GameConfig.largeBuildingRows; i++){
+			for(int j = 0; j < GameConfig.largeBuildingCols; j++){
+				boolean columnFirstRow 		= i == 0 && (j == 0 || j == 2); 
+				boolean columnSeccondRow 	= i == 1 && j == 1;
+				boolean columnThirdRow 		= i == 2 && (j == 0 || j == 2);
+
+				if(columnFirstRow || columnSeccondRow || columnThirdRow){
+					gameBoard[row + i][col + j] = new Building(row + i, col + j, true, color);
+				} else{
+					gameBoard[row + i][col + j] = new Building(row + i, col + j, color, false);
+				}
+			}
+		}
 	}
 	
 	private static int rand(int randBound) {

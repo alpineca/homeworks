@@ -2,10 +2,6 @@ package processors;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-
-import javax.management.openmbean.TabularData;
 
 import GameBoardObjects.ArmyUnit;
 import GameBoardObjects.GameBoardObject;
@@ -13,9 +9,7 @@ import GameBoardObjects.armyUnits.Drunker;
 import GameBoardObjects.armyUnits.Fisherman;
 import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
-import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
-import game.GameBoard;
 
 public class UnitsProcessor {
 	
@@ -211,11 +205,7 @@ public class UnitsProcessor {
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
-		
-		if(gameBoard[destRow][destCol] instanceof Building) {
-			Color color = gameBoard[destRow][destCol].getColor();
-			afterUnits = new Building(armyForthRow, armyForthCol, color);
-		}
+
 		gameBoard[destRow][destCol] = gameBoard[armyFirstRow][armyFirstCol];
 		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
 		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];

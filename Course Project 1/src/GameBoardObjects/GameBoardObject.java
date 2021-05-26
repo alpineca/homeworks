@@ -35,6 +35,10 @@ public abstract class GameBoardObject{
 		return color;
 	}
 
+	public String colorToString(){
+		return getColor().toString();
+	}
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -53,6 +57,8 @@ public abstract class GameBoardObject{
 	public GameBoardObject getInstance() {
 		return this;
 	}
+
+	
 	
 	public abstract void render(Graphics g);
 	
