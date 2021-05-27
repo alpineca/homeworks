@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Material extends GameBoardObject{
-	public Material(int row, int col, Color color) {
+	protected Material(int row, int col, Color color) {
 		super(row, col, color);
 	}
 

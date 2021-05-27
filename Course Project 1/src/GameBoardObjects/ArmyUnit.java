@@ -9,10 +9,8 @@ import interfaces.GameConfig;
 public abstract class ArmyUnit extends GameBoardObject{
 	protected String identificator;
 	protected int index;
-//	protected Color color;
-//	protected Color borderColor;
 	
-	public ArmyUnit(int row, int col, Color color, String identificator, int index) {
+	protected ArmyUnit(int row, int col, Color color, String identificator, int index) {
 		super(row, col, color);
 		this.identificator = identificator;
 		this.color = color;

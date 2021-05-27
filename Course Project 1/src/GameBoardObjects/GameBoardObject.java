@@ -10,7 +10,7 @@ public abstract class GameBoardObject{
 	protected Color borderColor = Color.DARK_GRAY;
 	protected GameBoardObject element;
 	
-	public GameBoardObject(int row, int col, Color color) {
+	protected GameBoardObject(int row, int col, Color color) {
 		this.row 		= row;
 		this.col 		= col;
 	}

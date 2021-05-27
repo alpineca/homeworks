@@ -10,6 +10,7 @@ import GameBoardObjects.armyUnits.Fisherman;
 import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
 import GameBoardObjects.materials.Ground;
+import interfaces.GameConfig;
 
 public class UnitsProcessor {
 	
@@ -45,13 +46,12 @@ public class UnitsProcessor {
 	}
 	
 	public static void moveLeft(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
-		
-		
-		
 		GameBoardObject armyFirst 	= armyUnits.get(0);
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
 		GameBoardObject armyForth 	= armyUnits.get(3);
+
+		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
 		
 		int armyFirstRow = armyFirst.getRow();
 		int armyFirstCol = armyFirst.getCol();
@@ -69,6 +69,9 @@ public class UnitsProcessor {
 		int destCol = armyFirstCol - 1;
 		
 		//First
+		if(destCol < 0 && isDrunkerOnboard){
+			destCol = GameConfig.cols - 1;
+		}
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
@@ -95,6 +98,8 @@ public class UnitsProcessor {
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
 		GameBoardObject armyForth 	= armyUnits.get(3);
+
+		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
 		
 		int armyFirstRow = armyFirst.getRow();
 		int armyFirstCol = armyFirst.getCol();
@@ -112,6 +117,10 @@ public class UnitsProcessor {
 		int destCol = armyFirstCol + 1;
 		
 		//First
+		if(destCol > (GameConfig.cols - 1) && isDrunkerOnboard){
+			destCol = 0;
+		}
+
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
@@ -139,6 +148,8 @@ public class UnitsProcessor {
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
 		GameBoardObject armyForth 	= armyUnits.get(3);
+
+		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
 		
 		int armyFirstRow = armyFirst.getRow();
 		int armyFirstCol = armyFirst.getCol();
@@ -156,6 +167,10 @@ public class UnitsProcessor {
 		int destCol = armyFirstCol;
 		
 		//First
+		if(destRow < 0 && isDrunkerOnboard){
+			destRow = GameConfig.rows - 1;
+		}
+
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
@@ -183,6 +198,8 @@ public class UnitsProcessor {
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
 		GameBoardObject armyForth 	= armyUnits.get(3);
+
+		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
 	
 		int armyFirstRow = armyFirst.getRow();
 		int armyFirstCol = armyFirst.getCol();
@@ -202,6 +219,10 @@ public class UnitsProcessor {
 		GameBoardObject afterUnits  = new Ground(armyForthRow, armyForthCol);
 		
 		//First
+		if(destRow > (GameConfig.rows - 1) && isDrunkerOnboard){
+			destRow = 0;
+		}
+
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
@@ -224,6 +245,16 @@ public class UnitsProcessor {
 		
 		
 	
+	}
+
+	private static boolean checkForDrunker(ArrayList<GameBoardObject> armyUnits){
+		
+		for(int i = 0; i < armyUnits.size(); i++){
+			if(armyUnits.get(i) instanceof Drunker){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

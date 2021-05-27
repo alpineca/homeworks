@@ -92,7 +92,6 @@ public class BuildProcessor {
 		
 		for(int i = 0; i < GameConfig.middleBuildingRows; i++){
 			for(int j = 0; j < GameConfig.middleBuildingCols; j++){
-				gameBoard[row + i][col + j] = new Building(row + i, col + j, color);
 
 				if((i == 0 && j == 1) || (i == 1 && j == 1)){
 					gameBoard[row + i][col + j] = new Building(row + i, col + j, color, false);
