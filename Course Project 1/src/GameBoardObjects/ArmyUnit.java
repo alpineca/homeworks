@@ -7,10 +7,10 @@ import java.awt.Graphics;
 import interfaces.GameConfig;
 
 public abstract class ArmyUnit extends GameBoardObject{
-	protected String identificator;
+	protected int identificator;
 	protected int index;
 	
-	protected ArmyUnit(int row, int col, Color color, String identificator, int index) {
+	protected ArmyUnit(int row, int col, Color color, int identificator, int index) {
 		super(row, col, color);
 		this.identificator = identificator;
 		this.color = color;
@@ -42,7 +42,7 @@ public abstract class ArmyUnit extends GameBoardObject{
 		int placementCoefficientX = (GameConfig.tileSize / 2) - 10;
 		int placementCoefficientY = (GameConfig.tileSize / 2) + 7;
 
-		String unitInfo = this.index + this.identificator;
+		String unitInfo = this.index + "" + this.identificator;
 		
 		g.setColor(this.color);
 		g.fillRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
@@ -57,5 +57,6 @@ public abstract class ArmyUnit extends GameBoardObject{
 
 	public abstract void setIndex(int index);
 	public abstract int getIndex();
+	public abstract int getIdentificator();
 
 }

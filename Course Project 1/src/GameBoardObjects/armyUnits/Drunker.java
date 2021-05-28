@@ -10,7 +10,7 @@ import interfaces.GameConfig;
 
 public class Drunker extends ArmyUnit {
 	private static Color color 				= Color.YELLOW;
-	private static String identificator 	= "3";
+	private static int identificator 		= 3;
 	private int index;
 
 	
@@ -28,6 +28,9 @@ public class Drunker extends ArmyUnit {
 	@Override
 	public int getIndex() {
 		return this.index;
+	}
+	public int getIdentificator() {
+		return this.identificator;
 	}
 
 }

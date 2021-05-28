@@ -12,6 +12,7 @@ public class Building extends Material{
 	private Color color;
 	private boolean isPassable 	= true;
 	private boolean isColumn 	= false;
+	private String infoString = "";
 	public Building(int row, int col, Color color) {
 		super(row, col, color);
 		this.color = color;
@@ -29,6 +30,10 @@ public class Building extends Material{
 		this.isPassable = isPassable;
 	}
 
+	public void setInfoString(String infoString){
+		this.infoString = infoString;
+	}
+
 	@Override
 	public void render(Graphics g) {
 		int tileX = this.col * GameConfig.tileSize; 
@@ -42,10 +47,14 @@ public class Building extends Material{
 		g.setColor(Color.DARK_GRAY);
 		g.drawRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
 
-		if(isColumn == true){
+		if(this.isColumn == true && this.infoString.isEmpty()){
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("", Font.ITALIC, 20));
 			g.drawString("X", tileX + placementCoefficientX, tileY  + placementCoefficientY);
+		}else{
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("", Font.ITALIC, 20));
+			g.drawString(this.infoString, tileX + placementCoefficientX, tileY  + placementCoefficientY);
 		}
 		
 	}

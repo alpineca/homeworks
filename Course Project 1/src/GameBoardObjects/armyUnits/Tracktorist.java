@@ -12,7 +12,7 @@ public class Tracktorist extends ArmyUnit {
 
 
 	private static Color color 				= Color.RED;
-	private static String identificator 	= "1";
+	private static int identificator 		= 1;
 	private int index;
 	
 	public Tracktorist(int row, int col, int index) {
@@ -30,6 +30,11 @@ public class Tracktorist extends ArmyUnit {
 	@Override
 	public int getIndex() {
 		return this.index;
+	}
+
+	@Override
+	public int getIdentificator() {
+		return this.identificator;
 	}
 
 

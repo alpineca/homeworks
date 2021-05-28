@@ -9,10 +9,13 @@ import GameBoardObjects.armyUnits.Drunker;
 import GameBoardObjects.armyUnits.Fisherman;
 import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
+import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
 import interfaces.GameConfig;
 
 public class UnitsProcessor {
+
+	private static ArrayList<GameBoardObject> overBuilding = new ArrayList<>();
 	
 	
 	public static void spawnArmyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits) {
@@ -29,23 +32,7 @@ public class UnitsProcessor {
 		armyUnits.add(gameBoard[14][14]);
 	}
 	
-	public static void focus(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
-		for(int i = 0; i < armyUnits.size(); i++) {
-			GameBoardObject unit = armyUnits.get(i);
-			if(!(unit.getColor().equals(Color.RED))) {
-				unit.setColor(Color.RED);
-				gameBoard[unit.getRow()][unit.getCol()].setColor(Color.RED);
-				armyUnits.set(i, unit);
-			}
-			else if(unit.getColor().equals(Color.RED)){
-				unit.setColor(Color.GREEN);
-				gameBoard[unit.getRow()][unit.getCol()].setColor(Color.GREEN);
-				armyUnits.set(i, unit);
-			}
-		}
-	}
-	
-	public static void moveLeft(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
+	public static void moveLeft(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		GameBoardObject armyFirst 	= armyUnits.get(0);
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
@@ -75,11 +62,13 @@ public class UnitsProcessor {
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
+
 		gameBoard[destRow][destCol] = gameBoard[armyFirstRow][armyFirstCol];
 		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
 		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
 		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = new Ground(armyForthRow, armyForthCol);
+		
+		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
 		
 		armyForth.setRowCol(armyThirdRow, armyThirdCol);
 		armyThird.setRowCol(armySeccondRow, armySeccondCol);
@@ -93,7 +82,7 @@ public class UnitsProcessor {
 
 	}
 	
-	public static void moveRight(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
+	public static void moveRight(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		GameBoardObject armyFirst 	= armyUnits.get(0);
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
@@ -128,7 +117,7 @@ public class UnitsProcessor {
 		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
 		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
 		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = new Ground(armyForthRow, armyForthCol);
+		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
 		
 		armyForth.setRowCol(armyThirdRow, armyThirdCol);
 		armyThird.setRowCol(armySeccondRow, armySeccondCol);
@@ -143,7 +132,7 @@ public class UnitsProcessor {
 		
 	}
 	
-	public static void moveUp(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
+	public static void moveUp(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		GameBoardObject armyFirst 	= armyUnits.get(0);
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
@@ -178,7 +167,7 @@ public class UnitsProcessor {
 		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
 		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
 		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = new Ground(armyForthRow, armyForthCol);
+		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
 		
 		armyForth.setRowCol(armyThirdRow, armyThirdCol);
 		armyThird.setRowCol(armySeccondRow, armySeccondCol);
@@ -193,7 +182,7 @@ public class UnitsProcessor {
 		
 	}
 	
-	public static void moveDown(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard) {
+	public static void moveDown(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		GameBoardObject armyFirst 	= armyUnits.get(0);
 		GameBoardObject armySeccond	= armyUnits.get(1);
 		GameBoardObject armyThird 	= armyUnits.get(2);
@@ -231,7 +220,7 @@ public class UnitsProcessor {
 		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
 		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
 		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = afterUnits;
+		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
 		
 		armyForth.setRowCol(armyThirdRow, armyThirdCol);
 		armyThird.setRowCol(armySeccondRow, armySeccondCol);
@@ -255,6 +244,15 @@ public class UnitsProcessor {
 			}
 		}
 		return false;
+	}
+
+	private static GameBoardObject teramorf(int row, int col, GameBoardObject newElement, ArrayList<GameBoardObject> buildings){
+		for(GameBoardObject element : buildings){
+			if(element.getRow() == row && element.getCol() == col){
+				return element;
+			}
+		}
+		return newElement;
 	}
 
 }

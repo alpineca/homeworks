@@ -1,24 +1,12 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JPanel;
-
-import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.GameBoardObject;
-import GameBoardObjects.armyUnits.Drunker;
-import GameBoardObjects.armyUnits.Fisherman;
-import GameBoardObjects.armyUnits.RockTrower;
-import GameBoardObjects.armyUnits.Tracktorist;
 import interfaces.GameConfig;
 import processors.BuildProcessor;
 import processors.UnitsProcessor;
@@ -27,6 +15,7 @@ public class GameBoard extends JPanel implements KeyListener{
 	
 	GameBoardObject[][] gameBoard;
 	ArrayList<GameBoardObject> armyUnits = new ArrayList<>();
+	ArrayList<GameBoardObject> buildings = new ArrayList<>();
 
 	public GameBoard() {
 		this.bootstrap();
@@ -43,7 +32,7 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 		
 		UnitsProcessor.spawnArmyUnits(gameBoard, armyUnits);
-		BuildProcessor.spawnBuildings(gameBoard);
+		BuildProcessor.spawnBuildings(gameBoard, buildings);
 		
 	}
 	
@@ -53,7 +42,7 @@ public class GameBoard extends JPanel implements KeyListener{
 		
 		for(int row = 0; row < GameConfig.rows; row++) {
 			for(int col = 0; col < GameConfig.cols; col++) {
-				this.gameBoard[row][col].render(g);;
+				this.gameBoard[row][col].render(g);
 			}
 		}
 	}
@@ -62,16 +51,16 @@ public class GameBoard extends JPanel implements KeyListener{
 	public void keyTyped(KeyEvent e) {
 		char moveInput = e.getKeyChar();
 		if(moveInput == 'a' || moveInput == 'A') {
-			UnitsProcessor.moveLeft(armyUnits, gameBoard);
+			UnitsProcessor.moveLeft(armyUnits, gameBoard, buildings);
 		}
 		if(moveInput == 'd' || moveInput == 'D') {
-			UnitsProcessor.moveRight(armyUnits, gameBoard);
+			UnitsProcessor.moveRight(armyUnits, gameBoard, buildings);
 		}
 		if(moveInput == 'w' || moveInput == 'W') {
-			UnitsProcessor.moveUp(armyUnits, gameBoard);
+			UnitsProcessor.moveUp(armyUnits, gameBoard, buildings);
 		}
 		if(moveInput == 's' || moveInput == 'S') {
-			UnitsProcessor.moveDown(armyUnits, gameBoard);
+			UnitsProcessor.moveDown(armyUnits, gameBoard, buildings);
 		}
 		this.repaint();
 		

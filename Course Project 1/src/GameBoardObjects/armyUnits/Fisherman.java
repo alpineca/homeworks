@@ -12,7 +12,7 @@ public class Fisherman extends ArmyUnit {
 
 	private static Color color 				= Color.PINK;
 	private static Color borderColor 		= Color.DARK_GRAY;
-	private static String identificator 	= "4";
+	private static int identificator 		= 4;
 	
 	public Fisherman(int row, int col, int index) {
 		super(row, col, color, identificator, index);
@@ -27,6 +27,11 @@ public class Fisherman extends ArmyUnit {
 	@Override
 	public int getIndex() {
 		return this.index;
+	}
+
+	@Override
+	public int getIdentificator() {
+		return this.identificator;
 	}
 
 }

@@ -13,7 +13,7 @@ public class RockTrower extends ArmyUnit {
 
 	private static Color color 				= Color.ORANGE;
 	private static Color borderColor 		= Color.DARK_GRAY;
-	private static String identificator 	= "2";
+	private static int identificator 		= 2;
 	private int index;
 	
 	public RockTrower(int row, int col, int index) {
@@ -30,6 +30,11 @@ public class RockTrower extends ArmyUnit {
 	@Override
 	public int getIndex() {
 		return this.index;
+	}
+
+	@Override
+	public int getIdentificator() {
+		return this.identificator;
 	}
 
 	
