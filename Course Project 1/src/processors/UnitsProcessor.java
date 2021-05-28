@@ -2,6 +2,7 @@ package processors;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 import GameBoardObjects.ArmyUnit;
 import GameBoardObjects.GameBoardObject;
@@ -9,12 +10,13 @@ import GameBoardObjects.armyUnits.Drunker;
 import GameBoardObjects.armyUnits.Fisherman;
 import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
+import GameBoardObjects.enemys.Petkan;
 import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
 import interfaces.GameConfig;
 
 public class UnitsProcessor {
-
+	
 	private static ArrayList<GameBoardObject> overBuilding = new ArrayList<>();
 	
 	
@@ -31,7 +33,22 @@ public class UnitsProcessor {
 		gameBoard[14][14] = new Fisherman(14, 14, 4);
 		armyUnits.add(gameBoard[14][14]);
 	}
-	
+	public static void spawnEnemyUnits(GameBoardObject[][] gameBoard) {
+		boolean isEmptyField = false;
+		int row, col;
+
+		while(isEmptyField == false){
+			row = rand(GameConfig.rows);
+			col = rand(GameConfig.cols);
+
+			if(gameBoard[row][col] instanceof Ground){
+				isEmptyField = true;
+				gameBoard[row][col] = new Petkan(row, col, Color.WHITE);
+			}
+		}
+
+	}
+
 	public static void moveLeft(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		GameBoardObject armyFirst 	= armyUnits.get(0);
 		GameBoardObject armySeccond	= armyUnits.get(1);
@@ -254,5 +271,12 @@ public class UnitsProcessor {
 		}
 		return newElement;
 	}
+
+	private static int rand(int randBound) {
+		Random rand = new Random();
+		return rand.nextInt(randBound);
+		
+	}
+
 
 }

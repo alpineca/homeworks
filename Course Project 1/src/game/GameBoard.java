@@ -32,6 +32,7 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 		
 		UnitsProcessor.spawnArmyUnits(gameBoard, armyUnits);
+		UnitsProcessor.spawnEnemyUnits(gameBoard);
 		BuildProcessor.spawnBuildings(gameBoard, buildings);
 		
 	}
