@@ -20,7 +20,6 @@ public class GUI extends JFrame{
 		
 		GameBoard gameBoard = new GameBoard();
 		this.add(gameBoard);
-		// this.addMouseListener(gameBoard);
 		this.addKeyListener(gameBoard);
 		
 		this.setSize(GameConfig.WindowSizeX, GameConfig.WindowSizeY);

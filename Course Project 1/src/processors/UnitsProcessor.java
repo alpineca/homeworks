@@ -4,22 +4,22 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.lang.model.element.Element;
+
 import GameBoardObjects.ArmyUnit;
+import GameBoardObjects.Enemy;
 import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.armyUnits.Drunker;
 import GameBoardObjects.armyUnits.Fisherman;
 import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
 import GameBoardObjects.enemys.Petkan;
-import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
+import enums.Direction;
 import interfaces.GameConfig;
 
 public class UnitsProcessor {
-	
-	private static ArrayList<GameBoardObject> overBuilding = new ArrayList<>();
-	
-	
+		
 	public static void spawnArmyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits) {
 		gameBoard[14][11] = new Tracktorist(14, 11, 1);
 		armyUnits.add(gameBoard[14][11]);
@@ -33,7 +33,7 @@ public class UnitsProcessor {
 		gameBoard[14][14] = new Fisherman(14, 14, 4);
 		armyUnits.add(gameBoard[14][14]);
 	}
-	public static void spawnEnemyUnits(GameBoardObject[][] gameBoard) {
+	public static void spawnEnemyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> enemyUnits) {
 		boolean isEmptyField = false;
 		int row, col;
 
@@ -43,34 +43,53 @@ public class UnitsProcessor {
 
 			if(gameBoard[row][col] instanceof Ground){
 				isEmptyField = true;
-				gameBoard[row][col] = new Petkan(row, col, Color.WHITE);
+				GameBoardObject unit = new Petkan(row, col, Color.WHITE);
+				gameBoard[row][col] = unit;
+				enemyUnits.add(unit);
+				for(int i = row -1; i < row + 2; i++){
+					for(int j = col -1; j < col + 2; j++){
+						if((i != row && j != col) && (gameBoard[i][j] instanceof Ground)){
+							Ground element = (Ground) gameBoard[i][j];
+							element.trigger();
+						}
+					}
+				}
+
 			}
 		}
 
 	}
 
-	public static void moveLeft(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
-		GameBoardObject armyFirst 	= armyUnits.get(0);
-		GameBoardObject armySeccond	= armyUnits.get(1);
-		GameBoardObject armyThird 	= armyUnits.get(2);
-		GameBoardObject armyForth 	= armyUnits.get(3);
+	public static void move(Direction direction, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, ArrayList<GameBoardObject> buildings, ArrayList<GameBoardObject> enemyUnits) {
 
+		GameBoardObject[] armyUnit 	= new GameBoardObject[armyUnits.size()];
+		int[] armyUnitRow 			= new int[armyUnits.size()];
+		int[] armyUnitCol 			= new int[armyUnits.size()];
+
+		
 		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
 		
-		int armyFirstRow = armyFirst.getRow();
-		int armyFirstCol = armyFirst.getCol();
-		
-		int armySeccondRow = armySeccond.getRow();
-		int armySeccondCol = armySeccond.getCol();
-		
-		int armyThirdRow = armyThird.getRow();
-		int armyThirdCol = armyThird.getCol();
-		
-		int armyForthRow = armyForth.getRow();
-		int armyForthCol = armyForth.getCol();
-		
-		int destRow = armyFirstRow;
-		int destCol = armyFirstCol - 1;
+		for(int i = 0; i < armyUnits.size(); i++){
+			armyUnitRow[i] = armyUnits.get(i).getRow();
+			armyUnitCol[i] = armyUnits.get(i).getCol();
+			armyUnit[i]	   = armyUnits.get(i);
+		}
+
+		int destRow = armyUnitRow[0];
+		int destCol = armyUnitCol[0];
+
+		if(direction.equals(Direction.LEFT)){
+			destCol--;
+		}
+		if(direction.equals(Direction.RIGHT)){
+			destCol++;
+		}
+		if(direction.equals(Direction.UP)){
+			destRow--;
+		}
+		if(direction.equals(Direction.DOWN)){
+			destRow++;
+		}
 		
 		//First
 		if(destCol < 0 && isDrunkerOnboard){
@@ -79,180 +98,43 @@ public class UnitsProcessor {
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
-
-		gameBoard[destRow][destCol] = gameBoard[armyFirstRow][armyFirstCol];
-		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
-		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
-		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		
-		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
-		
-		armyForth.setRowCol(armyThirdRow, armyThirdCol);
-		armyThird.setRowCol(armySeccondRow, armySeccondCol);
-		armySeccond.setRowCol(armyFirstRow, armyFirstCol);
-		armyFirst.setRowCol(destRow, destCol);
-		
-		armyUnits.set(0, armyFirst);
-		armyUnits.set(1, armySeccond);
-		armyUnits.set(2, armyThird);
-		armyUnits.set(3, armyForth);
-
-	}
-	
-	public static void moveRight(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
-		GameBoardObject armyFirst 	= armyUnits.get(0);
-		GameBoardObject armySeccond	= armyUnits.get(1);
-		GameBoardObject armyThird 	= armyUnits.get(2);
-		GameBoardObject armyForth 	= armyUnits.get(3);
-
-		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
-		
-		int armyFirstRow = armyFirst.getRow();
-		int armyFirstCol = armyFirst.getCol();
-		
-		int armySeccondRow = armySeccond.getRow();
-		int armySeccondCol = armySeccond.getCol();
-		
-		int armyThirdRow = armyThird.getRow();
-		int armyThirdCol = armyThird.getCol();
-		
-		int armyForthRow = armyForth.getRow();
-		int armyForthCol = armyForth.getCol();
-		
-		int destRow = armyFirstRow;
-		int destCol = armyFirstCol + 1;
-		
-		//First
-		if(destCol > (GameConfig.cols - 1) && isDrunkerOnboard){
-			destCol = 0;
-		}
-
-		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
+		if(gameBoard[destRow][destCol] instanceof Enemy) {
 			return;
 		}
-		gameBoard[destRow][destCol] = gameBoard[armyFirstRow][armyFirstCol];
-		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
-		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
-		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
-		
-		armyForth.setRowCol(armyThirdRow, armyThirdCol);
-		armyThird.setRowCol(armySeccondRow, armySeccondCol);
-		armySeccond.setRowCol(armyFirstRow, armyFirstCol);
-		armyFirst.setRowCol(destRow, destCol);
-		
-		armyUnits.set(0, armyFirst);
-		armyUnits.set(1, armySeccond);
-		armyUnits.set(2, armyThird);
-		armyUnits.set(3, armyForth);
-		
-		
+		if((gameBoard[destRow][destCol] instanceof Ground)) {
+			Ground destTile =  (Ground) gameBoard[destRow][destCol];
+			if(destTile.getTrigger() == true){
+				Petkan enemy = (Petkan) enemyUnits.get(0);
+				enemy.trigger();
+			}
+		}
+
+		for(int i = 0; i < armyUnits.size(); i++){
+			if(i == 0){
+				gameBoard[destRow][destCol] = gameBoard[armyUnitRow[i]][armyUnitCol[i]];
+			}
+			if(i == armyUnits.size()-1){
+				gameBoard[armyUnitRow[i]][armyUnitCol[i]] = teramorf(armyUnitRow[i], armyUnitCol[i], new Ground(armyUnitRow[i], armyUnitCol[i]), buildings);
+
+			}else{
+				gameBoard[armyUnitRow[i]][armyUnitCol[i]] = gameBoard[armyUnitRow[i+1]][armyUnitCol[i+1]];
+			}
+
+		}
+		for(int i = armyUnits.size() -1; i >= 0; i--){
+			if(i==0){
+				armyUnit[i].setRowCol(destRow, destCol);
+			}else{
+				armyUnit[i].setRowCol(armyUnitRow[i-1], armyUnitCol[i-1]);
+			}
+		}
+
+		for(int i = 0; i< armyUnits.size(); i++){
+			armyUnits.set(i, armyUnit[i]);
+		}
+
 	}
 	
-	public static void moveUp(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
-		GameBoardObject armyFirst 	= armyUnits.get(0);
-		GameBoardObject armySeccond	= armyUnits.get(1);
-		GameBoardObject armyThird 	= armyUnits.get(2);
-		GameBoardObject armyForth 	= armyUnits.get(3);
-
-		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
-		
-		int armyFirstRow = armyFirst.getRow();
-		int armyFirstCol = armyFirst.getCol();
-		
-		int armySeccondRow = armySeccond.getRow();
-		int armySeccondCol = armySeccond.getCol();
-		
-		int armyThirdRow = armyThird.getRow();
-		int armyThirdCol = armyThird.getCol();
-		
-		int armyForthRow = armyForth.getRow();
-		int armyForthCol = armyForth.getCol();
-		
-		int destRow = armyFirstRow - 1;
-		int destCol = armyFirstCol;
-		
-		//First
-		if(destRow < 0 && isDrunkerOnboard){
-			destRow = GameConfig.rows - 1;
-		}
-
-		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
-			return;
-		}
-		gameBoard[destRow][destCol] = gameBoard[armyFirstRow][armyFirstCol];
-		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
-		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
-		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
-		
-		armyForth.setRowCol(armyThirdRow, armyThirdCol);
-		armyThird.setRowCol(armySeccondRow, armySeccondCol);
-		armySeccond.setRowCol(armyFirstRow, armyFirstCol);
-		armyFirst.setRowCol(destRow, destCol);
-		
-		armyUnits.set(0, armyFirst);
-		armyUnits.set(1, armySeccond);
-		armyUnits.set(2, armyThird);
-		armyUnits.set(3, armyForth);
-		
-		
-	}
-	
-	public static void moveDown(ArrayList<GameBoardObject> armyUnits, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
-		GameBoardObject armyFirst 	= armyUnits.get(0);
-		GameBoardObject armySeccond	= armyUnits.get(1);
-		GameBoardObject armyThird 	= armyUnits.get(2);
-		GameBoardObject armyForth 	= armyUnits.get(3);
-
-		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
-	
-		int armyFirstRow = armyFirst.getRow();
-		int armyFirstCol = armyFirst.getCol();
-		
-		int armySeccondRow = armySeccond.getRow();
-		int armySeccondCol = armySeccond.getCol();
-		
-		int armyThirdRow = armyThird.getRow();
-		int armyThirdCol = armyThird.getCol();
-		
-		int armyForthRow = armyForth.getRow();
-		int armyForthCol = armyForth.getCol();
-		
-		int destRow = armyFirstRow + 1;
-		int destCol = armyFirstCol;
-		
-		GameBoardObject afterUnits  = new Ground(armyForthRow, armyForthCol);
-		
-		//First
-		if(destRow > (GameConfig.rows - 1) && isDrunkerOnboard){
-			destRow = 0;
-		}
-
-		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
-			return;
-		}
-
-		gameBoard[destRow][destCol] = gameBoard[armyFirstRow][armyFirstCol];
-		gameBoard[armyFirstRow][armyFirstCol] = gameBoard[armySeccondRow][armySeccondCol];
-		gameBoard[armySeccondRow][armySeccondCol] = gameBoard[armyThirdRow][armyThirdCol];
-		gameBoard[armyThirdRow][armyThirdCol] = gameBoard[armyForthRow][armyForthCol];
-		gameBoard[armyForthRow][armyForthCol] = teramorf(armyForthRow, armyForthCol, new Ground(armyForthRow, armyForthCol), buildings);
-		
-		armyForth.setRowCol(armyThirdRow, armyThirdCol);
-		armyThird.setRowCol(armySeccondRow, armySeccondCol);
-		armySeccond.setRowCol(armyFirstRow, armyFirstCol);
-		armyFirst.setRowCol(destRow, destCol);
-		
-		armyUnits.set(0, armyFirst);
-		armyUnits.set(1, armySeccond);
-		armyUnits.set(2, armyThird);
-		armyUnits.set(3, armyForth);
-		
-		
-	
-	}
-
 	private static boolean checkForDrunker(ArrayList<GameBoardObject> armyUnits){
 		
 		for(int i = 0; i < armyUnits.size(); i++){
