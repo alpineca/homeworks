@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Font;
 
 import GameBoardObjects.Enemy;
+import GameBoardObjects.GameBoardObject;
+import GameBoardObjects.materials.Ground;
 import game.GameBoard;
 import interfaces.GameConfig;
 
@@ -55,6 +57,11 @@ public class Petkan extends Enemy{
 
 	public void fire(){
 		System.out.println("\n\nSHOTS FIRED\n\n");
+		GameBoardObject armyLeader = GameBoard.armyUnits.get(0);
+		if(GameBoard.armyUnits.size() == 1){
+			System.out.println("\n\nSHOTS FIRED\n\n");
+		}
+		GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
 		GameBoard.armyUnits.remove(0);
 	}
 

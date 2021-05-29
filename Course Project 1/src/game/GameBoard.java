@@ -15,7 +15,7 @@ import processors.UnitsProcessor;
 
 public class GameBoard extends JPanel implements KeyListener{
 	
-	protected static GameBoardObject[][] gameBoard;
+	public static GameBoardObject[][] gameBoard;
 	public static ArrayList<GameBoardObject> armyUnits 		= new ArrayList<>();
 	public static ArrayList<GameBoardObject> buildings 		= new ArrayList<>();
 	public static ArrayList<GameBoardObject> enemyUnits 	= new ArrayList<>();
@@ -107,7 +107,7 @@ public class GameBoard extends JPanel implements KeyListener{
 		} else if(fireCounter == 0){
 			Petkan enemy =  (Petkan) enemyUnits.get(0);
 			enemy.fire();
-			fireCounter = 1000;
+			fireCounter = 50;
 		}
 	}
 

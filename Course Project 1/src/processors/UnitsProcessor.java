@@ -46,13 +46,18 @@ public class UnitsProcessor {
 				GameBoardObject unit = new Petkan(row, col, Color.WHITE);
 				gameBoard[row][col] = unit;
 				enemyUnits.add(unit);
-				for(int i = row -1; i < row + 2; i++){
-					for(int j = col -1; j < col + 2; j++){
-						if((i != row && j != col) && (gameBoard[i][j] instanceof Ground)){
-							Ground element = (Ground) gameBoard[i][j];
-							element.trigger();
+
+				try {
+					for(int i = row -1; i < row + 2; i++){
+						for(int j = col -1; j < col + 2; j++){
+							if((i != row && j != col) && (gameBoard[i][j] instanceof Ground)){
+								Ground element = (Ground) gameBoard[i][j];
+								element.trigger();
+							}
 						}
 					}
+				} catch (Exception e) {
+					spawnEnemyUnits(gameBoard, enemyUnits);
 				}
 
 			}
@@ -80,21 +85,30 @@ public class UnitsProcessor {
 
 		if(direction.equals(Direction.LEFT)){
 			destCol--;
+
+			if(destCol < 0 && isDrunkerOnboard){
+				destCol = GameConfig.cols - 1;
+			}
 		}
 		if(direction.equals(Direction.RIGHT)){
 			destCol++;
+			if(destCol > 14 && isDrunkerOnboard){
+				destCol = 0;
+			}
 		}
 		if(direction.equals(Direction.UP)){
 			destRow--;
+			if(destRow < 0 && isDrunkerOnboard){
+				destRow = GameConfig.rows - 1;
+			}
 		}
 		if(direction.equals(Direction.DOWN)){
 			destRow++;
+			if(destRow > 14 && isDrunkerOnboard){
+				destRow = 0;
+			}
 		}
-		
-		//First
-		if(destCol < 0 && isDrunkerOnboard){
-			destCol = GameConfig.cols - 1;
-		}
+
 		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
 			return;
 		}
