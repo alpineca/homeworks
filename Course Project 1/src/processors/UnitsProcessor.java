@@ -21,13 +21,13 @@ import interfaces.GameConfig;
 public class UnitsProcessor {
 		
 	public static void spawnArmyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits) {
-		gameBoard[14][11] = new Tracktorist(14, 11, 1);
+		gameBoard[14][11] = new Drunker(14, 11, 1);
 		armyUnits.add(gameBoard[14][11]);
 		
 		gameBoard[14][12] = new RockTrower(14, 12, 2);
 		armyUnits.add(gameBoard[14][12]);
 		
-		gameBoard[14][13] = new Drunker(14, 13, 3);
+		gameBoard[14][13] = new Tracktorist(14, 13, 3);
 		armyUnits.add(gameBoard[14][13]);
 		
 		gameBoard[14][14] = new Fisherman(14, 14, 4);

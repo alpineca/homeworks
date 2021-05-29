@@ -59,7 +59,7 @@ public class Petkan extends Enemy{
 		System.out.println("\n\nSHOTS FIRED\n\n");
 		GameBoardObject armyLeader = GameBoard.armyUnits.get(0);
 		if(GameBoard.armyUnits.size() == 1){
-			System.out.println("\n\nSHOTS FIRED\n\n");
+			System.exit(0);
 		}
 		GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
 		GameBoard.armyUnits.remove(0);
