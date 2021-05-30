@@ -65,4 +65,10 @@ public class Building extends Material{
 	public Color getColor(){
 		return this.color;
 	}
+
+	@Override
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.lang.model.element.Element;
-
 import GameBoardObjects.ArmyUnit;
 import GameBoardObjects.Enemy;
 import GameBoardObjects.GameBoardObject;
@@ -33,6 +31,52 @@ public class UnitsProcessor {
 		gameBoard[14][14] = new Fisherman(14, 14, 4);
 		armyUnits.add(gameBoard[14][14]);
 	}
+
+	public static void swapUnit(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, GameBoardObject unitToMove) {
+		int unitIndex = 0;
+
+		while(unitIndex < armyUnits.size()){
+			GameBoardObject currentUnit = armyUnits.get(unitIndex);
+			if(unitToMove.equals(currentUnit)){
+				break;
+			}
+			unitIndex++;
+		}
+
+		if(unitIndex < (armyUnits.size() - 1)){
+			int nextUnitPos 				= unitIndex + 1;
+
+			GameBoardObject unitToMoveTemp 	= clone(armyUnits.get(unitIndex));
+			GameBoardObject nextUnit 		= clone(armyUnits.get(nextUnitPos));
+
+			int nextUnitRow 				= nextUnit.getRow();
+			int nextUnitCol 				= nextUnit.getCol();
+
+			int unitToMoveTempRow 			= unitToMoveTemp.getRow();
+			int unitToMoveTempCol 			= unitToMoveTemp.getCol();
+
+			unitToMove.setRow(nextUnitRow);
+			unitToMove.setCol(nextUnitCol);
+
+			nextUnit.setRow(unitToMoveTempRow);
+			nextUnit.setCol(unitToMoveTempCol);
+
+			armyUnits.set(nextUnitPos, unitToMove);
+			armyUnits.set(unitIndex, nextUnit);
+		}
+
+		for(int i = 0; i < armyUnits.size(); i++){
+			GameBoardObject unit = armyUnits.get(i);
+			unit.setIndex(i + 1);
+			int row = unit.getRow();
+			int col = unit.getCol();
+
+			gameBoard[row][col] = unit;
+
+		}
+			
+	}
+
 	public static void spawnEnemyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> enemyUnits) {
 		boolean isEmptyField = false;
 		int row, col;
@@ -172,6 +216,27 @@ public class UnitsProcessor {
 		Random rand = new Random();
 		return rand.nextInt(randBound);
 		
+	}
+
+	private static GameBoardObject clone(GameBoardObject unitToClone){
+		int row = unitToClone.getRow();
+		int col = unitToClone.getCol();
+		int index = unitToClone.getIndex();
+
+		if(unitToClone instanceof Drunker){
+			return new Drunker(row, col, index);
+		}
+		if(unitToClone instanceof Fisherman){
+			return new Fisherman(row, col, index);
+		}
+		if(unitToClone instanceof RockTrower){
+			return new RockTrower(row, col, index);
+		}
+		if(unitToClone instanceof Tracktorist){
+			return new Tracktorist(row, col, index);
+		}
+		return null;
+
 	}
 
 

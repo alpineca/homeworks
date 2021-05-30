@@ -19,12 +19,6 @@ public class Fisherman extends ArmyUnit {
 	}
 
 	@Override
-	public void setIndex(int index) {
-		this.index = index;
-		
-	}
-
-	@Override
 	public int getIndex() {
 		return this.index;
 	}

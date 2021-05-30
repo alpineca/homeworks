@@ -35,5 +35,11 @@ public class Ground extends Material{
 		return this.isTrigger;
 	}
 
+	@Override
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }

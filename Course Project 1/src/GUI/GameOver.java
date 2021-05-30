@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -9,27 +10,25 @@ import java.security.Key;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import game.GameBoard;
 import interfaces.GameConfig;
 
-public class GUI extends JFrame{
+public class GameOver extends JPanel{
 
-	public GUI() {
-		
-		GameBoard gameBoard = new GameBoard();
-		GameOver gameOver = new GameOver();
-		this.add(gameBoard);
-		this.addKeyListener(gameBoard);
+	public GameOver() {
+        Font font = new Font("", Font.ITALIC, 20);
+		JLabel endGameText = new JLabel();
+        this.add(endGameText);
 		
 		this.setSize(GameConfig.WindowSizeX, GameConfig.WindowSizeY);
+        this.setBackground(Color.BLACK);
 		this.setVisible(true);
-		this.setResizable(false);
-        this.setTitle(GameConfig.ProgramTitle);
         
         this.setLocation(0,0);
-		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 }

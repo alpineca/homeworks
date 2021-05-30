@@ -17,13 +17,6 @@ public class Drunker extends ArmyUnit {
 	public Drunker(int row, int col, int index) {
 		super(row, col, color, identificator, index);
 	}
-	
-
-	@Override
-	public void setIndex(int index) {
-		this.index = index;
-		
-	}
 
 	@Override
 	public int getIndex() {

@@ -19,13 +19,6 @@ public class RockTrower extends ArmyUnit {
 	public RockTrower(int row, int col, int index) {
 		super(row, col, color, identificator, index);
 	}
-	
-
-	@Override
-	public void setIndex(int index) {
-		this.index = index;
-		
-	}
 
 	@Override
 	public int getIndex() {

@@ -55,8 +55,12 @@ public abstract class ArmyUnit extends GameBoardObject{
 		
 	}
 
-	public abstract void setIndex(int index);
-	public abstract int getIndex();
+	public void setIndex(int index){
+		this.index = index;
+	}
+	public int getIndex(){
+		return this.index;
+	}
 	public abstract int getIdentificator();
 
 }

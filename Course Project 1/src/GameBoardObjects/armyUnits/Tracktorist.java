@@ -19,14 +19,6 @@ public class Tracktorist extends ArmyUnit {
 		super(row, col, color, identificator, index);
 	}
 
-	
-
-	@Override
-	public void setIndex(int index) {
-		this.index = index;
-		
-	}
-
 	@Override
 	public int getIndex() {
 		return this.index;

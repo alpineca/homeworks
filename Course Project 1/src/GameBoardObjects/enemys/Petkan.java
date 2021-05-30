@@ -65,6 +65,12 @@ public class Petkan extends Enemy{
 		GameBoard.armyUnits.remove(0);
 	}
 
+	@Override
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
     
 }
 
