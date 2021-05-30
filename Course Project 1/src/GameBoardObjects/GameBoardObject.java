@@ -60,7 +60,6 @@ public abstract class GameBoardObject{
 
 	
 	public abstract int getIndex();
-	public abstract void setIndex(int index);
 	public abstract void render(Graphics g);
 	
 	

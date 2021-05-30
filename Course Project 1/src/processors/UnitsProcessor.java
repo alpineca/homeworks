@@ -67,7 +67,7 @@ public class UnitsProcessor {
 
 		for(int i = 0; i < armyUnits.size(); i++){
 			GameBoardObject unit = armyUnits.get(i);
-			unit.setIndex(i + 1);
+			((ArmyUnit)unit).setIndex(i + 1);
 			int row = unit.getRow();
 			int col = unit.getCol();
 
@@ -87,12 +87,12 @@ public class UnitsProcessor {
 
 			if(gameBoard[row][col] instanceof Ground){
 				isEmptyField = true;
-				GameBoardObject unit = new Petkan(row, col, Color.WHITE);
+				GameBoardObject unit = new Petkan(row, col);
 				gameBoard[row][col] = unit;
 				enemyUnits.add(unit);
 
 				try {
-					for(int i = row -1; i < row + 2; i++){
+					for(int i = (row -1); i < (row + 2); i++){
 						for(int j = col -1; j < col + 2; j++){
 							if((i != row && j != col) && (gameBoard[i][j] instanceof Ground)){
 								Ground element = (Ground) gameBoard[i][j];
@@ -218,7 +218,7 @@ public class UnitsProcessor {
 		
 	}
 
-	private static GameBoardObject clone(GameBoardObject unitToClone){
+	public static GameBoardObject clone(GameBoardObject unitToClone){
 		int row = unitToClone.getRow();
 		int col = unitToClone.getCol();
 		int index = unitToClone.getIndex();
@@ -234,6 +234,9 @@ public class UnitsProcessor {
 		}
 		if(unitToClone instanceof Tracktorist){
 			return new Tracktorist(row, col, index);
+		}
+		if(unitToClone instanceof Petkan){
+			return new Petkan(row, col);
 		}
 		return null;
 

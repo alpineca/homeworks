@@ -12,13 +12,12 @@ import interfaces.GameConfig;
 
 public class Petkan extends Enemy{
 
-    protected Color color;
+    protected static Color color = Color.WHITE;
     protected String symbol = "$";
 	protected boolean isVisible = false;
 
-    public Petkan(int row, int col, Color color) {
+    public Petkan(int row, int col) {
         super(row, col, color);
-		this.color = color;
 
     }
 

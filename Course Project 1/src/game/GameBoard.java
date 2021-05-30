@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.JPanel;
 import GameBoardObjects.materials.Ground;
 import enums.Direction;
@@ -47,8 +49,10 @@ public class GameBoard extends JPanel implements KeyListener{
 	
 	public void makeMove() {
 		fireCountdown();
+		moveEnemy();
 		this.unitToMove = null;
 	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -59,11 +63,11 @@ public class GameBoard extends JPanel implements KeyListener{
 			}
 		}
 	}
-
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		keyActionProcessor(e.getKeyChar());
-				
+		
 		this.repaint();
 		
 	}
@@ -93,7 +97,7 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 	
 	private void keyActionProcessor(int keyCode) {
-
+		
 		if(keyCode == 'a' || keyCode == 'A') {
 			System.out.println("A");
 			UnitsProcessor.move(Direction.LEFT, gameBoard, armyUnits, buildings, enemyUnits);
@@ -127,7 +131,7 @@ public class GameBoard extends JPanel implements KeyListener{
 			fireCounter = fireCounter;
 		}
 	}
-
+	
 	private void fireCountdown(){
 		if(fireCounter != 0){
 			this.fireCounter--;
@@ -138,5 +142,59 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 	}
 
+	private static void moveEnemy(){
+		GameBoardObject enemy 		= enemyUnits.get(0);
+		GameBoardObject enemyTemp 	= UnitsProcessor.clone(enemy);
+		int enemyRow 				= enemy.getRow();
+		int enemyCol 				= enemy.getCol();
+		int direction 				= moveRandomDirection();
 
+		boolean isMoveLeftValid 	= ((enemyCol - 1) >= 0) && (gameBoard[enemyRow][enemyCol - 1] instanceof Ground);
+		boolean isMoveRightValid 	= ((enemyCol + 1) <= GameConfig.cols) && (gameBoard[enemyRow][enemyCol + 1] instanceof Ground);
+		boolean isMoveUpValid 		= ((enemyRow - 1) >= 0) && (gameBoard[enemyRow - 1][enemyCol] instanceof Ground);
+		boolean isMoveDownValid 	= ((enemyRow + 1) <= GameConfig.rows) && (gameBoard[enemyRow + 1][enemyCol] instanceof Ground);
+
+
+		//Move LEFT
+		if(direction == 1 && isMoveLeftValid){
+			enemy.setCol(enemyTemp.getCol() - 1);
+			gameBoard[enemyRow][enemyTemp.getCol() - 1] = enemy;
+			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+			return;
+		}
+		//Move RIGHT
+		if(direction == 2 && isMoveRightValid){
+			enemy.setCol(enemyTemp.getCol() + 1);
+			gameBoard[enemyRow][enemyTemp.getCol() + 1] = enemy;
+			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+			return;
+		}
+		//Move UP
+		if(direction == 3 && isMoveUpValid){
+			enemy.setRow(enemyTemp.getRow() - 1);
+			gameBoard[enemyTemp.getRow() - 1][enemy.getCol()] = enemy;
+			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+			return;
+		}
+		//Move DOWN
+		if(direction == 4 && isMoveDownValid){
+			enemy.setRow(enemyTemp.getRow() + 1);
+			gameBoard[enemyTemp.getRow() + 1][enemy.getCol()] = enemy;
+			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+			return;
+		} 
+		else{
+			moveEnemy();
+		}
+	}
+
+	private static int moveRandomDirection() {
+		Random rand = new Random();
+		int randDirection = rand.nextInt(4);
+		randDirection += 1;
+
+		return randDirection;
+	}
+	
+	
 }
