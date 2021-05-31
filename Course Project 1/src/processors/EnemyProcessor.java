@@ -48,7 +48,7 @@ public class EnemyProcessor {
             isMoveDownValid 	= ((enemyRow + 1) <= GameConfig.rows) && (gameBoard[enemyRow + 1][enemyCol] instanceof Ground);
             
         } catch (Exception e) {
-            
+			
         }
 
 
@@ -91,8 +91,8 @@ public class EnemyProcessor {
 	}
 
     private static void checkForArmyUnits(int row, int col, GameBoardObject[][] gameBoard, GameBoardObject enemy){
-        for(int i = (row -1); i < (row + 2); i++){
-            for(int j = col -1; j < col + 2; j++){
+        for(int i = (row -1); i <= (row + 1); i++){
+            for(int j = col -1; j <= col + 1; j++){
                 boolean isUnderRow = i < 0;
                 boolean isUnderCol = j < 0;
                 boolean isOverRow  = i > (GameConfig.rows - 1);
@@ -111,7 +111,6 @@ public class EnemyProcessor {
     }
 
     private static void trigger(GameBoardObject enemy) {
-        // GameBoardObject enemy = enemyUnits.get(0);
         ((Petkan)enemy).trigger();
     }
 
