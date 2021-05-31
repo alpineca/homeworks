@@ -1,6 +1,5 @@
 package processors;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -75,38 +74,6 @@ public class UnitsProcessor {
 
 		}
 			
-	}
-
-	public static void spawnEnemyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> enemyUnits) {
-		boolean isEmptyField = false;
-		int row, col;
-
-		while(isEmptyField == false){
-			row = rand(GameConfig.rows);
-			col = rand(GameConfig.cols);
-
-			if(gameBoard[row][col] instanceof Ground){
-				isEmptyField = true;
-				GameBoardObject unit = new Petkan(row, col);
-				gameBoard[row][col] = unit;
-				enemyUnits.add(unit);
-
-				try {
-					for(int i = (row -1); i < (row + 2); i++){
-						for(int j = col -1; j < col + 2; j++){
-							if((i != row && j != col) && (gameBoard[i][j] instanceof Ground)){
-								Ground element = (Ground) gameBoard[i][j];
-								element.trigger();
-							}
-						}
-					}
-				} catch (Exception e) {
-					spawnEnemyUnits(gameBoard, enemyUnits);
-				}
-
-			}
-		}
-
 	}
 
 	public static void move(Direction direction, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, ArrayList<GameBoardObject> buildings, ArrayList<GameBoardObject> enemyUnits) {
@@ -212,17 +179,12 @@ public class UnitsProcessor {
 		return newElement;
 	}
 
-	private static int rand(int randBound) {
-		Random rand = new Random();
-		return rand.nextInt(randBound);
-		
-	}
-
+	
 	public static GameBoardObject clone(GameBoardObject unitToClone){
 		int row = unitToClone.getRow();
 		int col = unitToClone.getCol();
 		int index = unitToClone.getIndex();
-
+		
 		if(unitToClone instanceof Drunker){
 			return new Drunker(row, col, index);
 		}
@@ -239,8 +201,13 @@ public class UnitsProcessor {
 			return new Petkan(row, col);
 		}
 		return null;
-
+		
 	}
-
+	
+	private static int rand(int randBound) {
+		Random rand = new Random();
+		return rand.nextInt(randBound);
+		
+	}
 
 }

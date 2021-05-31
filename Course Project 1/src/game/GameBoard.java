@@ -13,6 +13,7 @@ import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.enemys.Petkan;
 import interfaces.GameConfig;
 import processors.BuildProcessor;
+import processors.EnemyProcessor;
 import processors.UnitsProcessor;
 
 public class GameBoard extends JPanel implements KeyListener{
@@ -40,17 +41,18 @@ public class GameBoard extends JPanel implements KeyListener{
 			}
 		}
 		
-		UnitsProcessor.spawnArmyUnits(	gameBoard, armyUnits);
-		UnitsProcessor.spawnEnemyUnits(	gameBoard, enemyUnits);
 		BuildProcessor.spawnBuildings(	gameBoard, buildings);
+		UnitsProcessor.spawnArmyUnits(	gameBoard, armyUnits);
+		EnemyProcessor.spawnEnemyUnits(	gameBoard, enemyUnits);
 
 		
 	}
 	
 	public void makeMove() {
 		fireCountdown();
-		moveEnemy();
+		EnemyProcessor.moveEnemy(gameBoard, enemyUnits);
 		this.unitToMove = null;
+		this.repaint();
 	}
 	
 	@Override
@@ -142,59 +144,6 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 	}
 
-	private static void moveEnemy(){
-		GameBoardObject enemy 		= enemyUnits.get(0);
-		GameBoardObject enemyTemp 	= UnitsProcessor.clone(enemy);
-		int enemyRow 				= enemy.getRow();
-		int enemyCol 				= enemy.getCol();
-		int direction 				= moveRandomDirection();
-
-		boolean isMoveLeftValid 	= ((enemyCol - 1) >= 0) && (gameBoard[enemyRow][enemyCol - 1] instanceof Ground);
-		boolean isMoveRightValid 	= ((enemyCol + 1) <= GameConfig.cols) && (gameBoard[enemyRow][enemyCol + 1] instanceof Ground);
-		boolean isMoveUpValid 		= ((enemyRow - 1) >= 0) && (gameBoard[enemyRow - 1][enemyCol] instanceof Ground);
-		boolean isMoveDownValid 	= ((enemyRow + 1) <= GameConfig.rows) && (gameBoard[enemyRow + 1][enemyCol] instanceof Ground);
-
-
-		//Move LEFT
-		if(direction == 1 && isMoveLeftValid){
-			enemy.setCol(enemyTemp.getCol() - 1);
-			gameBoard[enemyRow][enemyTemp.getCol() - 1] = enemy;
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		}
-		//Move RIGHT
-		if(direction == 2 && isMoveRightValid){
-			enemy.setCol(enemyTemp.getCol() + 1);
-			gameBoard[enemyRow][enemyTemp.getCol() + 1] = enemy;
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		}
-		//Move UP
-		if(direction == 3 && isMoveUpValid){
-			enemy.setRow(enemyTemp.getRow() - 1);
-			gameBoard[enemyTemp.getRow() - 1][enemy.getCol()] = enemy;
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		}
-		//Move DOWN
-		if(direction == 4 && isMoveDownValid){
-			enemy.setRow(enemyTemp.getRow() + 1);
-			gameBoard[enemyTemp.getRow() + 1][enemy.getCol()] = enemy;
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		} 
-		else{
-			moveEnemy();
-		}
-	}
-
-	private static int moveRandomDirection() {
-		Random rand = new Random();
-		int randDirection = rand.nextInt(4);
-		randDirection += 1;
-
-		return randDirection;
-	}
 	
 	
 }
