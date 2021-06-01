@@ -51,8 +51,12 @@ public class Petkan extends Enemy{
 	}
 
 	public void trigger(){
-		this.isVisible = true;
-		fire();
+		if(this.isVisible == true){
+			fire();
+		}
+		else if(this.isVisible == false){
+			this.isVisible = true;
+		}
 	}
 
 	public void fire(){
@@ -70,7 +74,8 @@ public class Petkan extends Enemy{
 			GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
 			GameBoard.armyUnits.remove(0);
 			this.isVisible = false;
-			drinkAndReload();
+			// drinkAndReload();
+			goToCorner();
 		}else{
 			this.isVisible = false;
 			goToCorner();
@@ -81,67 +86,39 @@ public class Petkan extends Enemy{
 	}
 
 	private void goToCorner() {
-		int randCorner = (rand(4) + 1);
 		int oldRow = this.getRow();
 		int oldCol = this.getCol();
-		int row, col;
+		boolean isPlacementDone = false;
+		
+		while(isPlacementDone == false){
+			//TOP LEFT
+			int row = 0, col = 0;
+			int randCorner = (rand(4) + 1);
+			//TOP RIGHT
+			if(randCorner == 2){
+				row = 0;
+				col = 14;
+			}
+			//BOTTOM LEFT
+			if(randCorner == 3){
+				row = 14;
+				col = 0;
+			}
+			//BOTTOM RIGHT
+			if(randCorner == 4){
+				row = 14;
+				col = 14;
+			}
 
-		//TOP LEFT
-		if(randCorner == 1){
-			row = 0;
-			col = 0;
 			if(GameBoard.gameBoard[row][col] instanceof Ground){
 				GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
 				this.setRow(row);
 				this.setCol(col);
 				GameBoard.gameBoard[row][col] = this;
-			}
-			else{
-				goToCorner();
+				isPlacementDone = true;
 			}
 		}
-		//TOP RIGHT
-		if(randCorner == 2){
-			row = 0;
-			col = 14;
-			if(GameBoard.gameBoard[row][col] instanceof Ground){
-				GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
-				this.setRow(row);
-				this.setCol(col);
-				GameBoard.gameBoard[row][col] = this;
-			}
-			else{
-				goToCorner();
-			}
-		}
-		//BOTTOM LEFT
-		if(randCorner == 3){
-			row = 14;
-			col = 0;
-			if(GameBoard.gameBoard[row][col] instanceof Ground){
-				GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
-				this.setRow(row);
-				this.setCol(col);
-				GameBoard.gameBoard[row][col] = this;
-			}
-			else{
-				goToCorner();
-			}
-		}
-		//BOTTOM RIGHT
-		if(randCorner == 4){
-			row = 14;
-			col = 14;
-			if(GameBoard.gameBoard[row][col] instanceof Ground){
-				GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
-				this.setRow(row);
-				this.setCol(col);
-				GameBoard.gameBoard[row][col] = this;
-			}
-			else{
-				goToCorner();
-			}
-		}
+		
 	}
 
 	@Override
@@ -153,6 +130,10 @@ public class Petkan extends Enemy{
 		Random rand = new Random();
 		return rand.nextInt(randBound);
 		
+	}
+
+	public boolean getVisibility() {
+		return this.isVisible;
 	}
 
     

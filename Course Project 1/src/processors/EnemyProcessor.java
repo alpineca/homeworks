@@ -10,6 +10,8 @@ import GameBoardObjects.materials.Ground;
 import interfaces.GameConfig;
 
 public class EnemyProcessor {
+	protected static int loadGunshot = 0;
+
     public static void spawnEnemyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> enemyUnits) {
 		boolean isEmptyField = false;
 		int row, col;
@@ -33,98 +35,113 @@ public class EnemyProcessor {
 		GameBoardObject enemyTemp 	= UnitsProcessor.clone(enemy);
 		int enemyRow 				= enemy.getRow();
 		int enemyCol 				= enemy.getCol();
-		int direction 				= moveRandomDirection();
 
-        boolean isMoveLeftValid 	= false;
-        boolean isMoveRightValid 	= false;
-        boolean isMoveUpValid 		= false;
-        boolean isMoveDownValid 	= false;
+		boolean isMoveCorrect 		= false;
 
-        
-        try {
-            isMoveLeftValid 	= ((enemyCol - 1) >= 0) && (gameBoard[enemyRow][enemyCol - 1] instanceof Ground);
-            isMoveRightValid 	= ((enemyCol + 1) <= GameConfig.cols) && (gameBoard[enemyRow][enemyCol + 1] instanceof Ground);
-            isMoveUpValid 		= ((enemyRow - 1) >= 0) && (gameBoard[enemyRow - 1][enemyCol] instanceof Ground);
-            isMoveDownValid 	= ((enemyRow + 1) <= GameConfig.rows) && (gameBoard[enemyRow + 1][enemyCol] instanceof Ground);
-            
-        } catch (Exception e) {
-			
-        }
+		while(isMoveCorrect == false){
+			int direction 			= rand(5);
 
+			//Move LEFT
+			if(direction == 1){
+				int newCol = (enemyTemp.getCol() - 1);
+				int newColCheck = newCol < 0 ? 0 : newCol;
+				
+				if(gameBoard[enemyRow][newColCheck] instanceof Ground){
 
-		//Move LEFT
-		if(direction == 1 && isMoveLeftValid){
-            
-			enemy.setCol(enemyTemp.getCol() - 1);
-			gameBoard[enemyRow][enemyTemp.getCol() - 1] = enemy;
-            checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		}
-		//Move RIGHT
-		if(direction == 2 && isMoveRightValid){
-			enemy.setCol(enemyTemp.getCol() + 1);
-			gameBoard[enemyRow][enemyTemp.getCol() + 1] = enemy;
-            checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		}
-		//Move UP
-		if(direction == 3 && isMoveUpValid){
-			enemy.setRow(enemyTemp.getRow() - 1);
-			gameBoard[enemyTemp.getRow() - 1][enemyCol] = enemy;
-            checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		}
-		//Move DOWN
-		if(direction == 4 && isMoveDownValid){
-			enemy.setRow(enemyTemp.getRow() + 1);
-			gameBoard[enemyTemp.getRow() + 1][enemyCol] = enemy;
-            checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-			gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-			return;
-		} 
-		else{
-			moveEnemy(gameBoard, enemyUnits);
+					enemy.setCol(enemyTemp.getCol() - 1);
+					gameBoard[enemyRow][enemyTemp.getCol() - 1] = enemy;
+					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
+					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+	
+					isMoveCorrect = true;
+					return;
+				}
+
+			}
+			//Move RIGHT
+			if(direction == 2){
+				int newCol 		= (enemyTemp.getCol() + 1);
+				int maxColBound = GameConfig.cols - 1;
+				int newColCheck = newCol > maxColBound ? maxColBound : newCol;
+
+				if(gameBoard[enemyRow][newColCheck] instanceof Ground){
+
+					enemy.setCol(newColCheck);
+					gameBoard[enemyRow][newColCheck] = enemy;
+					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
+					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+	
+					isMoveCorrect = true;
+					return;
+				}
+
+			}
+			//Move UP
+			if(direction == 3){
+				int newRow 		= (enemyTemp.getRow() - 1);
+				int newRowCheck = newRow < 0 ? 0 : newRow;
+
+				if(gameBoard[newRowCheck][enemyCol] instanceof Ground){
+					
+					enemy.setRow(enemyTemp.getRow() - 1);
+					gameBoard[newRowCheck][enemyCol] = enemy;
+					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
+					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+	
+					isMoveCorrect = true;
+					return;
+				}
+
+			}
+			//Move DOWN
+			if(direction == 4){
+				int newRow 		= (enemyTemp.getRow() + 1);
+				int maxRowBound = GameConfig.rows - 1;
+				int newRowCheck = newRow > maxRowBound ? maxRowBound : newRow;
+
+				if(gameBoard[newRowCheck][enemyCol] instanceof Ground){
+
+					enemy.setRow(newRowCheck);
+					gameBoard[newRowCheck][enemyCol] = enemy;
+					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
+					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+	
+					isMoveCorrect = true;
+					return;
+				}
+
+			} 
+			isMoveCorrect = false;
 		}
 	}
 
     private static void checkForArmyUnits(int row, int col, GameBoardObject[][] gameBoard, GameBoardObject enemy){
-        for(int i = (row -1); i <= (row + 1); i++){
-            for(int j = col -1; j <= col + 1; j++){
-                boolean isUnderRow = i < 0;
-                boolean isUnderCol = j < 0;
-                boolean isOverRow  = i > (GameConfig.rows - 1);
-                boolean isOverCol  = j > (GameConfig.cols - 1);
+        int minRowBound = row-1;
+		int maxRowBound = row+1;
 
-                if(isUnderRow)  i = + 1;
-                if(isUnderCol)  j = + 1;
-                if(isOverRow)   i = - 1;
-                if(isOverCol)   j = - 1;
+		int minColBound = col-1;
+		int maxColBound = col+1;
 
-                if(gameBoard[i][j] instanceof ArmyUnit){
-                    trigger(enemy);
-                } 
-            }
-        }
+		for(int i = minRowBound; i <= maxRowBound; i++){
+			for(int j = minColBound; j <= maxColBound; j++){
+				try {
+					if(gameBoard[i][j] instanceof ArmyUnit){
+						trigger(enemy);
+					} 
+				} catch (Exception e) {
+
+				}					
+			}
+		}
     }
-
+	
     private static void trigger(GameBoardObject enemy) {
-        ((Petkan)enemy).trigger();
+		((Petkan)enemy).trigger();
     }
-
-    private static int rand(int randBound) {
+	
+	private static int rand(int randBound) {
 		Random rand = new Random();
 		return rand.nextInt(randBound);
 		
-	}
-
-	private static int moveRandomDirection() {
-		Random rand = new Random();
-		int randDirection = rand.nextInt(4);
-		randDirection += 1;
-
-		return randDirection;
 	}
 }

@@ -126,13 +126,6 @@ public class UnitsProcessor {
 		if(gameBoard[destRow][destCol] instanceof Enemy) {
 			return;
 		}
-		if((gameBoard[destRow][destCol] instanceof Ground)) {
-			Ground destTile =  (Ground) gameBoard[destRow][destCol];
-			if(destTile.getTrigger() == true){
-				Petkan enemy = (Petkan) enemyUnits.get(0);
-				enemy.trigger();
-			}
-		}
 
 		for(int i = 0; i < armyUnits.size(); i++){
 			if(i == 0){
