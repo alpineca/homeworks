@@ -127,6 +127,7 @@ public class EnemyProcessor {
 				try {
 					if(gameBoard[i][j] instanceof ArmyUnit){
 						trigger(enemy);
+						break;
 					} 
 				} catch (Exception e) {
 

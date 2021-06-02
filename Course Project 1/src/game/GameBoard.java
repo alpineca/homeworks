@@ -49,7 +49,6 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 	
 	public void makeMove() {
-		fireCountdown();
 		EnemyProcessor.moveEnemy(gameBoard, enemyUnits);
 		this.unitToMove = null;
 		this.repaint();
@@ -124,23 +123,6 @@ public class GameBoard extends JPanel implements KeyListener{
 		{
 			UnitsProcessor.swapUnit(gameBoard, armyUnits, unitToMove);
 			this.repaint();
-		}
-	}
-	public static void setFireCounter() {
-		if(fireCounter > 10){
-			fireCounter = 5;
-		} else{
-			fireCounter = fireCounter;
-		}
-	}
-	
-	private void fireCountdown(){
-		if(fireCounter != 0){
-			this.fireCounter--;
-		} else if(this.fireCounter == 0){
-			Petkan enemy =  (Petkan) enemyUnits.get(0);
-			enemy.fire();
-			fireCounter = 50;
 		}
 	}
 

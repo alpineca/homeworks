@@ -53,6 +53,7 @@ public class Petkan extends Enemy{
 	public void trigger(){
 		if(this.isVisible == true){
 			fire();
+			return;
 		}
 		else if(this.isVisible == false){
 			this.isVisible = true;
