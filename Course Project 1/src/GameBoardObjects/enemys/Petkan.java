@@ -39,7 +39,7 @@ public class Petkan extends Enemy{
 		
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("", Font.ITALIC, 20));
-			g.drawString(GameBoard.fireCounter + "", tileX + placementCoefficientX, tileY  + placementCoefficientY);
+			g.drawString(this.symbol, tileX + placementCoefficientX, tileY  + placementCoefficientY);
 		}
 		else{		
 			g.setColor(Color.DARK_GRAY);
@@ -75,18 +75,15 @@ public class Petkan extends Enemy{
 			GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
 			GameBoard.armyUnits.remove(0);
 			this.isVisible = false;
-			// drinkAndReload();
-			goToCorner();
+
+			drinkAndReload();
 		}else{
 			this.isVisible = false;
 			goToCorner();
 		}
 	}
 
-	private void drinkAndReload() {
-	}
-
-	private void goToCorner() {
+	public void goToCorner() {
 		int oldRow = this.getRow();
 		int oldCol = this.getCol();
 		boolean isPlacementDone = false;
@@ -112,7 +109,9 @@ public class Petkan extends Enemy{
 			}
 
 			if(GameBoard.gameBoard[row][col] instanceof Ground){
-				GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
+				if(oldRow != -1 || oldCol != -1){
+					GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
+				}
 				this.setRow(row);
 				this.setCol(col);
 				GameBoard.gameBoard[row][col] = this;
@@ -120,6 +119,18 @@ public class Petkan extends Enemy{
 			}
 		}
 		
+	}
+
+	private void drinkAndReload() {
+		int oldRow = this.getRow();
+		int oldCol = this.getCol();
+
+		GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
+
+		this.setRow(-1);
+		this.setCol(-1);
+
+		GameBoard.reloadCounterReset();
 	}
 
 	@Override

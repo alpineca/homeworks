@@ -25,7 +25,15 @@ public class GameBoard extends JPanel implements KeyListener{
 
 	private GameBoardObject unitToMove;
 
-	public static int fireCounter = 1000;
+	private static int enemyReloadCounter 	= 0;
+	private static boolean isEnemyOnTheMap 	= true;
+
+	public static boolean isEnemyOnTheMap() {
+		return isEnemyOnTheMap;
+	}
+	public static void setEnemyOnTheMap(boolean isEnemyOnTheMap) {
+		GameBoard.isEnemyOnTheMap = isEnemyOnTheMap;
+	}
 
 	public GameBoard() {
 		this.bootstrap();
@@ -49,7 +57,10 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 	
 	public void makeMove() {
-		EnemyProcessor.moveEnemy(gameBoard, enemyUnits);
+		if(isEnemyOnTheMap() == true){
+			EnemyProcessor.moveEnemy(gameBoard, enemyUnits);
+		}
+		countdown();
 		this.unitToMove = null;
 		this.repaint();
 	}
@@ -96,6 +107,24 @@ public class GameBoard extends JPanel implements KeyListener{
 			this.unitToMove = null;
 		}
 	}
+
+	public static void reloadCounterReset() {
+		if(enemyReloadCounter == 0 && isEnemyOnTheMap == true){
+			enemyReloadCounter = 5;
+			setEnemyOnTheMap(false);
+		}
+	}
+
+	private static void countdown(){
+		if(enemyReloadCounter > 0 && isEnemyOnTheMap == false){
+			enemyReloadCounter--;
+		}
+		if(enemyReloadCounter == 0 && isEnemyOnTheMap == false){
+			GameBoardObject enemy = enemyUnits.get(0);
+			setEnemyOnTheMap(true);
+			((Petkan)enemy).goToCorner();
+		}
+	}
 	
 	private void keyActionProcessor(int keyCode) {
 		
@@ -125,6 +154,8 @@ public class GameBoard extends JPanel implements KeyListener{
 			this.repaint();
 		}
 	}
+
+	
 
 	
 	
