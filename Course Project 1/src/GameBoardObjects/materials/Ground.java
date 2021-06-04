@@ -41,5 +41,11 @@ public class Ground extends Material{
 		return 0;
 	}
 
+	@Override
+	public boolean getPassability() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

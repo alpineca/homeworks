@@ -71,4 +71,9 @@ public class Building extends Material{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean getPassability() {
+		return this.isPassable;
+	}
 }

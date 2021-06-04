@@ -11,6 +11,7 @@ import GameBoardObjects.armyUnits.Fisherman;
 import GameBoardObjects.armyUnits.RockTrower;
 import GameBoardObjects.armyUnits.Tracktorist;
 import GameBoardObjects.enemys.Petkan;
+import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
 import enums.Direction;
 import interfaces.GameConfig;
@@ -120,10 +121,15 @@ public class UnitsProcessor {
 			}
 		}
 
-		if(gameBoard[destRow][destCol] instanceof ArmyUnit) {
+		GameBoardObject destination = gameBoard[destRow][destCol];
+
+		if(destination instanceof ArmyUnit) {
 			return;
 		}
-		if(gameBoard[destRow][destCol] instanceof Enemy) {
+		if(destination instanceof Enemy) {
+			return;
+		}
+		if(destination instanceof Building && ((Building) destination).getPassability() == false) {
 			return;
 		}
 

@@ -10,4 +10,5 @@ public abstract class Material extends GameBoardObject{
 
 	@Override
 	public abstract void render(Graphics g);
+	public abstract boolean getPassability();
 }
