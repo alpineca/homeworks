@@ -21,7 +21,7 @@ public class GameBoard extends JPanel implements KeyListener{
 	public static GameBoardObject[][] gameBoard;
 	public static ArrayList<GameBoardObject> armyUnits 		= new ArrayList<>();
 	public static ArrayList<GameBoardObject> buildings 		= new ArrayList<>();
-	public static ArrayList<GameBoardObject> enemyUnits 	= new ArrayList<>();
+	private static GameBoardObject enemy;
 
 	private GameBoardObject unitToMove;
 
@@ -33,6 +33,12 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 	public static void setEnemyOnTheMap(boolean isEnemyOnTheMap) {
 		GameBoard.isEnemyOnTheMap = isEnemyOnTheMap;
+	}
+	public GameBoardObject getEnemy(){
+		return this.enemy;
+	}
+	public static void setEnemy(GameBoardObject enemyy){
+		enemy = enemyy;
 	}
 
 	public GameBoard() {
@@ -51,14 +57,17 @@ public class GameBoard extends JPanel implements KeyListener{
 		
 		BuildProcessor.spawnBuildings(	gameBoard, buildings);
 		UnitsProcessor.spawnArmyUnits(	gameBoard, armyUnits);
-		EnemyProcessor.spawnEnemyUnits(	gameBoard, enemyUnits);
+		EnemyProcessor.spawnEnemyUnits(	gameBoard);
 
 		
 	}
 	
 	public void makeMove() {
+		if(((Petkan) enemy).getVisibility() == true){
+			((Petkan) enemy).fire();
+		}
 		if(isEnemyOnTheMap() == true){
-			EnemyProcessor.moveEnemy(gameBoard, enemyUnits);
+			EnemyProcessor.moveEnemy(gameBoard, enemy);
 		}
 		countdown();
 		this.unitToMove = null;
@@ -115,12 +124,11 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 	}
 
-	private static void countdown(){
+	private void countdown(){
 		if(enemyReloadCounter > 0 && isEnemyOnTheMap == false){
 			enemyReloadCounter--;
 		}
 		if(enemyReloadCounter == 0 && isEnemyOnTheMap == false){
-			GameBoardObject enemy = enemyUnits.get(0);
 			setEnemyOnTheMap(true);
 			((Petkan)enemy).goToCorner();
 		}
@@ -130,22 +138,22 @@ public class GameBoard extends JPanel implements KeyListener{
 		
 		if(keyCode == 'a' || keyCode == 'A') {
 			System.out.println("A");
-			UnitsProcessor.move(Direction.LEFT, gameBoard, armyUnits, buildings, enemyUnits);
+			UnitsProcessor.move(Direction.LEFT, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == 'd' || keyCode == 'D') {
 			System.out.println("D");
-			UnitsProcessor.move(Direction.RIGHT, gameBoard, armyUnits, buildings, enemyUnits);
+			UnitsProcessor.move(Direction.RIGHT, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == 'w' || keyCode == 'W') {
 			System.out.println("W");
-			UnitsProcessor.move(Direction.UP, gameBoard, armyUnits, buildings, enemyUnits);
+			UnitsProcessor.move(Direction.UP, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == 's' || keyCode == 'S') {
 			System.out.println("S");
-			UnitsProcessor.move(Direction.DOWN, gameBoard, armyUnits, buildings, enemyUnits);
+			UnitsProcessor.move(Direction.DOWN, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)

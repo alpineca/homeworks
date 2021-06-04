@@ -10,8 +10,7 @@ import interfaces.GameConfig;
 
 public class Fisherman extends ArmyUnit {
 
-	private static Color color 				= Color.PINK;
-	private static Color borderColor 		= Color.DARK_GRAY;
+	private static Color color 				= new Color(212, 108, 34);
 	private static int identificator 		= 4;
 	
 	public Fisherman(int row, int col, int index) {

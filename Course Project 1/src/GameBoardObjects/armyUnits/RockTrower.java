@@ -11,8 +11,7 @@ import interfaces.GameConfig;
 public class RockTrower extends ArmyUnit {
 
 
-	private static Color color 				= Color.ORANGE;
-	private static Color borderColor 		= Color.DARK_GRAY;
+	private static Color color 				= new Color(127, 153, 50);
 	private static int identificator 		= 2;
 	private int index;
 	

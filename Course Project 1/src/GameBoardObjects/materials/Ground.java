@@ -8,7 +8,7 @@ import GameBoardObjects.Material;
 import interfaces.GameConfig;
 
 public class Ground extends Material{
-	private static Color color = Color.BLACK;
+	private static Color color = GameConfig.groundColor;
 	private boolean isTrigger = false;
 	
 	public Ground(int row, int col) {

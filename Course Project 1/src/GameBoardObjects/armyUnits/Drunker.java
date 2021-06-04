@@ -9,7 +9,7 @@ import GameBoardObjects.ArmyUnit;
 import interfaces.GameConfig;
 
 public class Drunker extends ArmyUnit {
-	private static Color color 				= Color.YELLOW;
+	private static Color color 				= new Color(71, 153, 50);
 	private static int identificator 		= 3;
 	private int index;
 

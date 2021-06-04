@@ -76,7 +76,7 @@ public class UnitsProcessor {
 			
 	}
 
-	public static void move(Direction direction, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, ArrayList<GameBoardObject> buildings, ArrayList<GameBoardObject> enemyUnits) {
+	public static void move(Direction direction, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, ArrayList<GameBoardObject> buildings) {
 
 		GameBoardObject[] armyUnit 	= new GameBoardObject[armyUnits.size()];
 		int[] armyUnitRow 			= new int[armyUnits.size()];

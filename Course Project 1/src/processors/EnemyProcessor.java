@@ -1,44 +1,44 @@
 package processors;
-
-import java.util.ArrayList;
 import java.util.Random;
 
 import GameBoardObjects.ArmyUnit;
 import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.enemys.Petkan;
 import GameBoardObjects.materials.Ground;
+import game.GameBoard;
 import interfaces.GameConfig;
 
 public class EnemyProcessor {
 	protected static int loadGunshot = 0;
 
-    public static void spawnEnemyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> enemyUnits) {
-		boolean isEmptyField = false;
+    public static void spawnEnemyUnits(GameBoardObject[][] gameBoard) {
+		boolean isGroundField = false;
 		int row, col;
 
-		while(isEmptyField == false){
+		while(isGroundField == false){
 			row = rand(GameConfig.rows);
 			col = rand(GameConfig.cols);
 
 			if(gameBoard[row][col] instanceof Ground){
-                GameBoardObject unit = new Petkan(row, col);
-				gameBoard[row][col] = unit;
-				enemyUnits.add(unit);
-                isEmptyField = true;
+				GameBoardObject enemy = new Petkan(row, col);
+                GameBoard.setEnemy(enemy);
+				gameBoard[row][col] = enemy;
+                isGroundField = true;
 			}
 		}
 
 	}
 
-    public static void moveEnemy(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> enemyUnits){
-		GameBoardObject enemy 		= enemyUnits.get(0);
+    public static void moveEnemy(GameBoardObject[][] gameBoard, GameBoardObject enemy){
 		GameBoardObject enemyTemp 	= UnitsProcessor.clone(enemy);
 		int enemyRow 				= enemy.getRow();
 		int enemyCol 				= enemy.getCol();
 
 		boolean isMoveCorrect 		= false;
+		boolean enemyTriggered 		= ((Petkan)enemy).getVisibility();
+		System.out.println(enemyTriggered);
 
-		while(isMoveCorrect == false){
+		while(isMoveCorrect == false && enemyTriggered == false){
 			int direction 			= rand(5);
 
 			//Move LEFT
@@ -126,7 +126,7 @@ public class EnemyProcessor {
 			for(int j = minColBound; j <= maxColBound; j++){
 				try {
 					if(gameBoard[i][j] instanceof ArmyUnit){
-						trigger(enemy);
+						((Petkan)enemy).trigger();
 						break;
 					} 
 				} catch (Exception e) {
@@ -134,10 +134,6 @@ public class EnemyProcessor {
 				}					
 			}
 		}
-    }
-	
-    private static void trigger(GameBoardObject enemy) {
-		((Petkan)enemy).trigger();
     }
 	
 	private static int rand(int randBound) {

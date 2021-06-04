@@ -11,7 +11,7 @@ import interfaces.GameConfig;
 public class Tracktorist extends ArmyUnit {
 
 
-	private static Color color 				= Color.RED;
+	private static Color color 				= new Color(153, 141, 50);
 	private static int identificator 		= 1;
 	private int index;
 	

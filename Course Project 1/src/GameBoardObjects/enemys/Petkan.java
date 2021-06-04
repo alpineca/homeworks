@@ -52,7 +52,8 @@ public class Petkan extends Enemy{
 
 	public void trigger(){
 		if(this.isVisible == true){
-			fire();
+			// fire();
+			System.out.println("FIRE");
 			return;
 		}
 		else if(this.isVisible == false){
@@ -74,11 +75,9 @@ public class Petkan extends Enemy{
 			}
 			GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
 			GameBoard.armyUnits.remove(0);
-			this.isVisible = false;
 
 			drinkAndReload();
 		}else{
-			this.isVisible = false;
 			goToCorner();
 		}
 	}
@@ -87,6 +86,7 @@ public class Petkan extends Enemy{
 		int oldRow = this.getRow();
 		int oldCol = this.getCol();
 		boolean isPlacementDone = false;
+		this.isVisible = false;
 		
 		while(isPlacementDone == false){
 			//TOP LEFT
@@ -124,6 +124,7 @@ public class Petkan extends Enemy{
 	private void drinkAndReload() {
 		int oldRow = this.getRow();
 		int oldCol = this.getCol();
+		this.isVisible = false;
 
 		GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
 
