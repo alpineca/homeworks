@@ -6,29 +6,30 @@ import java.util.Random;
 import GameBoardObjects.ArmyUnit;
 import GameBoardObjects.Enemy;
 import GameBoardObjects.GameBoardObject;
-import GameBoardObjects.armyUnits.Drunker;
-import GameBoardObjects.armyUnits.Fisherman;
-import GameBoardObjects.armyUnits.RockTrower;
-import GameBoardObjects.armyUnits.Tracktorist;
+import GameBoardObjects.armyUnits.Spy;
+import GameBoardObjects.armyUnits.Saboteur;
+import GameBoardObjects.armyUnits.Sniperist;
+import GameBoardObjects.armyUnits.Tank;
 import GameBoardObjects.enemys.Petkan;
 import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
-import enums.Direction;
+import enums.DirectionsEnum;
+import game.GameBoard;
 import interfaces.GameConfig;
 
 public class UnitsProcessor {
 		
 	public static void spawnArmyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits) {
-		gameBoard[14][11] = new Drunker(14, 11, 1);
+		gameBoard[14][11] = new Spy(14, 11, 1);
 		armyUnits.add(gameBoard[14][11]);
 		
-		gameBoard[14][12] = new RockTrower(14, 12, 2);
+		gameBoard[14][12] = new Sniperist(14, 12, 2);
 		armyUnits.add(gameBoard[14][12]);
 		
-		gameBoard[14][13] = new Tracktorist(14, 13, 3);
+		gameBoard[14][13] = new Tank(14, 13, 3);
 		armyUnits.add(gameBoard[14][13]);
 		
-		gameBoard[14][14] = new Fisherman(14, 14, 4);
+		gameBoard[14][14] = new Saboteur(14, 14, 4);
 		armyUnits.add(gameBoard[14][14]);
 	}
 
@@ -77,14 +78,14 @@ public class UnitsProcessor {
 			
 	}
 
-	public static void move(Direction direction, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, ArrayList<GameBoardObject> buildings) {
+	public static void move(DirectionsEnum direction, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, ArrayList<GameBoardObject> buildings) {
 
 		GameBoardObject[] armyUnit 	= new GameBoardObject[armyUnits.size()];
 		int[] armyUnitRow 			= new int[armyUnits.size()];
 		int[] armyUnitCol 			= new int[armyUnits.size()];
 
 		
-		boolean isDrunkerOnboard = checkForDrunker(armyUnits);
+		boolean isDrunkerOnboard = checkForDrunker();
 		
 		for(int i = 0; i < armyUnits.size(); i++){
 			armyUnitRow[i] = armyUnits.get(i).getRow();
@@ -95,26 +96,26 @@ public class UnitsProcessor {
 		int destRow = armyUnitRow[0];
 		int destCol = armyUnitCol[0];
 
-		if(direction.equals(Direction.LEFT)){
+		if(direction.equals(DirectionsEnum.LEFT)){
 			destCol--;
 
 			if(destCol < 0 && isDrunkerOnboard){
 				destCol = GameConfig.cols - 1;
 			}
 		}
-		if(direction.equals(Direction.RIGHT)){
+		if(direction.equals(DirectionsEnum.RIGHT)){
 			destCol++;
 			if(destCol > 14 && isDrunkerOnboard){
 				destCol = 0;
 			}
 		}
-		if(direction.equals(Direction.UP)){
+		if(direction.equals(DirectionsEnum.UP)){
 			destRow--;
 			if(destRow < 0 && isDrunkerOnboard){
 				destRow = GameConfig.rows - 1;
 			}
 		}
-		if(direction.equals(Direction.DOWN)){
+		if(direction.equals(DirectionsEnum.DOWN)){
 			destRow++;
 			if(destRow > 14 && isDrunkerOnboard){
 				destRow = 0;
@@ -159,10 +160,10 @@ public class UnitsProcessor {
 
 	}
 	
-	private static boolean checkForDrunker(ArrayList<GameBoardObject> armyUnits){
-		
+	private static boolean checkForDrunker(){
+		ArrayList<GameBoardObject> armyUnits = GameBoard.getArmyUnits();
 		for(int i = 0; i < armyUnits.size(); i++){
-			if(armyUnits.get(i) instanceof Drunker){
+			if(armyUnits.get(i) instanceof Spy){
 				return true;
 			}
 		}
@@ -184,17 +185,17 @@ public class UnitsProcessor {
 		int col = unitToClone.getCol();
 		int index = unitToClone.getIndex();
 		
-		if(unitToClone instanceof Drunker){
-			return new Drunker(row, col, index);
+		if(unitToClone instanceof Spy){
+			return new Spy(row, col, index);
 		}
-		if(unitToClone instanceof Fisherman){
-			return new Fisherman(row, col, index);
+		if(unitToClone instanceof Saboteur){
+			return new Saboteur(row, col, index);
 		}
-		if(unitToClone instanceof RockTrower){
-			return new RockTrower(row, col, index);
+		if(unitToClone instanceof Sniperist){
+			return new Sniperist(row, col, index);
 		}
-		if(unitToClone instanceof Tracktorist){
-			return new Tracktorist(row, col, index);
+		if(unitToClone instanceof Tank){
+			return new Tank(row, col, index);
 		}
 		if(unitToClone instanceof Petkan){
 			return new Petkan(row, col);
@@ -207,6 +208,14 @@ public class UnitsProcessor {
 		Random rand = new Random();
 		return rand.nextInt(randBound);
 		
+	}
+
+	public static void specialSkill() {
+		ArrayList<GameBoardObject> armyUnits = GameBoard.getArmyUnits();
+		ArmyUnit armyLeader = (ArmyUnit)armyUnits.get(0);
+		if(armyLeader.isSpecialSkill() == true){
+			armyLeader.specialSkill();
+		}
 	}
 
 }

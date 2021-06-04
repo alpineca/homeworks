@@ -2,18 +2,17 @@ package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
 
 import GameBoardObjects.ArmyUnit;
-import interfaces.GameConfig;
 
-public class Fisherman extends ArmyUnit {
+public class Sniperist extends ArmyUnit {
 
-	private static Color color 				= new Color(212, 108, 34);
-	private static int identificator 		= 4;
+
+	private static Color color 				= new Color(127, 153, 50);
+	private static int identificator 		= 2;
+	private int index;
 	
-	public Fisherman(int row, int col, int index) {
+	public Sniperist(int row, int col, int index) {
 		super(row, col, color, identificator, index);
 	}
 
@@ -27,4 +26,11 @@ public class Fisherman extends ArmyUnit {
 		return this.identificator;
 	}
 
+	@Override
+	public void specialSkill() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

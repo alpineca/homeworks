@@ -10,7 +10,7 @@ import GameBoardObjects.materials.Building;
 import game.GameBoard;
 import interfaces.GameConfig;
 
-public class BuildProcessor {
+public class BuildingsProcessor {
 	
 	private static final int ROWS_BETWEEN_BUILDINGS 	= rand(2,3);
 	private static final int COLS_BETWEEN_BUILDINGS 	= rand(2,3);
@@ -81,26 +81,31 @@ public class BuildProcessor {
 
 	private static void createSmallBuilding(int row, int col, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		Color color = GameConfig.smallBuildingColor;
+		ArrayList<Building> smallBuilding = GameBoard.getSmallBuilding();
 
 		for(int i = 0; i < GameConfig.smallBuildingRows; i++){
 			for(int j = 0; j < GameConfig.smallBuildingCols; j++){
 				gameBoard[row + i][col + j] = new Building(row + i, col + j, true, color);
+				smallBuilding.add(new Building(row + i, col + j, true, color));
 				buildings.add(new Building(row + i, col + j, true, color));
 			}
 		}
 	}
 	private static void createMiddleBuilding(int row, int col, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		Color color = Color.ORANGE;
+		ArrayList<Building> middleBuilding = GameBoard.getMiddleBuilding();
 		
 		for(int i = 0; i < GameConfig.middleBuildingRows; i++){
 			for(int j = 0; j < GameConfig.middleBuildingCols; j++){
 
 				if((i == 0 && j == 1) || (i == 1 && j == 1)){
 					gameBoard[row + i][col + j] = new Building(row + i, col + j, color, false);
+					middleBuilding.add(new Building(row + i, col + j, color, false));
 					buildings.add(new Building(row + i, col + j, color, false));
 
 				} else{
 					gameBoard[row + i][col + j] = new Building(row + i, col + j, true, color);
+					middleBuilding.add(new Building(row + i, col + j, true, color));
 					buildings.add(new Building(row + i, col + j, true, color));
 				}
 
@@ -109,6 +114,7 @@ public class BuildProcessor {
 	}
 	private static void createLargeBuilding(int row, int col, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
 		Color color = GameConfig.largeBuildingColor;
+		ArrayList<Building> largeBuilding = GameBoard.getLargeBuilding();
 		
 		for(int i = 0; i < GameConfig.largeBuildingRows; i++){
 			for(int j = 0; j < GameConfig.largeBuildingCols; j++){
@@ -118,10 +124,12 @@ public class BuildProcessor {
 
 				if(columnFirstRow || columnSeccondRow || columnThirdRow){
 					gameBoard[row + i][col + j] = new Building(row + i, col + j, true, color);
+					largeBuilding.add(new Building(row + i, col + j, true, color));
 					buildings.add(new Building(row + i, col + j, true, color));
 				} else{
-					gameBoard[row + i][col + j] = new Building(row + i, col + j, color, false);
-					buildings.add(new Building(row + i, col + j, color, false));
+					gameBoard[row + i][col + j] = new Building(row + i, col + j, color, true);
+					largeBuilding.add(new Building(row + i, col + j, color, true));
+					buildings.add(new Building(row + i, col + j, color, true));
 				}
 			}
 		}

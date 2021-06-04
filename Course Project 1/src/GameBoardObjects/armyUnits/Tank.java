@@ -1,21 +1,17 @@
 package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
 
 import GameBoardObjects.ArmyUnit;
-import interfaces.GameConfig;
 
-public class RockTrower extends ArmyUnit {
+public class Tank extends ArmyUnit {
 
 
-	private static Color color 				= new Color(127, 153, 50);
-	private static int identificator 		= 2;
+	private static Color color 				= new Color(153, 141, 50);
+	private static int identificator 		= 1;
 	private int index;
 	
-	public RockTrower(int row, int col, int index) {
+	public Tank(int row, int col, int index) {
 		super(row, col, color, identificator, index);
 	}
 
@@ -29,5 +25,11 @@ public class RockTrower extends ArmyUnit {
 		return this.identificator;
 	}
 
-	
+	@Override
+	public void specialSkill() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

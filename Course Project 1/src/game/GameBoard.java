@@ -7,24 +7,28 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
+
+import GameBoardObjects.materials.Building;
 import GameBoardObjects.materials.Ground;
-import enums.Direction;
+import enums.DirectionsEnum;
 import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.enemys.Petkan;
 import interfaces.GameConfig;
-import processors.BuildProcessor;
+import processors.BuildingsProcessor;
 import processors.EnemyProcessor;
 import processors.UnitsProcessor;
 
 public class GameBoard extends JPanel implements KeyListener{
 	
 	public static GameBoardObject[][] gameBoard;
-	public static ArrayList<GameBoardObject> armyUnits 		= new ArrayList<>();
+	public static ArrayList<GameBoardObject> armyUnits 	= new ArrayList<>();
 	public static ArrayList<GameBoardObject> buildings 		= new ArrayList<>();
+	public static ArrayList<Building> smallBuilding 	= new ArrayList<>();
+	public static ArrayList<Building> middleBuilding 	= new ArrayList<>();
+	public static ArrayList<Building> largeBuilding 	= new ArrayList<>();
+	
 	private static GameBoardObject enemy;
-
 	private GameBoardObject unitToMove;
-
 	private static int enemyReloadCounter 	= 0;
 	private static boolean isEnemyOnTheMap 	= true;
 
@@ -34,12 +38,25 @@ public class GameBoard extends JPanel implements KeyListener{
 	public static void setEnemyOnTheMap(boolean isEnemyOnTheMap) {
 		GameBoard.isEnemyOnTheMap = isEnemyOnTheMap;
 	}
-	public GameBoardObject getEnemy(){
-		return this.enemy;
+	public static void setEnemy(GameBoardObject enemySpawn) {
+		enemy = enemySpawn;
 	}
-	public static void setEnemy(GameBoardObject enemyy){
-		enemy = enemyy;
+	public static GameBoardObject getEnemy(){
+		return enemy;
 	}
+	public static ArrayList<Building> getSmallBuilding() {
+		return smallBuilding;
+	}
+	public static ArrayList<Building> getMiddleBuilding() {
+		return middleBuilding;
+	}
+	public static ArrayList<Building> getLargeBuilding() {
+		return largeBuilding;
+	}
+	public static ArrayList<GameBoardObject> getArmyUnits() {
+		return armyUnits;
+	}
+
 
 	public GameBoard() {
 		this.bootstrap();
@@ -55,7 +72,7 @@ public class GameBoard extends JPanel implements KeyListener{
 			}
 		}
 		
-		BuildProcessor.spawnBuildings(	gameBoard, buildings);
+		BuildingsProcessor.spawnBuildings(	gameBoard, buildings);
 		UnitsProcessor.spawnArmyUnits(	gameBoard, armyUnits);
 		EnemyProcessor.spawnEnemyUnits(	gameBoard);
 
@@ -137,23 +154,23 @@ public class GameBoard extends JPanel implements KeyListener{
 	private void keyActionProcessor(int keyCode) {
 		
 		if(keyCode == 'a' || keyCode == 'A') {
-			System.out.println("A");
-			UnitsProcessor.move(Direction.LEFT, gameBoard, armyUnits, buildings);
+			UnitsProcessor.move(DirectionsEnum.LEFT, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == 'd' || keyCode == 'D') {
-			System.out.println("D");
-			UnitsProcessor.move(Direction.RIGHT, gameBoard, armyUnits, buildings);
+			UnitsProcessor.move(DirectionsEnum.RIGHT, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == 'w' || keyCode == 'W') {
-			System.out.println("W");
-			UnitsProcessor.move(Direction.UP, gameBoard, armyUnits, buildings);
+			UnitsProcessor.move(DirectionsEnum.UP, gameBoard, armyUnits, buildings);
 			this.makeMove();
 		}
 		if(keyCode == 's' || keyCode == 'S') {
-			System.out.println("S");
-			UnitsProcessor.move(Direction.DOWN, gameBoard, armyUnits, buildings);
+			UnitsProcessor.move(DirectionsEnum.DOWN, gameBoard, armyUnits, buildings);
+			this.makeMove();
+		}
+		if(keyCode == 'f' || keyCode == 'F') {
+			UnitsProcessor.specialSkill();
 			this.makeMove();
 		}
 		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)
@@ -162,6 +179,7 @@ public class GameBoard extends JPanel implements KeyListener{
 			this.repaint();
 		}
 	}
+	
 
 	
 

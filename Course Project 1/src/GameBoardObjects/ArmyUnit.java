@@ -9,12 +9,21 @@ import interfaces.GameConfig;
 public abstract class ArmyUnit extends GameBoardObject{
 	protected int identificator;
 	protected int index;
+	protected boolean isSpecialSkill = false;
 	
+	
+	protected ArmyUnit(int row, int col, Color color, int identificator, int index, boolean isSpecialSkill) {
+		super(row, col, color);
+		this.identificator 	= identificator;
+		this.color 			= color;
+		this.index 			= index;
+		this.isSpecialSkill = isSpecialSkill;
+	}
 	protected ArmyUnit(int row, int col, Color color, int identificator, int index) {
 		super(row, col, color);
-		this.identificator = identificator;
-		this.color = color;
-		this.index = index;
+		this.identificator 	= identificator;
+		this.color 			= color;
+		this.index 			= index;
 	}
 	
 	public int getRow() {
@@ -32,6 +41,9 @@ public abstract class ArmyUnit extends GameBoardObject{
 	public void setRowCol(int row, int col) {
 		super.row = row;
 		super.col = col;
+	}
+	public boolean isSpecialSkill() {
+		return isSpecialSkill;
 	}
 
 	@Override
@@ -62,5 +74,6 @@ public abstract class ArmyUnit extends GameBoardObject{
 		return this.index;
 	}
 	public abstract int getIdentificator();
+	public abstract void specialSkill();
 
 }

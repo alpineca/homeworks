@@ -10,7 +10,7 @@ import interfaces.GameConfig;
 public class Building extends Material{
 	private Color color;
 	private boolean isPassable 	= true;
-	private boolean isColumn 	= false;
+	public boolean isColumn 	= false;
 	private String infoString = "";
 	public Building(int row, int col, Color color) {
 		super(row, col, color);

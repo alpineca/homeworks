@@ -2,12 +2,16 @@ package GameBoardObjects.enemys;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Font;
 
 import GameBoardObjects.Enemy;
 import GameBoardObjects.GameBoardObject;
+import GameBoardObjects.armyUnits.Sniperist;
+import GameBoardObjects.armyUnits.Tank;
 import GameBoardObjects.materials.Ground;
+import enums.ArmyUnitsEnum;
 import game.GameBoard;
 import interfaces.GameConfig;
 
@@ -62,23 +66,43 @@ public class Petkan extends Enemy{
 	}
 
 	public void fire(){
-		System.out.println("\nSHOTS FIRED");
+		ArrayList<GameBoardObject> armyUnits = GameBoard.getArmyUnits();
+		boolean isTankAvailable 		= checkForUnit(ArmyUnitsEnum.TANK);
+		boolean isSniperistAvailable 	= checkForUnit(ArmyUnitsEnum.SNIPERIST);
 
 		int fireAccuracy 		= rand(25);
 		int hitChance 			= 11;
 		boolean isAccurateShot 	= (fireAccuracy % hitChance) == 0;
 
+		if(isSniperistAvailable == true){
+			int extraHitChance 	= rand(2);
+			isAccurateShot 	= ((fireAccuracy % hitChance) == 0) && extraHitChance == 1;
+		}
+
 		if(isAccurateShot){
-			GameBoardObject armyLeader = GameBoard.armyUnits.get(0);
-			if(GameBoard.armyUnits.size() == 1){
+			GameBoardObject armyLeader = armyUnits.get(0);
+			if(armyUnits.size() == 1){
 				System.exit(0);
 			}
-			GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
-			GameBoard.armyUnits.remove(0);
+			if(isTankAvailable == true){
+				for(GameBoardObject element : armyUnits){
+					if(element instanceof Tank){
+						GameBoard.gameBoard[element.getRow()][element.getCol()] = new Ground(element.getRow(), element.getCol());
+						armyUnits.remove(element);
+					}
+				}
+			}
+			else{
+				GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
+				armyUnits.remove(0);
+			}
 
 			drinkAndReload();
+
 		}else{
+
 			goToCorner();
+
 		}
 	}
 
@@ -132,6 +156,20 @@ public class Petkan extends Enemy{
 		this.setCol(-1);
 
 		GameBoard.reloadCounterReset();
+	}
+
+	private boolean checkForUnit(ArmyUnitsEnum searchForUnit) {
+		ArrayList<GameBoardObject> armyUnits = GameBoard.getArmyUnits();
+
+		for(GameBoardObject element : armyUnits){
+			if(element instanceof Tank && searchForUnit == ArmyUnitsEnum.TANK){
+				return true;
+			}
+			if(element instanceof Sniperist && searchForUnit == ArmyUnitsEnum.SNIPERIST){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
