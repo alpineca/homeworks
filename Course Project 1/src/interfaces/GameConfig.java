@@ -16,6 +16,7 @@ public interface GameConfig {
     int cols 				    = 15;
     int tileSize			    = 50;
     Color groundColor           = new Color(10, 10, 10);
+    Color blownBuilding         = new Color(43, 22, 0);
     Color tileBorderColor       = new Color(23, 23, 22);
     
     //Buildings

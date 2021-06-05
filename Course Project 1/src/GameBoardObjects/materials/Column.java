@@ -1,29 +1,34 @@
 package GameBoardObjects.materials;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import GameBoardObjects.parrents.Material;
+import game.GameBoard;
+
+import java.awt.Font;
+
 import interfaces.GameConfig;
 
-public class Building extends Material{
+public class Column extends Material{
 	private Color color;
-	private boolean isPassable 	= true;
-	public boolean isColumn 	= false;
-	private String infoString = "";
-	public Building(int row, int col, Color color) {
+	private boolean isPassable 		= true;
+	public boolean isColumn 		= true;
+	public boolean isBombPlanted 	= false;
+	public boolean isDestroyed 		= false;
+	private String infoString 		= "";
+	public Column(int row, int col, Color color) {
 		super(row, col, color);
 		this.color = color;
 	}
 
-	public Building(int row, int col, boolean isColumn, Color color) {
+	public Column(int row, int col, boolean isColumn, Color color) {
 		super(row, col, color);
 		this.color = color;
 		this.isColumn = isColumn;
 	}
 
-	public Building(int row, int col, Color color, boolean isPassable) {
+	public Column(int row, int col, Color color, boolean isPassable) {
 		super(row, col, color);
 		this.color = color;
 		this.isPassable = isPassable;
@@ -32,6 +37,14 @@ public class Building extends Material{
 	public void setInfoString(String infoString){
 		this.infoString = infoString;
 	}
+
+	
+	public void plantBomb(){
+		this.color			= Color.RED;
+		this.isBombPlanted 	= true;
+		GameBoard.plantBomb();
+	}
+
 
 	@Override
 	public void render(Graphics g) {

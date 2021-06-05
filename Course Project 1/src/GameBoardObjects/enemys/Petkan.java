@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Font;
 
-import GameBoardObjects.Enemy;
-import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.armyUnits.Sniperist;
 import GameBoardObjects.armyUnits.Tank;
 import GameBoardObjects.materials.Ground;
+import GameBoardObjects.parrents.Enemy;
+import GameBoardObjects.parrents.GameBoardObject;
 import enums.ArmyUnitsEnum;
 import game.GameBoard;
 import interfaces.GameConfig;

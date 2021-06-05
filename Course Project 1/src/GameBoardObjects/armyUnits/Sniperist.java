@@ -3,7 +3,7 @@ package GameBoardObjects.armyUnits;
 import java.awt.Color;
 import java.awt.Font;
 
-import GameBoardObjects.ArmyUnit;
+import GameBoardObjects.parrents.ArmyUnit;
 
 public class Sniperist extends ArmyUnit {
 

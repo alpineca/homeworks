@@ -1,4 +1,4 @@
-package GameBoardObjects;
+package GameBoardObjects.parrents;
 
 import java.awt.Color;
 import java.awt.Graphics;

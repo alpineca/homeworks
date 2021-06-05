@@ -3,16 +3,16 @@ package processors;
 import java.util.ArrayList;
 import java.util.Random;
 
-import GameBoardObjects.ArmyUnit;
-import GameBoardObjects.Enemy;
-import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.armyUnits.Spy;
 import GameBoardObjects.armyUnits.Saboteur;
 import GameBoardObjects.armyUnits.Sniperist;
 import GameBoardObjects.armyUnits.Tank;
 import GameBoardObjects.enemys.Petkan;
-import GameBoardObjects.materials.Building;
+import GameBoardObjects.materials.Brick;
 import GameBoardObjects.materials.Ground;
+import GameBoardObjects.parrents.ArmyUnit;
+import GameBoardObjects.parrents.Enemy;
+import GameBoardObjects.parrents.GameBoardObject;
 import enums.DirectionsEnum;
 import game.GameBoard;
 import interfaces.GameConfig;
@@ -130,7 +130,7 @@ public class UnitsProcessor {
 		if(destination instanceof Enemy) {
 			return;
 		}
-		if(destination instanceof Building && ((Building) destination).getPassability() == false) {
+		if(destination instanceof Brick && ((Brick) destination).getPassability() == false) {
 			return;
 		}
 

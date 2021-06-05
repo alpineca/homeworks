@@ -2,7 +2,7 @@ package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
 
-import GameBoardObjects.ArmyUnit;
+import GameBoardObjects.parrents.ArmyUnit;
 
 public class Spy extends ArmyUnit {
 	private static Color color 				= new Color(71, 153, 50);

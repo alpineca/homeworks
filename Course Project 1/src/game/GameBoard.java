@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,10 +9,16 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-import GameBoardObjects.materials.Building;
+import GameBoardObjects.materials.BlownBuilding;
+import GameBoardObjects.materials.Brick;
+import GameBoardObjects.materials.Column;
 import GameBoardObjects.materials.Ground;
+import GameBoardObjects.parrents.GameBoardObject;
+import GameBoardObjects.parrents.Material;
 import enums.DirectionsEnum;
-import GameBoardObjects.GameBoardObject;
+import GameBoardObjects.buildings.LargeBuilding;
+import GameBoardObjects.buildings.MiddleBuilding;
+import GameBoardObjects.buildings.SmallBuilding;
 import GameBoardObjects.enemys.Petkan;
 import interfaces.GameConfig;
 import processors.BuildingsProcessor;
@@ -23,14 +30,18 @@ public class GameBoard extends JPanel implements KeyListener{
 	public static GameBoardObject[][] gameBoard;
 	public static ArrayList<GameBoardObject> armyUnits 	= new ArrayList<>();
 	public static ArrayList<GameBoardObject> buildings 		= new ArrayList<>();
-	public static ArrayList<Building> smallBuilding 	= new ArrayList<>();
-	public static ArrayList<Building> middleBuilding 	= new ArrayList<>();
-	public static ArrayList<Building> largeBuilding 	= new ArrayList<>();
+	public static ArrayList<GameBoardObject> smallBuilding 	= new ArrayList<>();
+	public static ArrayList<GameBoardObject> middleBuilding 	= new ArrayList<>();
+	public static ArrayList<GameBoardObject> largeBuilding 	= new ArrayList<>();
 	
 	private static GameBoardObject enemy;
 	private GameBoardObject unitToMove;
+
 	private static int enemyReloadCounter 	= 0;
+	private static int buildingBombCounter 	= 0;
+
 	private static boolean isEnemyOnTheMap 	= true;
+	private static boolean isBombPlanted 	= false;
 
 	public static boolean isEnemyOnTheMap() {
 		return isEnemyOnTheMap;
@@ -44,17 +55,24 @@ public class GameBoard extends JPanel implements KeyListener{
 	public static GameBoardObject getEnemy(){
 		return enemy;
 	}
-	public static ArrayList<Building> getSmallBuilding() {
+	public static ArrayList<GameBoardObject> getSmallBuilding() {
 		return smallBuilding;
 	}
-	public static ArrayList<Building> getMiddleBuilding() {
+	public static ArrayList<GameBoardObject> getMiddleBuilding() {
 		return middleBuilding;
 	}
-	public static ArrayList<Building> getLargeBuilding() {
+	public static ArrayList<GameBoardObject> getLargeBuilding() {
 		return largeBuilding;
+	}
+	public static ArrayList<GameBoardObject> getBuildings() {
+		return buildings;
 	}
 	public static ArrayList<GameBoardObject> getArmyUnits() {
 		return armyUnits;
+	}
+	
+	public static GameBoardObject[][] getGameBoard() {
+		return gameBoard;
 	}
 
 
@@ -86,15 +104,15 @@ public class GameBoard extends JPanel implements KeyListener{
 		if(isEnemyOnTheMap() == true){
 			EnemyProcessor.moveEnemy(gameBoard, enemy);
 		}
-		countdown();
+		this.counters();
+		checkBuildings();
 		this.unitToMove = null;
-		this.repaint();
 	}
 	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
+		System.out.println("Paint");
 		for(int row = 0; row < GameConfig.rows; row++) {
 			for(int col = 0; col < GameConfig.cols; col++) {
 				gameBoard[row][col].render(g);
@@ -141,16 +159,63 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 	}
 
-	private void countdown(){
-		if(enemyReloadCounter > 0 && isEnemyOnTheMap == false){
-			enemyReloadCounter--;
-		}
-		if(enemyReloadCounter == 0 && isEnemyOnTheMap == false){
-			setEnemyOnTheMap(true);
-			((Petkan)enemy).goToCorner();
+	public static void bombPlantedCounterReset() {
+		if(enemyReloadCounter == 0 && isBombPlanted == true){
+			enemyReloadCounter = 7;
+			setEnemyOnTheMap(false);
 		}
 	}
+
+	public static void plantBomb() {
+		isBombPlanted 		= true;
+		buildingBombCounter = 6;
+
+	}
+
 	
+	private void checkBuildings() {
+
+	}
+
+	
+	private void bombExplode() {
+		ArrayList<GameBoardObject> smallBuildingElements = SmallBuilding.getBuildingElements();
+		// ArrayList<GameBoardObject> middleBuildingElements = MiddleBuilding.getBuildingElements();
+		// ArrayList<GameBoardObject> largeBuildingElements = LargeBuilding.getBuildingElements();
+		int i = 0;
+		GameBoardObject elementToSet = null;
+		for(GameBoardObject element : smallBuildingElements){
+			try {
+				int indexToSet = buildings.indexOf(element);
+				element = new BlownBuilding(element.getRow(), element.getCol());
+				buildings.set(indexToSet, element);
+				smallBuildingElements.set(i, element);
+				gameBoard[element.getRow()][element.getCol()] = element;
+			
+			} catch (Exception e) {
+				//TODO: handle exception
+			}
+			i++;
+		}
+
+
+		this.repaint();
+
+		
+
+	}
+
+	private void explodedColumn(int row, int col){
+		int i = 0;
+		for(GameBoardObject element : buildings){
+			if(element.getRow() == row && element.getCol() == col){
+				element = new Ground(row, col);
+				buildings.set(i, element);
+				i++;
+				break;
+			}
+		}
+	}
 	private void keyActionProcessor(int keyCode) {
 		
 		if(keyCode == 'a' || keyCode == 'A') {
@@ -179,6 +244,32 @@ public class GameBoard extends JPanel implements KeyListener{
 			this.repaint();
 		}
 	}
+	
+	private void countdownEnemyRespawn(){
+		if(enemyReloadCounter > 0 && isEnemyOnTheMap == false){
+			enemyReloadCounter--;
+		}
+		if(enemyReloadCounter == 0 && isEnemyOnTheMap == false){
+			setEnemyOnTheMap(true);
+			((Petkan)enemy).goToCorner();
+		}
+	}
+
+	private void countdownBombExplode(){
+		if(buildingBombCounter > 0 && isBombPlanted == true){
+			buildingBombCounter--;
+		}
+		if(buildingBombCounter == 0 && isBombPlanted == true){
+			bombExplode();
+			isBombPlanted = false;
+		}
+	}
+
+	private void counters(){
+		this.countdownEnemyRespawn();
+		this.countdownBombExplode();
+	}
+	
 	
 
 	

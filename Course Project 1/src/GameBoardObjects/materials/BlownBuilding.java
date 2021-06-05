@@ -7,11 +7,11 @@ import java.awt.event.MouseEvent;
 import GameBoardObjects.parrents.Material;
 import interfaces.GameConfig;
 
-public class Ground extends Material{
-	private static Color color = GameConfig.groundColor;
+public class BlownBuilding extends Material{
+	private static Color color = GameConfig.blownBuilding;
 	private boolean isTrigger = false;
 	
-	public Ground(int row, int col) {
+	public BlownBuilding(int row, int col) {
 		super(row, col, color);
 	}
 

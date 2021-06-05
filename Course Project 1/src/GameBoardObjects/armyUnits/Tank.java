@@ -2,7 +2,7 @@ package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
 
-import GameBoardObjects.ArmyUnit;
+import GameBoardObjects.parrents.ArmyUnit;
 
 public class Tank extends ArmyUnit {
 

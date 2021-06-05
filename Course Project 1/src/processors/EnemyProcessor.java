@@ -1,10 +1,10 @@
 package processors;
 import java.util.Random;
 
-import GameBoardObjects.ArmyUnit;
-import GameBoardObjects.GameBoardObject;
 import GameBoardObjects.enemys.Petkan;
 import GameBoardObjects.materials.Ground;
+import GameBoardObjects.parrents.ArmyUnit;
+import GameBoardObjects.parrents.GameBoardObject;
 import game.GameBoard;
 import interfaces.GameConfig;
 
