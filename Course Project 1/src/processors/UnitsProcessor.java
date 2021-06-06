@@ -100,7 +100,7 @@ public class UnitsProcessor {
 			destCol--;
 
 			if(destCol < 0 && isDrunkerOnboard){
-				destCol = GameConfig.cols - 1;
+				destCol = GameConfig.COLS - 1;
 			}
 		}
 		if(direction.equals(DirectionsEnum.RIGHT)){
@@ -112,7 +112,7 @@ public class UnitsProcessor {
 		if(direction.equals(DirectionsEnum.UP)){
 			destRow--;
 			if(destRow < 0 && isDrunkerOnboard){
-				destRow = GameConfig.rows - 1;
+				destRow = GameConfig.ROWS - 1;
 			}
 		}
 		if(direction.equals(DirectionsEnum.DOWN)){

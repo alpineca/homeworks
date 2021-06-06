@@ -2,6 +2,7 @@ package processors;
 import java.util.Random;
 
 import GameBoardObjects.enemys.Petkan;
+import GameBoardObjects.materials.BlownBuilding;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
@@ -16,8 +17,8 @@ public class EnemyProcessor {
 		int row, col;
 
 		while(isGroundField == false){
-			row = rand(GameConfig.rows);
-			col = rand(GameConfig.cols);
+			row = rand(GameConfig.ROWS);
+			col = rand(GameConfig.COLS);
 
 			if(gameBoard[row][col] instanceof Ground){
 				GameBoardObject enemy = new Petkan(row, col);
@@ -46,7 +47,7 @@ public class EnemyProcessor {
 				int newCol = (enemyTemp.getCol() - 1);
 				int newColCheck = newCol < 0 ? 0 : newCol;
 				
-				if(gameBoard[enemyRow][newColCheck] instanceof Ground){
+				if(gameBoard[enemyRow][newColCheck] instanceof Ground || gameBoard[enemyRow][newColCheck] instanceof BlownBuilding){
 
 					enemy.setCol(enemyTemp.getCol() - 1);
 					gameBoard[enemyRow][enemyTemp.getCol() - 1] = enemy;
@@ -61,7 +62,7 @@ public class EnemyProcessor {
 			//Move RIGHT
 			if(direction == 2){
 				int newCol 		= (enemyTemp.getCol() + 1);
-				int maxColBound = GameConfig.cols - 1;
+				int maxColBound = GameConfig.COLS - 1;
 				int newColCheck = newCol > maxColBound ? maxColBound : newCol;
 
 				if(gameBoard[enemyRow][newColCheck] instanceof Ground){
@@ -96,7 +97,7 @@ public class EnemyProcessor {
 			//Move DOWN
 			if(direction == 4){
 				int newRow 		= (enemyTemp.getRow() + 1);
-				int maxRowBound = GameConfig.rows - 1;
+				int maxRowBound = GameConfig.ROWS - 1;
 				int newRowCheck = newRow > maxRowBound ? maxRowBound : newRow;
 
 				if(gameBoard[newRowCheck][enemyCol] instanceof Ground){

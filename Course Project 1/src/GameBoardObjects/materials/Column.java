@@ -48,16 +48,16 @@ public class Column extends Material{
 
 	@Override
 	public void render(Graphics g) {
-		int tileX = this.col * GameConfig.tileSize; 
-		int tileY = this.row * GameConfig.tileSize;
+		int tileX = this.col * GameConfig.TILESIZE; 
+		int tileY = this.row * GameConfig.TILESIZE;
 
-		int placementCoefficientX = (GameConfig.tileSize / 2) - 10;
-		int placementCoefficientY = (GameConfig.tileSize / 2) + 7;
+		int placementCoefficientX = (GameConfig.TILESIZE / 2) - 10;
+		int placementCoefficientY = (GameConfig.TILESIZE / 2) + 7;
 		
 		g.setColor(this.color);
-		g.fillRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
+		g.fillRect(tileX, tileY, GameConfig.TILESIZE, GameConfig.TILESIZE);
 		g.setColor(Color.DARK_GRAY);
-		g.drawRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
+		g.drawRect(tileX, tileY, GameConfig.TILESIZE, GameConfig.TILESIZE);
 
 		if(this.isColumn == true && this.infoString.isEmpty()){
 			g.setColor(Color.BLACK);

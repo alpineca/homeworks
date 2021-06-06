@@ -11,7 +11,7 @@ public abstract class GameBoardObject{
 	protected int row;
 	protected int col;
 	protected Color color;
-	protected Color borderColor = GameConfig.tileBorderColor;
+	protected Color borderColor = GameConfig.TILEBORDERCOLOR;
 	protected GameBoardObject element;
 	
 	protected GameBoardObject(int row, int col, Color color) {

@@ -13,6 +13,7 @@ import GameBoardObjects.materials.BlownBuilding;
 import GameBoardObjects.materials.Brick;
 import GameBoardObjects.materials.Column;
 import GameBoardObjects.materials.Ground;
+import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
 import GameBoardObjects.parrents.Material;
 import enums.DirectionsEnum;
@@ -82,10 +83,10 @@ public class GameBoard extends JPanel implements KeyListener{
 	
 	private void bootstrap() {
 		
-		gameBoard = new GameBoardObject[GameConfig.rows][GameConfig.cols];
+		gameBoard = new GameBoardObject[GameConfig.ROWS][GameConfig.COLS];
 		
-		for(int row = 0; row < GameConfig.rows; row++) {
-			for(int col = 0; col < GameConfig.cols; col++) {
+		for(int row = 0; row < GameConfig.ROWS; row++) {
+			for(int col = 0; col < GameConfig.COLS; col++) {
 				gameBoard[row][col] = new Ground(row, col);
 			}
 		}
@@ -105,7 +106,6 @@ public class GameBoard extends JPanel implements KeyListener{
 			EnemyProcessor.moveEnemy(gameBoard, enemy);
 		}
 		this.counters();
-		checkBuildings();
 		this.unitToMove = null;
 	}
 	
@@ -113,8 +113,8 @@ public class GameBoard extends JPanel implements KeyListener{
 	public void paint(Graphics g) {
 		super.paint(g);
 		System.out.println("Paint");
-		for(int row = 0; row < GameConfig.rows; row++) {
-			for(int col = 0; col < GameConfig.cols; col++) {
+		for(int row = 0; row < GameConfig.ROWS; row++) {
+			for(int col = 0; col < GameConfig.COLS; col++) {
 				gameBoard[row][col].render(g);
 			}
 		}
@@ -171,17 +171,12 @@ public class GameBoard extends JPanel implements KeyListener{
 		buildingBombCounter = 6;
 
 	}
-
-	
-	private void checkBuildings() {
-
-	}
-
 	
 	private void bombExplode() {
 		ArrayList<GameBoardObject> smallBuildingElements = SmallBuilding.getBuildingElements();
 		// ArrayList<GameBoardObject> middleBuildingElements = MiddleBuilding.getBuildingElements();
 		// ArrayList<GameBoardObject> largeBuildingElements = LargeBuilding.getBuildingElements();
+
 		int i = 0;
 		GameBoardObject elementToSet = null;
 		for(GameBoardObject element : smallBuildingElements){
@@ -268,6 +263,46 @@ public class GameBoard extends JPanel implements KeyListener{
 	private void counters(){
 		this.countdownEnemyRespawn();
 		this.countdownBombExplode();
+	}
+
+	private void killNearUnits(int row, int col){
+		int minRowBound 		= row-1;
+		int maxRowBound 		= row+1;
+
+		int minColBound 		= col-1;
+		int maxColBound 		= col+1;
+
+		int unitToKillRow 		= -1;
+		int unitToKillCol 		= -1;
+		boolean isUnitToKill 	= false;
+
+		for(int i = minRowBound; i <= maxRowBound; i++){
+			for(int j = minColBound; j <= maxColBound; j++){
+				try {
+					if(gameBoard[i][j] instanceof ArmyUnit){
+						for(GameBoardObject unit : armyUnits){
+							unitToKillRow 	= i;
+							unitToKillCol 	= j;
+							isUnitToKill 	= true;
+						}
+					} 
+				} catch (Exception e) {
+
+				}					
+			}
+		}
+
+		if(unitToKillRow > -1 && unitToKillCol > -1 && isUnitToKill == true){
+			for(GameBoardObject unit : armyUnits){
+				try {
+					if(unit.getRow() == row && unit.getCol() == col){
+						unit = new Ground(row, col);
+					}
+				} catch (Exception e) {
+
+				}			
+			}
+		}
 	}
 	
 	

@@ -8,7 +8,7 @@ import GameBoardObjects.parrents.Material;
 import interfaces.GameConfig;
 
 public class Ground extends Material{
-	private static Color color = GameConfig.groundColor;
+	private static Color color = GameConfig.GROUNDCOLOR;
 	private boolean isTrigger = false;
 	
 	public Ground(int row, int col) {
@@ -17,13 +17,13 @@ public class Ground extends Material{
 
 	@Override
 	public void render(Graphics g) {
-		int tileX = this.col * GameConfig.tileSize; 
-		int tileY = this.row * GameConfig.tileSize;
+		int tileX = this.col * GameConfig.TILESIZE; 
+		int tileY = this.row * GameConfig.TILESIZE;
 		
 		g.setColor(this.color);
-		g.fillRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
+		g.fillRect(tileX, tileY, GameConfig.TILESIZE, GameConfig.TILESIZE);
 		g.setColor(this.borderColor);
-		g.drawRect(tileX, tileY, GameConfig.tileSize, GameConfig.tileSize);
+		g.drawRect(tileX, tileY, GameConfig.TILESIZE, GameConfig.TILESIZE);
 		
 	}
 

@@ -21,11 +21,11 @@ public class SmallBuilding extends GameBoardObject{
 
     public void Spawn(int row, int col, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
         
-        Color color = GameConfig.smallBuildingColor;
+        Color color = GameConfig.SMALLBUILDINGCOLOR;
 		theBuildingElements = new ArrayList<GameBoardObject>();
 
-		for(int i = 0; i < GameConfig.smallBuildingRows; i++){
-			for(int j = 0; j < GameConfig.smallBuildingCols; j++){
+		for(int i = 0; i < GameConfig.SMALLBUILDINGROWS; i++){
+			for(int j = 0; j < GameConfig.SMALLBUILDINGCOLS; j++){
                 Column element = new Column(row + i, col + j, true, color);
 				gameBoard[row + i][col + j] = element;
 				theBuildingElements.add(element);

@@ -84,8 +84,8 @@ public class BuildingsProcessor {
 		Color color = Color.ORANGE;
 		ArrayList<GameBoardObject> middleBuilding = GameBoard.getMiddleBuilding();
 		
-		for(int i = 0; i < GameConfig.middleBuildingRows; i++){
-			for(int j = 0; j < GameConfig.middleBuildingCols; j++){
+		for(int i = 0; i < GameConfig.MIDDLEBUILDINGROWS; i++){
+			for(int j = 0; j < GameConfig.MIDDLEBUILDINGCOLS; j++){
 
 				if((i == 0 && j == 1) || (i == 1 && j == 1)){
 					gameBoard[row + i][col + j] = new Brick(row + i, col + j, color, false);
@@ -102,11 +102,11 @@ public class BuildingsProcessor {
 		}
 	}
 	private static void createLargeBuilding(int row, int col, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> buildings) {
-		Color color = GameConfig.largeBuildingColor;
+		Color color = GameConfig.LARGEBUILDINGCOLOR;
 		ArrayList<GameBoardObject> largeBuilding = GameBoard.getLargeBuilding();
 		
-		for(int i = 0; i < GameConfig.largeBuildingRows; i++){
-			for(int j = 0; j < GameConfig.largeBuildingCols; j++){
+		for(int i = 0; i < GameConfig.LARGEBUILDINGROWS; i++){
+			for(int j = 0; j < GameConfig.LARGEBUILDINGCOLS; j++){
 				boolean columnFirstRow 		= i == 0 && (j == 0 || j == 2); 
 				boolean columnSeccondRow 	= i == 1 && j == 1;
 				boolean columnThirdRow 		= i == 2 && (j == 0 || j == 2);
