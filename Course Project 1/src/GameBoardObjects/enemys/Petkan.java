@@ -115,7 +115,8 @@ public class Petkan extends Enemy{
 		while(isPlacementDone == false){
 			//TOP LEFT
 			int row = 0, col = 0;
-			int randCorner = (rand(4) + 1);
+			// int randCorner = (rand(4) + 1);
+			int randCorner = 3;
 			//TOP RIGHT
 			if(randCorner == 2){
 				row = 0;

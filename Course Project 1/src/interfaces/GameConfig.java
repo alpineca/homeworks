@@ -16,20 +16,22 @@ public interface GameConfig {
     int COLS 				    = 15;
     int TILESIZE			    = 50;
     Color GROUNDCOLOR           = new Color(10, 10, 10);
-    Color BLOWNBUILDINGCOLOR    = new Color(20, 20, 20);
     Color TILEBORDERCOLOR       = new Color(23, 23, 22);
     
     //Buildings
-    Color SMALLBUILDINGCOLOR    = new Color(240, 108, 26);
-    int SMALLBUILDINGROWS       = 2;
-    int SMALLBUILDINGCOLS       = 2;
+    Color SMALLBUILDINGCOLOR            = new Color(240, 108, 26);
+    Color SMALLBUILDINGBLOWNCOLOR       = new Color(41, 18, 4);
+    int SMALLBUILDINGROWS               = 2;
+    int SMALLBUILDINGCOLS               = 2;
 
-    Color MIDDLEBUILDINGCOLOR   = new Color(74, 150, 176);
-    int MIDDLEBUILDINGROWS       = 2;
-    int MIDDLEBUILDINGCOLS       = 3;
+    Color MIDDLEBUILDINGCOLOR           = new Color(74, 150, 176);
+    Color MIDDLEBUILDINGBLOWNCOLOR      = new Color(16, 33, 38);
+    int MIDDLEBUILDINGROWS              = 2;
+    int MIDDLEBUILDINGCOLS              = 3;
 
-    Color LARGEBUILDINGCOLOR    = new Color(74, 176, 128);
-    int LARGEBUILDINGROWS       = 3;
-    int LARGEBUILDINGCOLS       = 3;
+    Color LARGEBUILDINGCOLOR            = new Color(74, 176, 128);
+    Color LARGEBUILDINGBLOWNCOLOR       = new Color(18, 43, 32);
+    int LARGEBUILDINGROWS               = 3;
+    int LARGEBUILDINGCOLS               = 3;
     
 }

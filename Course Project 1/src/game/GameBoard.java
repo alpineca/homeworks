@@ -1,26 +1,22 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.JPanel;
 
-import GameBoardObjects.materials.BlownBuilding;
-import GameBoardObjects.materials.Brick;
-import GameBoardObjects.materials.Column;
-import GameBoardObjects.materials.Ground;
-import GameBoardObjects.parrents.ArmyUnit;
-import GameBoardObjects.parrents.GameBoardObject;
-import GameBoardObjects.parrents.Material;
-import enums.DirectionsEnum;
 import GameBoardObjects.buildings.LargeBuilding;
 import GameBoardObjects.buildings.MiddleBuilding;
 import GameBoardObjects.buildings.SmallBuilding;
 import GameBoardObjects.enemys.Petkan;
+import GameBoardObjects.materials.BlownBuilding;
+import GameBoardObjects.materials.Column;
+import GameBoardObjects.materials.Ground;
+import GameBoardObjects.parrents.ArmyUnit;
+import GameBoardObjects.parrents.GameBoardObject;
+import enums.DirectionsEnum;
 import interfaces.GameConfig;
 import processors.BuildingsProcessor;
 import processors.EnemyProcessor;
@@ -42,7 +38,7 @@ public class GameBoard extends JPanel implements KeyListener{
 	private static int buildingBombCounter 	= 0;
 
 	private static boolean isEnemyOnTheMap 	= true;
-	private static boolean isBombPlanted 	= false;
+	private static boolean isBombPlantedOnBuilding 	= false;
 
 	public static boolean isEnemyOnTheMap() {
 		return isEnemyOnTheMap;
@@ -160,37 +156,69 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 
 	public static void bombPlantedCounterReset() {
-		if(enemyReloadCounter == 0 && isBombPlanted == true){
+		if(enemyReloadCounter == 0 && isBombPlantedOnBuilding == true){
 			enemyReloadCounter = 7;
 			setEnemyOnTheMap(false);
 		}
 	}
 
 	public static void plantBomb() {
-		isBombPlanted 		= true;
+		isBombPlantedOnBuilding 		= true;
 		buildingBombCounter = 6;
 
 	}
 	
-	private void bombExplode() {
-		ArrayList<GameBoardObject> smallBuildingElements = SmallBuilding.getBuildingElements();
-		// ArrayList<GameBoardObject> middleBuildingElements = MiddleBuilding.getBuildingElements();
-		// ArrayList<GameBoardObject> largeBuildingElements = LargeBuilding.getBuildingElements();
+	private void bombExplode(){
+		ArrayList<GameBoardObject> smallBuildingElements 	= SmallBuilding.getBuildingElements();
+		ArrayList<GameBoardObject> middleBuildingElements 	= MiddleBuilding.getBuildingElements();
+		ArrayList<GameBoardObject> largeBuildingElements 	= LargeBuilding.getBuildingElements();
 
-		int i = 0;
-		GameBoardObject elementToSet = null;
 		for(GameBoardObject element : smallBuildingElements){
 			try {
-				int indexToSet = buildings.indexOf(element);
-				element = new BlownBuilding(element.getRow(), element.getCol());
-				buildings.set(indexToSet, element);
-				smallBuildingElements.set(i, element);
-				gameBoard[element.getRow()][element.getCol()] = element;
-			
+				boolean isBombPlanted = ((Column) element).isBombPlanted;
+
+				if(isBombPlanted){
+					killNearUnits(element.getRow(), element.getCol());
+					SmallBuilding.explodeThisColumn(element, gameBoard);
+				}
 			} catch (Exception e) {
 				//TODO: handle exception
 			}
-			i++;
+			
+		}
+		for(GameBoardObject element : middleBuildingElements){
+
+			try {
+
+				boolean isBombPlanted = ((Column) element).isBombPlanted;
+
+				if(isBombPlanted){
+					killNearUnits(element.getRow(), element.getCol());
+					MiddleBuilding.explodeThisColumn(element, gameBoard);
+				}
+				
+			} catch (Exception e) {
+				//TODO: handle exception
+			}
+
+			
+		}
+		for(GameBoardObject element : largeBuildingElements){
+
+			try {
+
+				boolean isBombPlanted = ((Column) element).isBombPlanted;
+
+				if(isBombPlanted){
+					killNearUnits(element.getRow(), element.getCol());
+					LargeBuilding.explodeThisColumn(element, gameBoard);
+				}
+				
+			} catch (Exception e) {
+				//TODO: handle exception
+			}
+
+			
 		}
 
 
@@ -198,18 +226,6 @@ public class GameBoard extends JPanel implements KeyListener{
 
 		
 
-	}
-
-	private void explodedColumn(int row, int col){
-		int i = 0;
-		for(GameBoardObject element : buildings){
-			if(element.getRow() == row && element.getCol() == col){
-				element = new Ground(row, col);
-				buildings.set(i, element);
-				i++;
-				break;
-			}
-		}
 	}
 	private void keyActionProcessor(int keyCode) {
 		
@@ -251,12 +267,12 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 
 	private void countdownBombExplode(){
-		if(buildingBombCounter > 0 && isBombPlanted == true){
+		if(buildingBombCounter > 0 && isBombPlantedOnBuilding == true){
 			buildingBombCounter--;
 		}
-		if(buildingBombCounter == 0 && isBombPlanted == true){
+		if(buildingBombCounter == 0 && isBombPlantedOnBuilding == true){
 			bombExplode();
-			isBombPlanted = false;
+			isBombPlantedOnBuilding = false;
 		}
 	}
 
@@ -280,11 +296,10 @@ public class GameBoard extends JPanel implements KeyListener{
 			for(int j = minColBound; j <= maxColBound; j++){
 				try {
 					if(gameBoard[i][j] instanceof ArmyUnit){
-						for(GameBoardObject unit : armyUnits){
-							unitToKillRow 	= i;
-							unitToKillCol 	= j;
-							isUnitToKill 	= true;
-						}
+						unitToKillRow 	= i;
+						unitToKillCol 	= j;
+						isUnitToKill 	= true;
+						break;
 					} 
 				} catch (Exception e) {
 
@@ -295,8 +310,10 @@ public class GameBoard extends JPanel implements KeyListener{
 		if(unitToKillRow > -1 && unitToKillCol > -1 && isUnitToKill == true){
 			for(GameBoardObject unit : armyUnits){
 				try {
-					if(unit.getRow() == row && unit.getCol() == col){
-						unit = new Ground(row, col);
+					if(unit.getRow() == unitToKillRow && unit.getCol() == unitToKillCol){
+						armyUnits.remove(unit);
+						gameBoard[unitToKillRow][unitToKillCol] = new Ground(unitToKillRow, unitToKillCol);
+						this.repaint();
 					}
 				} catch (Exception e) {
 

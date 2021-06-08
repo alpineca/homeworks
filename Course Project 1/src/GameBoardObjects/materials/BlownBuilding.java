@@ -8,10 +8,10 @@ import GameBoardObjects.parrents.Material;
 import interfaces.GameConfig;
 
 public class BlownBuilding extends Material{
-	private static Color color = GameConfig.BLOWNBUILDINGCOLOR;
+	// private static Color color;
 	private boolean isTrigger = false;
 	
-	public BlownBuilding(int row, int col) {
+	public BlownBuilding(int row, int col, Color color) {
 		super(row, col, color);
 	}
 

@@ -139,7 +139,7 @@ public class UnitsProcessor {
 				gameBoard[destRow][destCol] = gameBoard[armyUnitRow[i]][armyUnitCol[i]];
 			}
 			if(i == armyUnits.size()-1){
-				gameBoard[armyUnitRow[i]][armyUnitCol[i]] = teramorf(armyUnitRow[i], armyUnitCol[i], new Ground(armyUnitRow[i], armyUnitCol[i]), buildings);
+				gameBoard[armyUnitRow[i]][armyUnitCol[i]] = teramorf(armyUnitRow[i], armyUnitCol[i], new Ground(armyUnitRow[i], armyUnitCol[i]));
 
 			}else{
 				gameBoard[armyUnitRow[i]][armyUnitCol[i]] = gameBoard[armyUnitRow[i+1]][armyUnitCol[i+1]];
@@ -170,8 +170,8 @@ public class UnitsProcessor {
 		return false;
 	}
 
-	private static GameBoardObject teramorf(int row, int col, GameBoardObject newElement, ArrayList<GameBoardObject> buildings){
-		for(GameBoardObject element : buildings){
+	private static GameBoardObject teramorf(int row, int col, GameBoardObject newElement){
+		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
 			if(element.getRow() == row && element.getCol() == col){
 				return element;
 			}

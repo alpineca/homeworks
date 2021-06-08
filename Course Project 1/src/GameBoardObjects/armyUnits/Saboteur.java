@@ -1,14 +1,11 @@
 package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
-import GameBoardObjects.buildings.SmallBuilding;
-import GameBoardObjects.materials.Brick;
 import GameBoardObjects.materials.Column;
 import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
-import game.GameBoard;
+import processors.BuildingsProcessor;
 
 public class Saboteur extends ArmyUnit {
 
@@ -32,31 +29,16 @@ public class Saboteur extends ArmyUnit {
 
 	@Override
 	public void specialSkill() {
-		
-		ArrayList<GameBoardObject> smallBuilding 	= SmallBuilding.getBuildingElements();
-		// ArrayList<Brick> middleBuilding 	= GameBoard.getMiddleBuilding();
-		// ArrayList<Brick> largeBuilding 	= GameBoard.getLargeBuilding();
 
-		for(GameBoardObject element : smallBuilding){
+		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
 			if(element.getRow() == this.row && element.getCol() == this.col && element instanceof Column){
 				plantBomb(this.row, this.col);
 			}
 		}
-		// for(GameBoardObject element : middleBuilding){
-		// 	if(element.getRow() == this.row && element.getCol() == this.col && element instanceof Column){
-		// 		System.out.println("Middle Building Column");
-		// 	}
-		// }
-		// for(GameBoardObject element : largeBuilding){
-		// 	if(element.getRow() == this.row && element.getCol() == this.col && element instanceof Column){
-		// 		System.out.println("Large Building Column");
-		// 	}
-		// }
 	}
 
 	private void plantBomb(int row, int col) {
-		ArrayList<GameBoardObject> smallBuildingElements = SmallBuilding.getBuildingElements();
-		for(GameBoardObject element : smallBuildingElements){
+		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
 			if(element.getRow() == row && element.getCol() == col){
 				((Column)element).plantBomb();
 			}
