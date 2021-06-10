@@ -2,9 +2,6 @@ package GameBoardObjects.parrents;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-import org.w3c.dom.css.RGBColor;
-
 import interfaces.GameConfig;
 
 public abstract class GameBoardObject{

@@ -57,7 +57,29 @@ public class LargeBuilding extends GameBoardObject{
     }
 
     public static void explodeThisColumn(GameBoardObject element, GameBoardObject[][] gameBoard) {
-        destroyTheBuilding(gameBoard);
+        int remainingColumns = 0;
+
+        int row = element.getRow();
+        int col = element.getCol();
+
+        int elementIndex = theBuildingElements.indexOf(element);
+        element = new Ground(row, col);
+        theBuildingElements.set(elementIndex, element);
+        gameBoard[row][col] = element;
+
+        for(GameBoardObject elements : theBuildingElements){
+            try {
+                if(elements instanceof Column){
+                    remainingColumns++;
+                }
+            } catch (Exception e) {
+                //
+            }
+        }
+
+        if(remainingColumns == 0){
+            destroyTheBuilding(gameBoard);
+        }
     }
 
     public boolean isBuildingDestroyed(){

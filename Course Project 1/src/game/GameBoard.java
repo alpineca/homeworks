@@ -88,8 +88,8 @@ public class GameBoard extends JPanel implements KeyListener{
 		}
 		
 		BuildingsProcessor.spawnBuildings(	gameBoard, buildings);
-		UnitsProcessor.spawnArmyUnits(	gameBoard, armyUnits);
-		EnemyProcessor.spawnEnemyUnits(	gameBoard);
+		UnitsProcessor.spawnArmyUnits(		gameBoard, armyUnits);
+		EnemyProcessor.spawnEnemyUnits(		gameBoard);
 
 		
 	}
@@ -108,7 +108,6 @@ public class GameBoard extends JPanel implements KeyListener{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		System.out.println("Paint");
 		for(int row = 0; row < GameConfig.ROWS; row++) {
 			for(int col = 0; col < GameConfig.COLS; col++) {
 				gameBoard[row][col].render(g);

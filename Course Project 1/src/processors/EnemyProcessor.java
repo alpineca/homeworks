@@ -37,7 +37,6 @@ public class EnemyProcessor {
 
 		boolean isMoveCorrect 		= false;
 		boolean enemyTriggered 		= ((Petkan)enemy).getVisibility();
-		System.out.println(enemyTriggered);
 
 		while(isMoveCorrect == false && enemyTriggered == false){
 			int direction 			= rand(5);
