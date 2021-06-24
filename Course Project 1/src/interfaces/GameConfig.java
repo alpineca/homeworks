@@ -34,4 +34,11 @@ public interface GameConfig {
     int LARGEBUILDINGROWS               = 3;
     int LARGEBUILDINGCOLS               = 3;
     
+    
+    // Army Units Colors
+    Color TANKUNITCOLOR					= new Color(153, 141, 50);
+    Color SPYUNITCOLOR					= new Color(71, 153, 50);
+    Color SNIPERISTUNITCOLOR			= new Color(127, 153, 50);
+    Color SABOTEURUNITCOLOR				= new Color(212, 108, 34);
+    
 }

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import GUI.GUI;
 import GameBoardObjects.buildings.LargeBuilding;
 import GameBoardObjects.buildings.MiddleBuilding;
 import GameBoardObjects.buildings.SmallBuilding;
 import GameBoardObjects.enemys.Petkan;
-import GameBoardObjects.materials.BlownBuilding;
 import GameBoardObjects.materials.Column;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.ArmyUnit;
@@ -25,11 +25,12 @@ import processors.UnitsProcessor;
 public class GameBoard extends JPanel implements KeyListener{
 	
 	public static GameBoardObject[][] gameBoard;
-	public static ArrayList<GameBoardObject> armyUnits 	= new ArrayList<>();
-	public static ArrayList<GameBoardObject> buildings 		= new ArrayList<>();
-	public static ArrayList<GameBoardObject> smallBuilding 	= new ArrayList<>();
+	public static GUI userInterface;
+	public static ArrayList<GameBoardObject> armyUnits 			= new ArrayList<>();
+	public static ArrayList<GameBoardObject> buildings 			= new ArrayList<>();
+	public static ArrayList<GameBoardObject> smallBuilding 		= new ArrayList<>();
 	public static ArrayList<GameBoardObject> middleBuilding 	= new ArrayList<>();
-	public static ArrayList<GameBoardObject> largeBuilding 	= new ArrayList<>();
+	public static ArrayList<GameBoardObject> largeBuilding 		= new ArrayList<>();
 	
 	private static GameBoardObject enemy;
 	private GameBoardObject unitToMove;
@@ -75,6 +76,9 @@ public class GameBoard extends JPanel implements KeyListener{
 
 	public GameBoard() {
 		this.bootstrap();
+
+
+		// this.addKeyListener(this);
 	}
 	
 	private void bootstrap() {
@@ -95,10 +99,12 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 	
 	public void makeMove() {
-		if(((Petkan) enemy).getVisibility() == true){
+		
+		if(((Petkan) enemy).getVisibility()){
 			((Petkan) enemy).fire();
 		}
-		if(isEnemyOnTheMap() == true){
+
+		if(isEnemyOnTheMap()){
 			EnemyProcessor.moveEnemy(gameBoard, enemy);
 		}
 		this.counters();
@@ -162,15 +168,23 @@ public class GameBoard extends JPanel implements KeyListener{
 	}
 
 	public static void plantBomb() {
-		isBombPlantedOnBuilding 		= true;
-		buildingBombCounter = 6;
+		if(isBombPlantedOnBuilding == false){
+			isBombPlantedOnBuilding = true;
+			buildingBombCounter 	= 6;
+		}
+		
 
+	}
+
+	public static boolean isBombPlanted(){
+		return isBombPlantedOnBuilding;
 	}
 	
 	private void bombExplode(){
 		ArrayList<GameBoardObject> smallBuildingElements 	= SmallBuilding.getBuildingElements();
 		ArrayList<GameBoardObject> middleBuildingElements 	= MiddleBuilding.getBuildingElements();
 		ArrayList<GameBoardObject> largeBuildingElements 	= LargeBuilding.getBuildingElements();
+		int unexplodedColumns = 0;
 
 		for(GameBoardObject element : smallBuildingElements){
 			try {
@@ -220,6 +234,15 @@ public class GameBoard extends JPanel implements KeyListener{
 			
 		}
 
+		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
+			if(element instanceof Column){
+				unexplodedColumns++;
+			}
+		}
+		if(unexplodedColumns == 0){
+			// GUI.conditionGameOver();
+		}
+
 
 		this.repaint();
 
@@ -247,6 +270,10 @@ public class GameBoard extends JPanel implements KeyListener{
 		if(keyCode == 'f' || keyCode == 'F') {
 			UnitsProcessor.specialSkill();
 			this.makeMove();
+		}
+		if(keyCode == 'g' || keyCode == 'G') {
+			GUI changeCondition = userInterface.getGUIInstance();
+			changeCondition.conditionGameOver();
 		}
 		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)
 		{

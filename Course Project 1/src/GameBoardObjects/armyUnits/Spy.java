@@ -3,9 +3,10 @@ package GameBoardObjects.armyUnits;
 import java.awt.Color;
 
 import GameBoardObjects.parrents.ArmyUnit;
+import interfaces.GameConfig;
 
 public class Spy extends ArmyUnit {
-	private static Color color 				= new Color(71, 153, 50);
+	private static Color color 				= GameConfig.SPYUNITCOLOR;
 	private static int identificator 		= 3;
 	private int index;
 

@@ -3,11 +3,12 @@ package GameBoardObjects.armyUnits;
 import java.awt.Color;
 
 import GameBoardObjects.parrents.ArmyUnit;
+import interfaces.GameConfig;
 
 public class Tank extends ArmyUnit {
 
 
-	private static Color color 				= new Color(153, 141, 50);
+	private static Color color 				= GameConfig.TANKUNITCOLOR;
 	private static int identificator 		= 1;
 	private int index;
 	

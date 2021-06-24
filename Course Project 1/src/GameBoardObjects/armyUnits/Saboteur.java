@@ -5,11 +5,13 @@ import java.awt.Color;
 import GameBoardObjects.materials.Column;
 import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
+import game.GameBoard;
+import interfaces.GameConfig;
 import processors.BuildingsProcessor;
 
 public class Saboteur extends ArmyUnit {
 
-	private static Color color 				= new Color(212, 108, 34);
+	private static Color color 				= GameConfig.SABOTEURUNITCOLOR;
 	private static int identificator 		= 4;
 	private static boolean isSpecialSkill 	= true;
 	
@@ -24,25 +26,17 @@ public class Saboteur extends ArmyUnit {
 
 	@Override
 	public int getIdentificator() {
-		return this.identificator;
+		return identificator;
 	}
 
 	@Override
 	public void specialSkill() {
 
 		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
-			if(element.getRow() == this.row && element.getCol() == this.col && element instanceof Column){
-				plantBomb(this.row, this.col);
-			}
-		}
-	}
-
-	private void plantBomb(int row, int col) {
-		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
-			if(element.getRow() == row && element.getCol() == col){
+			if(element.getRow() == this.row && element.getCol() == this.col && element instanceof Column && !GameBoard.isBombPlanted()){
 				((Column)element).plantBomb();
+				return;
 			}
 		}
 	}
-
 }

@@ -4,11 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 
 import GameBoardObjects.parrents.ArmyUnit;
+import interfaces.GameConfig;
 
 public class Sniperist extends ArmyUnit {
 
 
-	private static Color color 				= new Color(127, 153, 50);
+	private static Color color 				= GameConfig.SNIPERISTUNITCOLOR;
 	private static int identificator 		= 2;
 	private int index;
 	

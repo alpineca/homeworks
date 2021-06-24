@@ -28,13 +28,14 @@ public class Petkan extends Enemy{
 
 	@Override
 	public void render(Graphics g) {
+
 		int tileX = this.col * GameConfig.TILESIZE; 
 		int tileY = this.row * GameConfig.TILESIZE;
-	
+
 		int placementCoefficientX = (GameConfig.TILESIZE / 2) - 10;
 		int placementCoefficientY = (GameConfig.TILESIZE / 2) + 7;
 
-		if(isVisible == true){
+		if(isVisible) {
 		
 			g.setColor(this.color);
 			g.fillRect(tileX, tileY, GameConfig.TILESIZE, GameConfig.TILESIZE);
@@ -73,7 +74,7 @@ public class Petkan extends Enemy{
 		int hitChance 			= 11;
 		boolean isAccurateShot 	= (fireAccuracy % hitChance) == 0;
 
-		if(isSniperistAvailable == true){
+		if(isSniperistAvailable){
 			int extraHitChance 	= rand(2);
 			isAccurateShot 	= ((fireAccuracy % hitChance) == 0) && extraHitChance == 1;
 		}
@@ -83,12 +84,16 @@ public class Petkan extends Enemy{
 			if(armyUnits.size() == 1){
 				System.exit(0);
 			}
-			if(isTankAvailable == true){
-				for(GameBoardObject element : armyUnits){
-					if(element instanceof Tank){
-						GameBoard.gameBoard[element.getRow()][element.getCol()] = new Ground(element.getRow(), element.getCol());
-						armyUnits.remove(element);
+			if(isTankAvailable){
+				try {
+					for(GameBoardObject element : armyUnits){
+						if(element instanceof Tank){
+							GameBoard.gameBoard[element.getRow()][element.getCol()] = new Ground(element.getRow(), element.getCol());
+							armyUnits.remove(element);
+						}
 					}
+				} catch (Exception e) {
+					// Exception
 				}
 			}
 			else{
@@ -114,8 +119,8 @@ public class Petkan extends Enemy{
 		while(isPlacementDone == false){
 			//TOP LEFT
 			int row = 0, col = 0;
-			// int randCorner = (rand(4) + 1);
-			int randCorner = 3;
+			int randCorner = (rand(4) + 1);
+			
 			//TOP RIGHT
 			if(randCorner == 2){
 				row = 0;
