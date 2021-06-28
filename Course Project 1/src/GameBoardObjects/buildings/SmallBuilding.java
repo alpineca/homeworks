@@ -8,6 +8,7 @@ import GameBoardObjects.materials.Column;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.GameBoardObject;
 import interfaces.GameConfig;
+import processors.BuildingsProcessor;
 
 public class SmallBuilding extends GameBoardObject{
 
@@ -47,6 +48,7 @@ public class SmallBuilding extends GameBoardObject{
 
     public static void explodeThisColumn(GameBoardObject element, GameBoardObject[][] gameBoard) {
         destroyTheBuilding(gameBoard);
+        
     }
 
     public boolean isBuildingDestroyed(){
@@ -64,6 +66,7 @@ public class SmallBuilding extends GameBoardObject{
             theBuildingElements.set(i, element);
             i++;
         }
+        BuildingsProcessor.checkForRemainingBuildings();
     }
 
     @Override

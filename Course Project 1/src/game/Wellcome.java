@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Cursor;
+
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import GUI.GUI;
@@ -12,13 +14,17 @@ import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.LineBorder;
 
-public class Wellcome extends JPanel implements ActionListener{
+public class Wellcome extends JPanel{
 	
 	private static String titleTxt = "Course Project First Semester";
 	private static GUI userInterface;
 
 	public Wellcome() {
+		setBorder(null);
 //		setBackground(new Color(25, 25, 25));
 		setBackground(GameConfig.GROUNDCOLOR);
 		setLayout(null);
@@ -120,13 +126,6 @@ public class Wellcome extends JPanel implements ActionListener{
 		lblLegend.setBounds(571, 328, 148, 25);
 		add(lblLegend);
 		
-		JButton btnStartGame = new JButton("START GAME");
-		btnStartGame.setBackground(Color.DARK_GRAY);
-		btnStartGame.setBounds(326, 611, 135, 55);
-		btnStartGame.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 15));
-		btnStartGame.addActionListener(this);
-		add(btnStartGame);
-		
 		JLabel lblSaboteurIcon = new JLabel("SABOTEUR");
 		lblSaboteurIcon.setForeground(Color.WHITE);
 		lblSaboteurIcon.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 15));
@@ -163,13 +162,39 @@ public class Wellcome extends JPanel implements ActionListener{
 		lblSpyIcon.setBounds(571, 410, 138, 33);
 		add(lblSpyIcon);
 		
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		GUI changeCondition = userInterface.getGUIInstance();
-		changeCondition.conditionStartGame();
+		JLabel lblNewLabel = new JLabel("START NEW GAME");
+		lblNewLabel.setForeground(new Color(250, 25, 89));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 50));
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblNewLabel.setForeground(new Color(250, 187, 205));
+				lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 52));
+				lblNewLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblNewLabel.setForeground(new Color(250, 25, 89));
+				lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 50));
+				lblNewLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GUI changeCondition = userInterface.getGUIInstance();
+				changeCondition.conditionStartGame();
+			}
+			
+		});
+		lblNewLabel.setBounds(140, 600, 489, 77);
+		add(lblNewLabel);
 		
+
 	}
+
+//	@Override
+////	public void actionPerformed(ActionEvent e) {
+////		GUI changeCondition = userInterface.getGUIInstance();
+////		changeCondition.conditionStartGame();
+////		
+////	}
 }

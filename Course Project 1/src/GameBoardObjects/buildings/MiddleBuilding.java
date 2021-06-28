@@ -9,6 +9,7 @@ import GameBoardObjects.materials.Column;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.GameBoardObject;
 import interfaces.GameConfig;
+import processors.BuildingsProcessor;
 
 public class MiddleBuilding extends GameBoardObject{
 
@@ -91,6 +92,7 @@ public class MiddleBuilding extends GameBoardObject{
             theBuildingElements.set(i, element);
             i++;
         }
+        BuildingsProcessor.checkForRemainingBuildings();
     }
 
     @Override

@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import javax.swing.WindowConstants;
 
+import enums.ResultEnum;
 import game.GameBoard;
 import game.GameOver;
 import game.Wellcome;
@@ -13,12 +14,13 @@ import interfaces.GameConfig;
 public class GUI extends JFrame{
 	private static Wellcome wellcomeScreen 	= new Wellcome();
 	private static GameBoard gameBoard 		= new GameBoard();
-	private static GameOver gameOver 		= new GameOver();
+	private static GameOver gameOver;
 	private static boolean isGameOver 		= false;
 	private static GUI instance;
 
 	public GUI() {
 		this.add(wellcomeScreen);		
+//		this.add(gameOver);
 		this.setSize(GameConfig.WINDOWSIZEX, GameConfig.WINDOWSIZEY);
 		this.setVisible(true);
 		this.setResizable(false);
@@ -32,6 +34,17 @@ public class GUI extends JFrame{
 	public static GUI getGUIInstance(){
 		return instance;
 	}
+	
+	public void conditionRestartGame(){
+//		wellcomeScreen.setVisible(false);
+		gameBoard = new GameBoard(true);
+		this.add(gameBoard);
+		gameOver.setVisible(false);
+		this.addKeyListener(gameBoard);
+		this.requestFocus();
+		// this.remove(wellcomeScreen);
+		// this.repaint();
+	}
 
 	public void conditionStartGame(){
 		wellcomeScreen.setVisible(false);
@@ -43,9 +56,14 @@ public class GUI extends JFrame{
 		// this.repaint();
 	}
 
-	public void conditionGameOver(){
+	public void conditionGameOver(ResultEnum result){
+		gameOver = new GameOver(result);
+		
 		gameBoard.setVisible(false);
+//		gameBoard = null;
+		this.remove(gameBoard);
 		this.add(gameOver);
+		gameOver.requestFocus();
 		this.repaint();
 	}
 

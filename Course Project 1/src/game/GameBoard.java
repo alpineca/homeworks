@@ -17,15 +17,17 @@ import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
 import enums.DirectionsEnum;
+import enums.ResultEnum;
 import interfaces.GameConfig;
 import processors.BuildingsProcessor;
 import processors.EnemyProcessor;
+import processors.GameProcessor;
 import processors.UnitsProcessor;
 
 public class GameBoard extends JPanel implements KeyListener{
 	
 	public static GameBoardObject[][] gameBoard;
-	public static GUI userInterface;
+	
 	public static ArrayList<GameBoardObject> armyUnits 			= new ArrayList<>();
 	public static ArrayList<GameBoardObject> buildings 			= new ArrayList<>();
 	public static ArrayList<GameBoardObject> smallBuilding 		= new ArrayList<>();
@@ -75,10 +77,27 @@ public class GameBoard extends JPanel implements KeyListener{
 
 
 	public GameBoard() {
+		
 		this.bootstrap();
-
-
-		// this.addKeyListener(this);
+		
+	}
+	
+	public GameBoard(boolean restart) {
+		
+//		this.armyUnits = null;
+//		this.buildings = null;
+//		this.smallBuilding = null;
+//		this.middleBuilding = null;
+//		this.largeBuilding = null;
+//		
+//		ArrayList<GameBoardObject> armyUnits 			= new ArrayList<>();
+//		ArrayList<GameBoardObject> buildings 			= new ArrayList<>();
+//		ArrayList<GameBoardObject> smallBuilding 		= new ArrayList<>();
+//		ArrayList<GameBoardObject> middleBuilding 		= new ArrayList<>();
+//		ArrayList<GameBoardObject> largeBuilding 		= new ArrayList<>();
+		
+		this.bootstrap();
+		
 	}
 	
 	private void bootstrap() {
@@ -123,6 +142,7 @@ public class GameBoard extends JPanel implements KeyListener{
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
+		
 		keyActionProcessor(e.getKeyChar());
 		
 		this.repaint();
@@ -272,8 +292,7 @@ public class GameBoard extends JPanel implements KeyListener{
 			this.makeMove();
 		}
 		if(keyCode == 'g' || keyCode == 'G') {
-			GUI changeCondition = userInterface.getGUIInstance();
-			changeCondition.conditionGameOver();
+			GameProcessor.endGame(ResultEnum.LOSE);
 		}
 		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)
 		{

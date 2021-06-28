@@ -8,7 +8,9 @@ import GameBoardObjects.buildings.LargeBuilding;
 import GameBoardObjects.buildings.MiddleBuilding;
 import GameBoardObjects.buildings.SmallBuilding;
 import GameBoardObjects.materials.Brick;
+import GameBoardObjects.materials.Column;
 import GameBoardObjects.parrents.GameBoardObject;
+import enums.ResultEnum;
 import game.GameBoard;
 import interfaces.GameConfig;
 
@@ -57,6 +59,18 @@ public class BuildingsProcessor {
 		allElements.addAll(largeBuildingElements);
 
 		return allElements;
+	}
+	
+	public static void checkForRemainingBuildings() {
+		int remainingColumns = 0;
+		
+		for(GameBoardObject element : allBuildingsElements()) {
+			if(element instanceof Column) remainingColumns++;
+		}
+		
+		if(remainingColumns == 0) {
+			GameProcessor.endGame(ResultEnum.WIN);
+		}
 	}
 	
 	private static void calculatePossitions() {
