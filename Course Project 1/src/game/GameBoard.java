@@ -4,21 +4,14 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
-import GUI.GUI;
-import GameBoardObjects.buildings.LargeBuilding;
-import GameBoardObjects.buildings.MiddleBuilding;
-import GameBoardObjects.buildings.SmallBuilding;
 import GameBoardObjects.enemys.Petkan;
-import GameBoardObjects.materials.Column;
 import GameBoardObjects.materials.Ground;
-import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
 import enums.DirectionsEnum;
 import enums.ResultEnum;
 import interfaces.GameConfig;
+import processors.BombProcessor;
 import processors.BuildingsProcessor;
 import processors.EnemyProcessor;
 import processors.GameProcessor;
@@ -55,6 +48,7 @@ public class GameBoard extends JPanel implements KeyListener{
 	public static GameBoardObject getEnemy(){
 		return enemy;
 	}
+
 	public static ArrayList<GameBoardObject> getSmallBuilding() {
 		return smallBuilding;
 	}
@@ -81,23 +75,37 @@ public class GameBoard extends JPanel implements KeyListener{
 		this.bootstrap();
 		
 	}
-	
-	public GameBoard(boolean restart) {
+
+	private void keyActionProcessor(int keyCode) {
 		
-//		this.armyUnits = null;
-//		this.buildings = null;
-//		this.smallBuilding = null;
-//		this.middleBuilding = null;
-//		this.largeBuilding = null;
-//		
-//		ArrayList<GameBoardObject> armyUnits 			= new ArrayList<>();
-//		ArrayList<GameBoardObject> buildings 			= new ArrayList<>();
-//		ArrayList<GameBoardObject> smallBuilding 		= new ArrayList<>();
-//		ArrayList<GameBoardObject> middleBuilding 		= new ArrayList<>();
-//		ArrayList<GameBoardObject> largeBuilding 		= new ArrayList<>();
-		
-		this.bootstrap();
-		
+		if(keyCode == 'a' || keyCode == 'A') {
+			UnitsProcessor.move(DirectionsEnum.LEFT, gameBoard, armyUnits, buildings);
+			this.makeMove();
+		}
+		if(keyCode == 'd' || keyCode == 'D') {
+			UnitsProcessor.move(DirectionsEnum.RIGHT, gameBoard, armyUnits, buildings);
+			this.makeMove();
+		}
+		if(keyCode == 'w' || keyCode == 'W') {
+			UnitsProcessor.move(DirectionsEnum.UP, gameBoard, armyUnits, buildings);
+			this.makeMove();
+		}
+		if(keyCode == 's' || keyCode == 'S') {
+			UnitsProcessor.move(DirectionsEnum.DOWN, gameBoard, armyUnits, buildings);
+			this.makeMove();
+		}
+		if(keyCode == 'f' || keyCode == 'F') {
+			UnitsProcessor.specialSkill();
+			this.makeMove();
+		}
+		if(keyCode == 'g' || keyCode == 'G') {
+			GameProcessor.endGame(ResultEnum.LOSE);
+		}
+		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)
+		{
+			UnitsProcessor.swapUnit(gameBoard, armyUnits, unitToMove);
+			this.repaint();
+		}
 	}
 	
 	private void bootstrap() {
@@ -200,106 +208,8 @@ public class GameBoard extends JPanel implements KeyListener{
 		return isBombPlantedOnBuilding;
 	}
 	
-	private void bombExplode(){
-		ArrayList<GameBoardObject> smallBuildingElements 	= SmallBuilding.getBuildingElements();
-		ArrayList<GameBoardObject> middleBuildingElements 	= MiddleBuilding.getBuildingElements();
-		ArrayList<GameBoardObject> largeBuildingElements 	= LargeBuilding.getBuildingElements();
-		int unexplodedColumns = 0;
+	
 
-		for(GameBoardObject element : smallBuildingElements){
-			try {
-				boolean isBombPlanted = ((Column) element).isBombPlanted;
-
-				if(isBombPlanted){
-					killNearUnits(element.getRow(), element.getCol());
-					SmallBuilding.explodeThisColumn(element, gameBoard);
-				}
-			} catch (Exception e) {
-				//TODO: handle exception
-			}
-			
-		}
-		for(GameBoardObject element : middleBuildingElements){
-
-			try {
-
-				boolean isBombPlanted = ((Column) element).isBombPlanted;
-
-				if(isBombPlanted){
-					killNearUnits(element.getRow(), element.getCol());
-					MiddleBuilding.explodeThisColumn(element, gameBoard);
-				}
-				
-			} catch (Exception e) {
-				//TODO: handle exception
-			}
-
-			
-		}
-		for(GameBoardObject element : largeBuildingElements){
-
-			try {
-
-				boolean isBombPlanted = ((Column) element).isBombPlanted;
-
-				if(isBombPlanted){
-					killNearUnits(element.getRow(), element.getCol());
-					LargeBuilding.explodeThisColumn(element, gameBoard);
-				}
-				
-			} catch (Exception e) {
-				//TODO: handle exception
-			}
-
-			
-		}
-
-		for(GameBoardObject element : BuildingsProcessor.allBuildingsElements()){
-			if(element instanceof Column){
-				unexplodedColumns++;
-			}
-		}
-		if(unexplodedColumns == 0){
-			// GUI.conditionGameOver();
-		}
-
-
-		this.repaint();
-
-		
-
-	}
-	private void keyActionProcessor(int keyCode) {
-		
-		if(keyCode == 'a' || keyCode == 'A') {
-			UnitsProcessor.move(DirectionsEnum.LEFT, gameBoard, armyUnits, buildings);
-			this.makeMove();
-		}
-		if(keyCode == 'd' || keyCode == 'D') {
-			UnitsProcessor.move(DirectionsEnum.RIGHT, gameBoard, armyUnits, buildings);
-			this.makeMove();
-		}
-		if(keyCode == 'w' || keyCode == 'W') {
-			UnitsProcessor.move(DirectionsEnum.UP, gameBoard, armyUnits, buildings);
-			this.makeMove();
-		}
-		if(keyCode == 's' || keyCode == 'S') {
-			UnitsProcessor.move(DirectionsEnum.DOWN, gameBoard, armyUnits, buildings);
-			this.makeMove();
-		}
-		if(keyCode == 'f' || keyCode == 'F') {
-			UnitsProcessor.specialSkill();
-			this.makeMove();
-		}
-		if(keyCode == 'g' || keyCode == 'G') {
-			GameProcessor.endGame(ResultEnum.LOSE);
-		}
-		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)
-		{
-			UnitsProcessor.swapUnit(gameBoard, armyUnits, unitToMove);
-			this.repaint();
-		}
-	}
 	
 	private void countdownEnemyRespawn(){
 		if(enemyReloadCounter > 0 && isEnemyOnTheMap == false){
@@ -316,7 +226,7 @@ public class GameBoard extends JPanel implements KeyListener{
 			buildingBombCounter--;
 		}
 		if(buildingBombCounter == 0 && isBombPlantedOnBuilding == true){
-			bombExplode();
+			BombProcessor.bombExplode();
 			isBombPlantedOnBuilding = false;
 		}
 	}
@@ -325,52 +235,5 @@ public class GameBoard extends JPanel implements KeyListener{
 		this.countdownEnemyRespawn();
 		this.countdownBombExplode();
 	}
-
-	private void killNearUnits(int row, int col){
-		int minRowBound 		= row-1;
-		int maxRowBound 		= row+1;
-
-		int minColBound 		= col-1;
-		int maxColBound 		= col+1;
-
-		int unitToKillRow 		= -1;
-		int unitToKillCol 		= -1;
-		boolean isUnitToKill 	= false;
-
-		for(int i = minRowBound; i <= maxRowBound; i++){
-			for(int j = minColBound; j <= maxColBound; j++){
-				try {
-					if(gameBoard[i][j] instanceof ArmyUnit){
-						unitToKillRow 	= i;
-						unitToKillCol 	= j;
-						isUnitToKill 	= true;
-						break;
-					} 
-				} catch (Exception e) {
-
-				}					
-			}
-		}
-
-		if(unitToKillRow > -1 && unitToKillCol > -1 && isUnitToKill == true){
-			for(GameBoardObject unit : armyUnits){
-				try {
-					if(unit.getRow() == unitToKillRow && unit.getCol() == unitToKillCol){
-						armyUnits.remove(unit);
-						gameBoard[unitToKillRow][unitToKillCol] = new Ground(unitToKillRow, unitToKillCol);
-						this.repaint();
-					}
-				} catch (Exception e) {
-
-				}			
-			}
-		}
-	}
-	
-	
-
-	
-
-	
 	
 }

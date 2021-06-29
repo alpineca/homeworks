@@ -3,6 +3,9 @@ package GUI;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.io.File;
+import java.lang.management.ManagementFactory;
+
 import javax.swing.WindowConstants;
 
 import enums.ResultEnum;
@@ -19,8 +22,7 @@ public class GUI extends JFrame{
 	private static GUI instance;
 
 	public GUI() {
-		this.add(wellcomeScreen);		
-//		this.add(gameOver);
+		this.add(wellcomeScreen);
 		this.setSize(GameConfig.WINDOWSIZEX, GameConfig.WINDOWSIZEY);
 		this.setVisible(true);
 		this.setResizable(false);
@@ -36,14 +38,7 @@ public class GUI extends JFrame{
 	}
 	
 	public void conditionRestartGame(){
-//		wellcomeScreen.setVisible(false);
-		gameBoard = new GameBoard(true);
-		this.add(gameBoard);
-		gameOver.setVisible(false);
-		this.addKeyListener(gameBoard);
-		this.requestFocus();
-		// this.remove(wellcomeScreen);
-		// this.repaint();
+		//FOR NEXT VERSION :)
 	}
 
 	public void conditionStartGame(){
@@ -51,16 +46,12 @@ public class GUI extends JFrame{
 		this.add(gameBoard);
 		this.addKeyListener(gameBoard);
 		this.requestFocus();
-		// this.setFocusable(true);
-		// this.remove(wellcomeScreen);
-		// this.repaint();
 	}
 
 	public void conditionGameOver(ResultEnum result){
 		gameOver = new GameOver(result);
 		
 		gameBoard.setVisible(false);
-//		gameBoard = null;
 		this.remove(gameBoard);
 		this.add(gameOver);
 		gameOver.requestFocus();
