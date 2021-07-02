@@ -1,18 +1,14 @@
 package processors;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 import GameBoardObjects.buildings.LargeBuilding;
 import GameBoardObjects.buildings.MiddleBuilding;
 import GameBoardObjects.buildings.SmallBuilding;
-import GameBoardObjects.materials.Brick;
 import GameBoardObjects.materials.Column;
 import GameBoardObjects.parrents.GameBoardObject;
 import enums.ResultEnum;
-import game.GameBoard;
-import interfaces.GameConfig;
 
 public class BuildingsProcessor {
 	

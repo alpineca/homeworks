@@ -1,7 +1,6 @@
 package GameBoardObjects.armyUnits;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import GameBoardObjects.parrents.ArmyUnit;
 import interfaces.GameConfig;

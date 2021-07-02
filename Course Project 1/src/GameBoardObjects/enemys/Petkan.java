@@ -12,14 +12,18 @@ import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.Enemy;
 import GameBoardObjects.parrents.GameBoardObject;
 import enums.ArmyUnitsEnum;
+import enums.ResultEnum;
 import game.GameBoard;
 import interfaces.GameConfig;
+import processors.GameProcessor;
 
 public class Petkan extends Enemy{
 
-    protected static Color color = Color.WHITE;
+    protected static Color color = Color.ORANGE;
     protected String symbol = "$";
 	protected boolean isVisible = false;
+
+	private GameBoardObject[][] gameBoard = GameBoard.getGameBoard();
 
     public Petkan(int row, int col) {
         super(row, col, color);
@@ -56,16 +60,14 @@ public class Petkan extends Enemy{
 	}
 
 	public void trigger(){
-		if(this.isVisible == true){
-			// fire();
-			return;
-		}
-		else if(this.isVisible == false){
+		if(this.isVisible == false){
 			this.isVisible = true;
 		}
 	}
 
 	public void fire(){
+
+
 		ArrayList<GameBoardObject> armyUnits = GameBoard.getArmyUnits();
 		boolean isTankAvailable 		= checkForUnit(ArmyUnitsEnum.TANK);
 		boolean isSniperistAvailable 	= checkForUnit(ArmyUnitsEnum.SNIPERIST);
@@ -82,13 +84,13 @@ public class Petkan extends Enemy{
 		if(isAccurateShot){
 			GameBoardObject armyLeader = armyUnits.get(0);
 			if(armyUnits.size() == 1){
-				System.exit(0);
+				GameProcessor.endGame(ResultEnum.LOSE);
 			}
 			if(isTankAvailable){
 				try {
 					for(GameBoardObject element : armyUnits){
 						if(element instanceof Tank){
-							GameBoard.gameBoard[element.getRow()][element.getCol()] = new Ground(element.getRow(), element.getCol());
+							gameBoard[element.getRow()][element.getCol()] = new Ground(element.getRow(), element.getCol());
 							armyUnits.remove(element);
 						}
 					}
@@ -97,7 +99,7 @@ public class Petkan extends Enemy{
 				}
 			}
 			else{
-				GameBoard.gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
+				gameBoard[armyLeader.getRow()][armyLeader.getCol()] = new Ground(armyLeader.getRow(), armyLeader.getCol());
 				armyUnits.remove(0);
 			}
 
@@ -139,11 +141,11 @@ public class Petkan extends Enemy{
 
 			if(GameBoard.gameBoard[row][col] instanceof Ground){
 				if(oldRow != -1 || oldCol != -1){
-					GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
+					gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
 				}
 				this.setRow(row);
 				this.setCol(col);
-				GameBoard.gameBoard[row][col] = this;
+				gameBoard[row][col] = this;
 				isPlacementDone = true;
 			}
 		}
@@ -155,7 +157,7 @@ public class Petkan extends Enemy{
 		int oldCol = this.getCol();
 		this.isVisible = false;
 
-		GameBoard.gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
+		gameBoard[oldRow][oldCol] = new Ground(oldRow, oldCol);
 
 		this.setRow(-1);
 		this.setCol(-1);

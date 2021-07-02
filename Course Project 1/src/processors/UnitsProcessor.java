@@ -122,17 +122,23 @@ public class UnitsProcessor {
 			}
 		}
 
-		GameBoardObject destination = gameBoard[destRow][destCol];
+		try {
+			GameBoardObject destination = gameBoard[destRow][destCol];
+	
+			if(destination instanceof ArmyUnit) {
+				return;
+			}
+			if(destination instanceof Enemy) {
+				return;
+			}
+			if(destination instanceof Brick && ((Brick) destination).getPassability() == false) {
+				return;
+			}
+			
+		} catch (Exception e) {
+			//TODO: handle exception
+		}
 
-		if(destination instanceof ArmyUnit) {
-			return;
-		}
-		if(destination instanceof Enemy) {
-			return;
-		}
-		if(destination instanceof Brick && ((Brick) destination).getPassability() == false) {
-			return;
-		}
 
 		for(int i = 0; i < armyUnits.size(); i++){
 			if(i == 0){

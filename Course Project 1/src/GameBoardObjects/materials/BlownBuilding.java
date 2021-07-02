@@ -2,13 +2,11 @@ package GameBoardObjects.materials;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
 
 import GameBoardObjects.parrents.Material;
 import interfaces.GameConfig;
 
 public class BlownBuilding extends Material{
-	// private static Color color;
 	private boolean isTrigger = false;
 	
 	public BlownBuilding(int row, int col, Color color) {
@@ -37,14 +35,12 @@ public class BlownBuilding extends Material{
 
 	@Override
 	public int getIndex() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean getPassability() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean getPassability(){
+		return true;
 	}
 
 

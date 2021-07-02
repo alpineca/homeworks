@@ -5,18 +5,18 @@ import java.awt.Color;
 public interface GameConfig {
 
     //Window settings
-    int WINDOWSIZEX             = 767;
-    int WINDOWSIZEY             = 790;
-    String PROGRAMTITLE         = "Course Project 1st Semester";
+    int WINDOWSIZEX                     = 767;
+    int WINDOWSIZEY                     = 790;
+    String PROGRAMTITLE                 = "Course Project 1st Semester";
 
     
     
     //Game board
-    int ROWS 				    = 15;
-    int COLS 				    = 15;
-    int TILESIZE			    = 50;
-    Color GROUNDCOLOR           = new Color(10, 10, 10);
-    Color TILEBORDERCOLOR       = new Color(23, 23, 22);
+    int ROWS 				            = 15;
+    int COLS 				            = 15;
+    int TILESIZE			            = 50;
+    Color GROUNDCOLOR                   = new Color(10, 10, 10);
+    Color TILEBORDERCOLOR               = new Color(23, 23, 22);
     
     //Buildings
     Color SMALLBUILDINGCOLOR            = new Color(240, 108, 26);

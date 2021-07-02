@@ -16,8 +16,6 @@ import java.awt.event.MouseEvent;
 
 public class GameOver extends JPanel {
 	
-	private static GUI userInterface;
-
 	public GameOver(ResultEnum condition) {
 		setFont(new Font("Tahoma", Font.PLAIN, 36));
 		setForeground(Color.GREEN);
@@ -41,14 +39,10 @@ public class GameOver extends JPanel {
 		lblStartNewGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblStartNewGame.setForeground(new Color(252, 157, 3));
+				lblStartNewGame.setForeground(new Color(200, 200, 200));
 				lblStartNewGame.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GUI changeCondition = userInterface.getGUIInstance();
-				changeCondition.conditionRestartGame();
+				lblStartNewGame.setBounds(30, 567, 400, 40);
+				lblStartNewGame.setText("* COMING SOON :) *");
 			}
 
 			@Override
