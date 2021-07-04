@@ -10,12 +10,10 @@ import GameBoardObjects.enemys.Petkan;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.GameBoardObject;
 import enums.DirectionsEnum;
-import enums.ResultEnum;
 import interfaces.GameConfig;
 import processors.BombProcessor;
 import processors.BuildingsProcessor;
 import processors.EnemyProcessor;
-import processors.GameProcessor;
 import processors.UnitsProcessor;
 
 public class GameBoard extends JPanel implements KeyListener{
@@ -98,9 +96,6 @@ public class GameBoard extends JPanel implements KeyListener{
 		if(keyCode == 'f' || keyCode == 'F') {
 			UnitsProcessor.specialSkill();
 			this.makeMove();
-		}
-		if(keyCode == 'g' || keyCode == 'G') {
-			GameProcessor.endGame(ResultEnum.LOSE);
 		}
 		if(keyCode == KeyEvent.VK_RIGHT && unitToMove != null)
 		{
