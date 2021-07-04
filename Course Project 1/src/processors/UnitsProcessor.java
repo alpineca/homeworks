@@ -1,8 +1,6 @@
 package processors;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import GameBoardObjects.armyUnits.Spy;
 import GameBoardObjects.armyUnits.Saboteur;
 import GameBoardObjects.armyUnits.Sniperist;
@@ -13,6 +11,7 @@ import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.Enemy;
 import GameBoardObjects.parrents.GameBoardObject;
+import enums.ArmyUnitsEnum;
 import enums.DirectionsEnum;
 import game.GameBoard;
 import interfaces.GameConfig;
@@ -20,17 +19,10 @@ import interfaces.GameConfig;
 public class UnitsProcessor {
 		
 	public static void spawnArmyUnits(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits) {
-		gameBoard[14][11] = new Spy(14, 11, 1);
-		armyUnits.add(gameBoard[14][11]);
-		
-		gameBoard[14][12] = new Sniperist(14, 12, 2);
-		armyUnits.add(gameBoard[14][12]);
-		
-		gameBoard[14][13] = new Tank(14, 13, 3);
-		armyUnits.add(gameBoard[14][13]);
-		
-		gameBoard[14][14] = new Saboteur(14, 14, 4);
-		armyUnits.add(gameBoard[14][14]);
+		unitToSpawn(14, 11, 1, ArmyUnitsEnum.SPY, gameBoard, armyUnits);
+		unitToSpawn(14, 12, 2, ArmyUnitsEnum.SNIPERIST, gameBoard, armyUnits);
+		unitToSpawn(14, 13, 3, ArmyUnitsEnum.TANK, gameBoard, armyUnits);
+		unitToSpawn(14, 14, 4, ArmyUnitsEnum.SABOTEUR, gameBoard, armyUnits);
 	}
 
 	public static void swapUnit(GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits, GameBoardObject unitToMove) {
@@ -165,6 +157,18 @@ public class UnitsProcessor {
 		}
 
 	}
+
+	
+	private static void unitToSpawn(int row, int col, int index, ArmyUnitsEnum unit, GameBoardObject[][] gameBoard, ArrayList<GameBoardObject> armyUnits) {
+		GameBoardObject armyUnit = null;
+		if(unit.equals(ArmyUnitsEnum.SPY)) armyUnit 		= new Spy(row, col, index);
+		if(unit.equals(ArmyUnitsEnum.SNIPERIST)) armyUnit 	= new Sniperist(row, col, index);
+		if(unit.equals(ArmyUnitsEnum.TANK)) armyUnit 		= new Tank(row, col, index);
+		if(unit.equals(ArmyUnitsEnum.SABOTEUR)) armyUnit 	= new Saboteur(row, col, index);
+		
+		gameBoard[row][col] = armyUnit;
+		armyUnits.add(gameBoard[row][col]);
+	}
 	
 	private static boolean checkForDrunker(){
 		ArrayList<GameBoardObject> armyUnits = GameBoard.getArmyUnits();
@@ -207,12 +211,6 @@ public class UnitsProcessor {
 			return new Petkan(row, col);
 		}
 		return null;
-		
-	}
-	
-	private static int rand(int randBound) {
-		Random rand = new Random();
-		return rand.nextInt(randBound);
 		
 	}
 

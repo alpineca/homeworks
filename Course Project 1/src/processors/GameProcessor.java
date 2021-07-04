@@ -1,7 +1,6 @@
 package processors;
 
 import GUI.GUI;
-import GameBoardObjects.parrents.GameBoardObject;
 import enums.ResultEnum;
 
 public class GameProcessor {

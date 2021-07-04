@@ -1,10 +1,6 @@
 package GUI;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.io.File;
-import java.lang.management.ManagementFactory;
 
 import javax.swing.WindowConstants;
 
@@ -18,7 +14,6 @@ public class GUI extends JFrame{
 	private static Wellcome wellcomeScreen 	= new Wellcome();
 	private static GameBoard gameBoard 		= new GameBoard();
 	private static GameOver gameOver;
-	private static boolean isGameOver 		= false;
 	private static GUI instance;
 
 	public GUI() {

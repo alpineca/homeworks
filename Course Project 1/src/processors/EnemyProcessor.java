@@ -2,10 +2,10 @@ package processors;
 import java.util.Random;
 
 import GameBoardObjects.enemys.Petkan;
-import GameBoardObjects.materials.BlownBuilding;
 import GameBoardObjects.materials.Ground;
 import GameBoardObjects.parrents.ArmyUnit;
 import GameBoardObjects.parrents.GameBoardObject;
+import enums.DirectionsEnum;
 import game.GameBoard;
 import interfaces.GameConfig;
 
@@ -39,73 +39,53 @@ public class EnemyProcessor {
 		boolean enemyTriggered 		= ((Petkan)enemy).getVisibility();
 
 		while(isMoveCorrect == false && enemyTriggered == false){
-			int direction 			= rand(5);
+			DirectionsEnum direction = pickDirection();
 
-			//Move LEFT
-			if(direction == 1){
+			if(direction.equals(DirectionsEnum.LEFT)){
 				int newCol = (enemyTemp.getCol() - 1);
 				int newColCheck = newCol < 0 ? 0 : newCol;
 				
-				if(gameBoard[enemyRow][newColCheck] instanceof Ground || gameBoard[enemyRow][newColCheck] instanceof BlownBuilding){
+				if(gameBoard[enemyRow][newColCheck] instanceof Ground){
 
-					enemy.setCol(enemyTemp.getCol() - 1);
-					gameBoard[enemyRow][enemyTemp.getCol() - 1] = enemy;
-					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-	
+					moveOnColumn(gameBoard, enemy, enemyTemp, enemyRow, newColCheck);
 					isMoveCorrect = true;
 					return;
 				}
 
 			}
-			//Move RIGHT
-			if(direction == 2){
+			if(direction.equals(DirectionsEnum.RIGHT)){
 				int newCol 		= (enemyTemp.getCol() + 1);
 				int maxColBound = GameConfig.COLS - 1;
 				int newColCheck = newCol > maxColBound ? maxColBound : newCol;
 
 				if(gameBoard[enemyRow][newColCheck] instanceof Ground){
 
-					enemy.setCol(newColCheck);
-					gameBoard[enemyRow][newColCheck] = enemy;
-					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-	
+					moveOnColumn(gameBoard, enemy, enemyTemp, enemyRow, newColCheck);	
 					isMoveCorrect = true;
 					return;
 				}
 
 			}
-			//Move UP
-			if(direction == 3){
+			if(direction.equals(DirectionsEnum.UP)){
 				int newRow 		= (enemyTemp.getRow() - 1);
 				int newRowCheck = newRow < 0 ? 0 : newRow;
 
 				if(gameBoard[newRowCheck][enemyCol] instanceof Ground){
 					
-					enemy.setRow(enemyTemp.getRow() - 1);
-					gameBoard[newRowCheck][enemyCol] = enemy;
-					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-	
+					moveOnRow(gameBoard, enemy, enemyTemp, enemyCol, newRowCheck);
 					isMoveCorrect = true;
 					return;
 				}
 
 			}
-			//Move DOWN
-			if(direction == 4){
+			if(direction.equals(DirectionsEnum.DOWN)){
 				int newRow 		= (enemyTemp.getRow() + 1);
 				int maxRowBound = GameConfig.ROWS - 1;
 				int newRowCheck = newRow > maxRowBound ? maxRowBound : newRow;
 
 				if(gameBoard[newRowCheck][enemyCol] instanceof Ground){
 
-					enemy.setRow(newRowCheck);
-					gameBoard[newRowCheck][enemyCol] = enemy;
-					checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
-					gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
-	
+					moveOnRow(gameBoard, enemy, enemyTemp, enemyCol, newRowCheck);
 					isMoveCorrect = true;
 					return;
 				}
@@ -113,6 +93,26 @@ public class EnemyProcessor {
 			} 
 			isMoveCorrect = false;
 		}
+	}
+
+	private static void moveOnRow(GameBoardObject[][] gameBoard, GameBoardObject enemy, GameBoardObject enemyTemp,
+			int enemyCol, int newRowCheck) {
+
+		enemy.setRow(newRowCheck);
+		gameBoard[newRowCheck][enemyCol] = enemy;
+		checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
+		gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+
+	}
+
+	private static void moveOnColumn(GameBoardObject[][] gameBoard, GameBoardObject enemy, GameBoardObject enemyTemp,
+			int enemyRow, int newColCheck) {
+
+		enemy.setCol(newColCheck);
+		gameBoard[enemyRow][newColCheck] = enemy;
+		checkForArmyUnits(enemy.getRow(), enemy.getCol(), gameBoard, enemy);
+		gameBoard[enemyTemp.getRow()][enemyTemp.getCol()] = new Ground(enemyTemp.getRow(), enemyTemp.getCol());
+
 	}
 
     private static void checkForArmyUnits(int row, int col, GameBoardObject[][] gameBoard, GameBoardObject enemy){
@@ -135,6 +135,14 @@ public class EnemyProcessor {
 			}
 		}
     }
+
+	private static DirectionsEnum pickDirection(){
+		int randomDirection = rand(3) + 1;
+		if(randomDirection == 1) return DirectionsEnum.LEFT;
+		if(randomDirection == 2) return DirectionsEnum.RIGHT;
+		if(randomDirection == 3) return DirectionsEnum.UP;
+		return DirectionsEnum.DOWN;
+	}
 	
 	private static int rand(int randBound) {
 		Random rand = new Random();

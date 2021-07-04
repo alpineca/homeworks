@@ -9,26 +9,19 @@ import GameBoardObjects.buildings.SmallBuilding;
 import GameBoardObjects.materials.Column;
 import GameBoardObjects.parrents.GameBoardObject;
 import enums.ResultEnum;
+import interfaces.GameConfig;
 
 public class BuildingsProcessor {
 	
 	private static final int ROWS_BETWEEN_BUILDINGS 	= rand(2,3);
 	private static final int COLS_BETWEEN_BUILDINGS 	= rand(2,3);
-	private static final int BUILDING_BORDER_OFFSET 	= 1;
 	
-	private static final int SMALL_BUILDING_ROWS 		= 2;
-	private static final int SMALL_BUILDING_COLS 		= 2;
 	private static int smallBuildingPosRow;
 	private static int smallBuildingPosCol;
 	
-	private static final int MIDDLE_BUILDING_ROWS 		= 2;
-	private static final int MIDDLE_BUILDING_COLS 		= 3;
 	private static int middleBuildingPosRow;
 	private static int middleBuildingPosCol;
 	
-	
-	private static final int LARGE_BUILDING_ROWS 		= 3;
-	private static final int LARGE_BUILDING_COLS 		= 3;
 	private static int largeBuildingPosRow;
 	private static int largeBuildingPosCol;
 
@@ -70,41 +63,37 @@ public class BuildingsProcessor {
 	}
 	
 	private static void calculatePossitions() {
-		int firstGeneratedBuilding 	= rand(2)+1;
+		int firstGeneratedBuilding 	= rand(3)+1;
 		
 		if(firstGeneratedBuilding == 1) {
-			largeBuildingPosRow = rand(1,6);
-			largeBuildingPosCol = rand(1,5);
-			
-			smallBuildingPosRow = (largeBuildingPosRow + LARGE_BUILDING_ROWS) + ROWS_BETWEEN_BUILDINGS;
-			smallBuildingPosCol = rand(1,6);
-			
-			middleBuildingPosRow = rand(1,8);
-			middleBuildingPosCol = (largeBuildingPosCol + MIDDLE_BUILDING_COLS) + COLS_BETWEEN_BUILDINGS;
+			largeBuildingPossition(rand(1,6), rand(1,5));
+			smallBuildingPossition(((largeBuildingPosRow + GameConfig.LARGEBUILDINGROWS) + ROWS_BETWEEN_BUILDINGS), rand(1,6));
+			middleBuildingPossition(rand(1,8), ((largeBuildingPosCol + GameConfig.MIDDLEBUILDINGCOLS) + COLS_BETWEEN_BUILDINGS));
 		}
 		else if(firstGeneratedBuilding == 2) {
-			middleBuildingPosRow = rand(1,7);
-			middleBuildingPosCol = rand(1,5);
-			
-			smallBuildingPosRow = (middleBuildingPosRow + MIDDLE_BUILDING_ROWS) + ROWS_BETWEEN_BUILDINGS;
-			smallBuildingPosCol = rand(1,5);
-			
-			largeBuildingPosRow = rand(1,8);
-			largeBuildingPosCol = (middleBuildingPosCol + MIDDLE_BUILDING_COLS) + COLS_BETWEEN_BUILDINGS;
+			middleBuildingPossition(rand(1,7), rand(1,5));
+			smallBuildingPossition(((middleBuildingPosRow + GameConfig.MIDDLEBUILDINGROWS) + ROWS_BETWEEN_BUILDINGS), rand(1,5));
+			largeBuildingPossition(rand(1,8), ((middleBuildingPosCol + GameConfig.MIDDLEBUILDINGCOLS) + COLS_BETWEEN_BUILDINGS));
 		}
 		else if(firstGeneratedBuilding == 3) {
-			smallBuildingPosRow = rand(1,7);
-			smallBuildingPosCol = rand(1,5);
-			
-			middleBuildingPosRow = (smallBuildingPosRow + SMALL_BUILDING_ROWS) + ROWS_BETWEEN_BUILDINGS;
-			middleBuildingPosCol = rand(1,7);
-			
-			largeBuildingPosRow = rand(1,4);
-			largeBuildingPosCol = (smallBuildingPosCol + MIDDLE_BUILDING_COLS) + COLS_BETWEEN_BUILDINGS;
+			smallBuildingPossition(rand(1,7), rand(1,5));
+			middleBuildingPossition(((smallBuildingPosRow + GameConfig.SMALLBUILDINGROWS) + ROWS_BETWEEN_BUILDINGS), rand(1,7));
+			largeBuildingPossition(rand(1,4), (smallBuildingPosCol + GameConfig.MIDDLEBUILDINGCOLS) + COLS_BETWEEN_BUILDINGS);
 		}
-		
-		
-		
+	}
+
+	private static void smallBuildingPossition(int row, int col){
+		smallBuildingPosRow = row;
+		smallBuildingPosCol = col;
+	}
+
+	private static void middleBuildingPossition(int row, int col){
+		middleBuildingPosRow = row;
+		middleBuildingPosCol = col;
+	}
+	private static void largeBuildingPossition(int row, int col){
+		largeBuildingPosRow = row;
+		largeBuildingPosCol = col;
 	}
 	
 	private static int rand(int randBound) {

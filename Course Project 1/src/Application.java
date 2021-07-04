@@ -1,7 +1,7 @@
 import GUI.GUI;
 
 public class Application {
-    public static void main(String[] args) throws InterruptedException  {
+    public static void main(String[] args){
         new GUI();
     }
 }
